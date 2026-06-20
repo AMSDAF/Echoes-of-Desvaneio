@@ -3,24 +3,24 @@
     "name": "Capacete de Couro",
     "price": 40,
     "slot": "helmet",
-    "modifiers": { "vitality": 2 }
+    "modifiers": { "constitution": 2 }
   },
   "recruit_breastplate": {
     "name": "Peitoral de Recruta",
     "price": 80,
     "slot": "breastplate",
-    "modifiers": { "vitality": 4 }
+    "modifiers": { "constitution": 4 }
   },
   "cloth_pants": {
     "name": "Calça de Pano",
     "price": 30,
     "slot": "pants",
-    "modifiers": { "agility": 1 }
+    "modifiers": { "dexterity": 1 }
   },
   "worn_boots": {
     "name": "Botas Gastas",
     "price": 25,
     "slot": "boots",
-    "modifiers": { "agility": 1 }
+    "modifiers": { "dexterity": 1 }
   }
 }

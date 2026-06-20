@@ -1,0 +1,137 @@
+{
+  "humano": {
+    "name": "Humano",
+    "description": "Versatil e adaptavel, cresce bem em qualquer caminho.",
+    "attribute_bonuses": {
+      "strength": 1,
+      "dexterity": 1,
+      "constitution": 1,
+      "intelligence": 1,
+      "wisdom": 1,
+      "charisma": 1,
+      "luck": 1
+    },
+    "passive": {
+      "id": "versatilidade",
+      "name": "Versatilidade",
+      "description": "+5% de chance de fuga.",
+      "effects": {
+        "escape_chance_bonus": 0.05
+      }
+    }
+  },
+  "elfo": {
+    "name": "Elfo",
+    "description": "Gracioso, atento e naturalmente afinado com a magia.",
+    "attribute_bonuses": {
+      "dexterity": 2,
+      "intelligence": 1
+    },
+    "passive": {
+      "id": "sentidos_agucados",
+      "name": "Sentidos Agucados",
+      "description": "+5% de chance de acerto critico e contra-ataque.",
+      "effects": {
+        "critical_chance_bonus": 0.05,
+        "counter_chance_bonus": 0.05
+      }
+    }
+  },
+  "anao": {
+    "name": "Anao",
+    "description": "Resistente como pedra e forte como martelo.",
+    "attribute_bonuses": {
+      "constitution": 2,
+      "strength": 1
+    },
+    "passive": {
+      "id": "resiliencia_dos_anoes",
+      "name": "Resiliencia dos Anoes",
+      "description": "Bloqueia 5% a mais de dano garantido.",
+      "effects": {
+        "block_damage_factor_reduction": 0.05
+      }
+    }
+  },
+  "halfling": {
+    "name": "Halfling",
+    "description": "Pequeno, ligeiro e sortudo quando tudo da errado.",
+    "attribute_bonuses": {
+      "dexterity": 2,
+      "luck": 1
+    },
+    "passive": {
+      "id": "sorte_halfling",
+      "name": "Sorte de Halfling",
+      "description": "Rola novamente falhas criticas na esquiva: +5% de esquiva.",
+      "effects": {
+        "dodge_chance_bonus": 0.05
+      }
+    }
+  },
+  "draconato": {
+    "name": "Draconato",
+    "description": "Herdeiro de sangue draconico, imponente e explosivo em combate.",
+    "attribute_bonuses": {
+      "strength": 2,
+      "charisma": 1
+    },
+    "passive": {
+      "id": "ascendencia_draconica",
+      "name": "Ascendencia Draconica",
+      "description": "+10% de dano fisico.",
+      "effects": {
+        "physical_damage_multiplier": 1.1
+      }
+    }
+  },
+  "tiefling": {
+    "name": "Tiefling",
+    "description": "Marcado por linhagem infernal, carismatico e resistente ao arcano hostil.",
+    "attribute_bonuses": {
+      "charisma": 2,
+      "intelligence": 1
+    },
+    "passive": {
+      "id": "resistencia_infernal",
+      "name": "Resistencia Infernal",
+      "description": "Mitiga 15% de danos magicos recebidos.",
+      "effects": {
+        "magic_damage_received_multiplier": 0.85
+      }
+    }
+  },
+  "gnomo": {
+    "name": "Gnomo",
+    "description": "Inventivo, brilhante e quase irritantemente esperto.",
+    "attribute_bonuses": {
+      "intelligence": 2,
+      "luck": 1
+    },
+    "passive": {
+      "id": "astucia_gnomica",
+      "name": "Astucia Gnomica",
+      "description": "+10% de dano magico.",
+      "effects": {
+        "magic_damage_multiplier": 1.1
+      }
+    }
+  },
+  "meio-elfo": {
+    "name": "Meio-Elfo",
+    "description": "Ponte viva entre mundos, elegante nas palavras e firme sob pressao.",
+    "attribute_bonuses": {
+      "charisma": 2,
+      "dexterity": 1,
+      "constitution": 1
+    },
+    "passive": {
+      "id": "labia_fluida",
+      "name": "Labia Fluida",
+      "description": "+5% de bonus em testes de carisma.",
+      "effects": {
+        "charisma_check_bonus": 0.05
+      }
+    }
+  }
+}

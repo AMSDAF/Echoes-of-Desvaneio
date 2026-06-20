@@ -1,48 +1,151 @@
 {
-  "enemies": [
-    {
-      "id": "giant_rat",
-      "name": "Rato Gigante",
-      "min_level": 1,
-      "max_level": 2,
-      "hp": 20,
-      "attack": 4,
-      "defense": 1,
-      "xp_drop": 10,
-      "gold_drop": 8
-    },
-    {
-      "id": "poison_serpent",
-      "name": "Serpente Venenosa",
-      "min_level": 2,
-      "max_level": 3,
-      "hp": 30,
-      "attack": 6,
-      "defense": 2,
-      "xp_drop": 18,
-      "gold_drop": 15
-    },
-    {
-      "id": "wild_wolf",
-      "name": "Lobo Selvagem",
-      "min_level": 3,
-      "max_level": 4,
-      "hp": 45,
-      "attack": 9,
-      "defense": 3,
-      "xp_drop": 28,
-      "gold_drop": 22
-    },
-    {
-      "id": "giant_spider",
-      "name": "Aranha Gigante",
-      "min_level": 4,
-      "max_level": 5,
-      "hp": 60,
-      "attack": 12,
-      "defense": 4,
-      "xp_drop": 40,
-      "gold_drop": 35
-    }
-  ]
+  "rato_gigante": {
+    "name": "Rato Gigante",
+    "hp": 20,
+    "attack": 4,
+    "defense": 1,
+    "xp_drop": 10,
+    "gold_drop": 8,
+    "loot_table": [
+      { "item_id": "couro_estragado", "chance": 0.60 },
+      { "item_id": "dente_afiado", "chance": 0.25 }
+    ]
+  },
+  "goblin_batedor": {
+    "name": "Goblin Batedor",
+    "hp": 25,
+    "attack": 5,
+    "defense": 2,
+    "xp_drop": 15,
+    "gold_drop": 12,
+    "loot_table": [
+      { "item_id": "farrapo_tecido", "chance": 0.50 },
+      { "item_id": "lasca_ferro", "chance": 0.30 },
+      { "item_id": "orelha_goblin", "chance": 0.10 }
+    ]
+  },
+  "rato_mutante_gordo": {
+    "name": "Rato Mutante Gordo (Raro)",
+    "hp": 45,
+    "attack": 8,
+    "defense": 3,
+    "xp_drop": 30,
+    "gold_drop": 25,
+    "loot_table": [
+      { "item_id": "couro_grosso", "chance": 0.70 },
+      { "item_id": "soro_mutante", "chance": 0.40 }
+    ]
+  },
+  "rei_dos_ratos": {
+    "name": "Rei dos Ratos (Chefe)",
+    "hp": 90,
+    "attack": 12,
+    "defense": 5,
+    "xp_drop": 75,
+    "gold_drop": 50,
+    "loot_table": [
+      { "item_id": "coroa_esgoto", "chance": 1.00 },
+      { "item_id": "couro_grosso", "chance": 0.80 },
+      { "item_id": "cauda_real", "chance": 0.50 }
+    ]
+  },
+  "bandido_capanga": {
+    "name": "Bandido Capanga",
+    "hp": 40,
+    "attack": 8,
+    "defense": 3,
+    "xp_drop": 25,
+    "gold_drop": 20,
+    "loot_table": [
+      { "item_id": "moeda_velha", "chance": 0.40 },
+      { "item_id": "bandana_suja", "chance": 0.30 },
+      { "item_id": "lasca_ferro", "chance": 0.20 }
+    ]
+  },
+  "esqueleto_guarda": {
+    "name": "Esqueleto Guarda",
+    "hp": 35,
+    "attack": 9,
+    "defense": 2,
+    "xp_drop": 25,
+    "gold_drop": 15,
+    "loot_table": [
+      { "item_id": "po_osso", "chance": 0.65 },
+      { "item_id": "fragmento_escudo", "chance": 0.25 }
+    ]
+  },
+  "mago_renegado": {
+    "name": "Mago Renegado (Raro)",
+    "hp": 55,
+    "attack": 14,
+    "defense": 1,
+    "xp_drop": 45,
+    "gold_drop": 35,
+    "loot_table": [
+      { "item_id": "essencia_magica", "chance": 0.50 },
+      { "item_id": "pergaminho_rasgado", "chance": 0.35 }
+    ]
+  },
+  "bugbear_esmagador": {
+    "name": "Bugbear Esmagador (Chefe)",
+    "hp": 150,
+    "attack": 18,
+    "defense": 7,
+    "xp_drop": 120,
+    "gold_drop": 80,
+    "loot_table": [
+      { "item_id": "pele_urso", "chance": 1.00 },
+      { "item_id": "fragmento_aco", "chance": 0.60 },
+      { "item_id": "chifre_bugbear", "chance": 0.40 }
+    ]
+  },
+  "ladrao_adaga": {
+    "name": "Ladrão de Adaga",
+    "hp": 50,
+    "attack": 11,
+    "defense": 4,
+    "xp_drop": 35,
+    "gold_drop": 30,
+    "loot_table": [
+      { "item_id": "farrapo_tecido", "chance": 0.45 },
+      { "item_id": "veneno_basico", "chance": 0.20 }
+    ]
+  },
+  "gosma_acida": {
+    "name": "Gosma Ácida",
+    "hp": 65,
+    "attack": 10,
+    "defense": 6,
+    "xp_drop": 40,
+    "gold_drop": 15,
+    "loot_table": [
+      { "item_id": "geleia_acida", "chance": 0.70 },
+      { "item_id": "nucleo_elementar_fraco", "chance": 0.15 }
+    ]
+  },
+  "crocodilo_de_esgoto": {
+    "name": "Crocodilo de Esgoto (Raro)",
+    "hp": 90,
+    "attack": 15,
+    "defense": 6,
+    "xp_drop": 65,
+    "gold_drop": 40,
+    "loot_table": [
+      { "item_id": "escama_duravel", "chance": 0.75 },
+      { "item_id": "dente_jacare", "chance": 0.50 }
+    ]
+  },
+  "devorador_de_mentes_fraco": {
+    "name": "Devorador de Mentes Fraco (Chefe)",
+    "hp": 200,
+    "attack": 22,
+    "defense": 8,
+    "xp_drop": 200,
+    "gold_drop": 150,
+    "loot_table": [
+      { "item_id": "tentaculo_preservado", "chance": 1.00 },
+      { "item_id": "essencia_magica", "chance": 0.80 },
+      { "item_id": "cristal_psionico", "chance": 0.30 }
+    ]
+  }
 }

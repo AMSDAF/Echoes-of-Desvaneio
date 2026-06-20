@@ -1,42 +1,106 @@
 {
   "warrior": {
     "name": "Guerreiro",
-    "description": "Um combatente feroz, habilidoso em armas de combate corpo a corpo e em defesa.",
+    "description": "Combatente marcial equilibrado, excelente com armas e armaduras.",
     "base_attributes": {
-      "strength": 12,
-      "agility": 7,
-      "intelligence": 4,
-      "vitality": 12
+      "strength": 14,
+      "dexterity": 10,
+      "constitution": 13,
+      "intelligence": 8,
+      "wisdom": 10,
+      "charisma": 9,
+      "luck": 1
     }
   },
   "mage": {
     "name": "Mago",
-    "description": "Mestre em segredos arcanos e poderosos feitiços elementais.",
+    "description": "Especialista arcano focado em dano magico e conhecimento.",
     "base_attributes": {
-      "strength": 4,
-      "agility": 6,
-      "intelligence": 14,
-      "vitality": 8
+      "strength": 6,
+      "dexterity": 9,
+      "constitution": 8,
+      "intelligence": 15,
+      "wisdom": 12,
+      "charisma": 10,
+      "luck": 1
     }
   },
-  "archer": {
-    "name": "Arqueiro",
-    "description": "Um atirador de visão aguçada, mortal à distância.",
+  "cleric": {
+    "name": "Clerigo",
+    "description": "Conjurador divino resistente, guiado por fe e sabedoria.",
     "base_attributes": {
-      "strength": 7,
-      "agility": 13,
-      "intelligence": 5,
-      "vitality": 9
+      "strength": 10,
+      "dexterity": 8,
+      "constitution": 12,
+      "intelligence": 9,
+      "wisdom": 15,
+      "charisma": 11,
+      "luck": 1
+    }
+  },
+  "rogue": {
+    "name": "Ladino",
+    "description": "Especialista agil, oportunista e mortal quando encontra uma abertura.",
+    "base_attributes": {
+      "strength": 8,
+      "dexterity": 15,
+      "constitution": 10,
+      "intelligence": 12,
+      "wisdom": 10,
+      "charisma": 11,
+      "luck": 2
+    }
+  },
+  "paladin": {
+    "name": "Paladino",
+    "description": "Campeao sagrado de linha de frente, resistente e inspirador.",
+    "base_attributes": {
+      "strength": 14,
+      "dexterity": 8,
+      "constitution": 13,
+      "intelligence": 8,
+      "wisdom": 11,
+      "charisma": 14,
+      "luck": 1
+    }
+  },
+  "bard": {
+    "name": "Bardo",
+    "description": "Manipulador social versatil, inspirado por musica, magia e improviso.",
+    "base_attributes": {
+      "strength": 8,
+      "dexterity": 12,
+      "constitution": 10,
+      "intelligence": 11,
+      "wisdom": 10,
+      "charisma": 15,
+      "luck": 2
+    }
+  },
+  "barbarian": {
+    "name": "Barbaro",
+    "description": "Furia bruta em combate, com vigor absurdo e golpes devastadores.",
+    "base_attributes": {
+      "strength": 15,
+      "dexterity": 11,
+      "constitution": 15,
+      "intelligence": 6,
+      "wisdom": 9,
+      "charisma": 8,
+      "luck": 1
     }
   },
   "druid": {
     "name": "Druida",
-    "description": "Um guardião da natureza capaz de curar e moldar a magia.",
+    "description": "Guardiao primal que combina resistencia, instinto e magia natural.",
     "base_attributes": {
-      "strength": 6,
-      "agility": 8,
+      "strength": 9,
+      "dexterity": 10,
+      "constitution": 12,
       "intelligence": 11,
-      "vitality": 10
+      "wisdom": 15,
+      "charisma": 9,
+      "luck": 1
     }
   }
 }

@@ -15,13 +15,13 @@
     "name": "Arco de Caça",
     "price": 40,
     "slot": "weapon",
-    "modifiers": { "agility": 3 }
+    "modifiers": { "dexterity": 3 }
   },
   "rusty_dagger": {
     "name": "Adaga Enferrujada",
     "price": 25,
     "slot": "weapon",
-    "modifiers": { "agility": 2 }
+    "modifiers": { "dexterity": 2 }
   },
   "iron_spear": {
     "name": "Lança de Ferro",

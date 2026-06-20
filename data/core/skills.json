@@ -1,0 +1,86 @@
+{
+  "fisico": {
+    "golpe_preciso": {
+      "name": "Golpe Preciso",
+      "description": "Um ataque fisico disciplinado, confiavel e facil de encaixar.",
+      "level_required": 1,
+      "cost": {
+        "resource": "stamina",
+        "value": 8
+      },
+      "multiplier": 1.2
+    },
+    "investida_pesada": {
+      "name": "Investida Pesada",
+      "description": "Avanca com todo o peso do corpo para causar dano superior.",
+      "level_required": 1,
+      "cost": {
+        "resource": "stamina",
+        "value": 12
+      },
+      "multiplier": 1.35
+    },
+    "corte_devastador": {
+      "name": "Corte Devastador",
+      "description": "Um golpe amplo que exige preparo e deixa marcas profundas.",
+      "level_required": 3,
+      "cost": {
+        "resource": "stamina",
+        "value": 18
+      },
+      "multiplier": 1.65
+    },
+    "ruptura_heroica": {
+      "name": "Ruptura Heroica",
+      "description": "Um ataque de elite que transforma vigor bruto em impacto fatal.",
+      "level_required": 5,
+      "cost": {
+        "resource": "stamina",
+        "value": 28
+      },
+      "multiplier": 2.1
+    }
+  },
+  "magico": {
+    "centelha_arcana": {
+      "name": "Centelha Arcana",
+      "description": "Uma descarga magica simples, rapida e eficiente.",
+      "level_required": 1,
+      "cost": {
+        "resource": "mana",
+        "value": 8
+      },
+      "multiplier": 1.2
+    },
+    "lanca_eterea": {
+      "name": "Lanca Eterea",
+      "description": "Projeta energia concentrada em um unico alvo.",
+      "level_required": 1,
+      "cost": {
+        "resource": "mana",
+        "value": 12
+      },
+      "multiplier": 1.35
+    },
+    "explosao_mistica": {
+      "name": "Explosao Mistica",
+      "description": "Canaliza mana instavel em um ataque de alto impacto.",
+      "level_required": 3,
+      "cost": {
+        "resource": "mana",
+        "value": 20
+      },
+      "multiplier": 1.7
+    },
+    "tempestade_astral": {
+      "name": "Tempestade Astral",
+      "description": "Distorce o campo de batalha com poder arcano devastador.",
+      "level_required": 5,
+      "cost": {
+        "resource": "mana",
+        "value": 30
+      },
+      "multiplier": 2.15
+    }
+  }
+}

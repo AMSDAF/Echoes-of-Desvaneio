@@ -1,5 +1,6 @@
 import random
 
+from src.services.attribute_service import ATRIBUTOS_LEGADOS, NOMES_ATRIBUTOS
 from src.services.item_service import (
     calcular_atributos_totais,
     consumir_pocao,
@@ -34,17 +35,14 @@ def _formatar_modificadores(item):
 
     nomes = {
         "hp_restore": "Vida",
-        "strength": "Forca",
-        "agility": "Agilidade",
-        "intelligence": "Inteligencia",
-        "vitality": "Vitalidade",
         "defense": "Defesa",
     }
 
     partes = []
     for attr, val in modifiers.items():
+        attr = ATRIBUTOS_LEGADOS.get(attr, attr)
         sinal = "+" if val >= 0 else ""
-        partes.append(f"{nomes.get(attr, attr.capitalize())} {sinal}{val}")
+        partes.append(f"{nomes.get(attr, NOMES_ATRIBUTOS.get(attr, attr.capitalize()))} {sinal}{val}")
 
     return ", ".join(partes)
 
@@ -79,20 +77,17 @@ def _durabilidade_baixa(item):
 def _descrever_efeitos_pocao(efeitos):
     nomes = {
         "hp_restore": "vida",
-        "strength": "forca",
-        "agility": "agilidade",
-        "intelligence": "inteligencia",
-        "vitality": "vitalidade",
         "defense": "defesa",
     }
 
     descricoes = []
     for attr, val in efeitos:
+        attr = ATRIBUTOS_LEGADOS.get(attr, attr)
         if val == 0:
             continue
 
         sinal = "+" if val > 0 else ""
-        descricoes.append(f"{nomes.get(attr, attr)} {sinal}{val}")
+        descricoes.append(f"{nomes.get(attr, NOMES_ATRIBUTOS.get(attr, attr))} {sinal}{val}")
 
     return ", ".join(descricoes)
 
@@ -113,7 +108,7 @@ def exibir_status_e_inventario(player):
         print(" Atributos Totais (Com Equipamentos):")
 
         for attr, val in atributos_finais.items():
-            print(f"  - {attr.capitalize()}: {val}")
+            print(f"  - {NOMES_ATRIBUTOS.get(attr, attr.capitalize())}: {val}")
 
         print("----------------------------------------------")
 

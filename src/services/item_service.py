@@ -1,5 +1,6 @@
 import random
 
+from src.services.attribute_service import ATRIBUTOS_LEGADOS, normalizar_atributos
 from src.services.database import salvar_json
 
 
@@ -48,7 +49,12 @@ def _garantir_durabilidade(item):
 
 
 def calcular_atributos_totais(player):
-    atributos_totais = player.get("attributes", {}).copy()
+    atributos_normalizados = normalizar_atributos(player.get("attributes", {}))
+    if player.get("attributes") != atributos_normalizados:
+        player["attributes"] = atributos_normalizados
+        _salvar_player(player)
+
+    atributos_totais = atributos_normalizados.copy()
 
     if _garantir_equipados(player):
         _salvar_player(player)
@@ -58,10 +64,11 @@ def calcular_atributos_totais(player):
             continue
 
         for attr, val in item_equipado.get("modifiers", {}).items():
-            if attr in atributos_totais:
-                atributos_totais[attr] += val
+            attr_normalizado = ATRIBUTOS_LEGADOS.get(attr, attr)
+            if attr_normalizado in atributos_totais:
+                atributos_totais[attr_normalizado] += val
             else:
-                atributos_totais[attr] = val
+                atributos_totais[attr_normalizado] = val
 
     return atributos_totais
 
@@ -135,12 +142,15 @@ def consumir_pocao(player, item):
             efeitos_aplicados.append(("hp_restore", novo_hp - hp_atual))
             continue
 
-        if attr in player.get("attributes", {}):
-            player["attributes"][attr] += val
-            efeitos_aplicados.append((attr, val))
+        attr_normalizado = ATRIBUTOS_LEGADOS.get(attr, attr)
+        player["attributes"] = normalizar_atributos(player.get("attributes", {}))
+
+        if attr_normalizado in player.get("attributes", {}):
+            player["attributes"][attr_normalizado] += val
+            efeitos_aplicados.append((attr_normalizado, val))
         else:
-            player[attr] = player.get(attr, 0) + val
-            efeitos_aplicados.append((attr, val))
+            player[attr_normalizado] = player.get(attr_normalizado, 0) + val
+            efeitos_aplicados.append((attr_normalizado, val))
 
     if item in player.get("inventory", []):
         player["inventory"].remove(item)

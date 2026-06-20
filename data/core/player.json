@@ -5,13 +5,16 @@
   "xp": 0,
   "gold": 50,
   "current_hp": 100,
-  "max_hp": 100,
+  "max_hp": 152,
   "current_location": "phandalin",
   "attributes": {
     "strength": 4,
-    "agility": 6,
+    "dexterity": 6,
+    "constitution": 12,
     "intelligence": 25,
-    "vitality": 12
+    "wisdom": 10,
+    "charisma": 10,
+    "luck": 0
   },
   "equipped": {
     "helmet": null,
