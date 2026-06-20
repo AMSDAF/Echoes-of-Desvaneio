@@ -14,6 +14,7 @@ from src.UI.utils.colors import (
     pensamento_personagem,
     linha_pontilhada,
     aguardar_enter,
+    limpar_tela,
     obter_entrada,
 )
 from src.services.attribute_service import formatar_percentual
@@ -371,10 +372,13 @@ def combater(player, enemy_id, pode_fugir=True):
     monstro_max_hp = monstro["max_hp"]
     efeitos_raciais = obter_efeitos_raciais(player)
 
+    limpar_tela()
     print(caixa_texto(f"UM INIMIGO SE APROXIMA: {nome_monstro.upper()}", cor=RED))
     _fala_inimigo(dados_monstro, "intro", nome_monstro)
+    aguardar_enter("\nPressione Enter para assumir postura de combate...")
 
     while player["current_hp"] > 0 and monstro_hp > 0:
+        limpar_tela()
         resultado_condicoes_player = processar_condicoes_inicio_turno(player)
         _exibir_mensagens_condicoes(resultado_condicoes_player)
         if player["current_hp"] <= 0:
@@ -514,6 +518,9 @@ def combater(player, enemy_id, pode_fugir=True):
                 if resultado_condicao.get("mensagem"):
                     print(colorir(resultado_condicao["mensagem"], MAGENTA))
 
+            if player["current_hp"] > 0 and monstro_hp > 0:
+                aguardar_enter("\nPressione Enter para o proximo turno...")
+
         elif opcao == "2":
             print(caixa_texto("Analise de Combate", cor=MAGENTA))
             print(f"{nome_monstro}: {colorir(f'{monstro_hp}/{monstro_max_hp} HP', RED)} | Ataque {dados_monstro['attack']} | Defesa {dados_monstro['defense']}")
@@ -547,6 +554,9 @@ def combater(player, enemy_id, pode_fugir=True):
                 if resultado_condicao.get("mensagem"):
                     print(colorir(resultado_condicao["mensagem"], MAGENTA))
 
+            if player["current_hp"] > 0 and monstro_hp > 0:
+                aguardar_enter("\nPressione Enter para o proximo turno...")
+
         elif opcao == "4":
             if not pode_fugir:
                 print("\n" + pensamento_personagem(player["name"], "Nao tem saida. Esse monstro esta entre mim e qualquer rota de fuga.", RED))
@@ -559,6 +569,8 @@ def combater(player, enemy_id, pode_fugir=True):
 
             print("\n" + pensamento_personagem(player["name"], "Droga. Corri no tempo errado.", RED))
             _monstro_ataca_livremente(player, dados_monstro, nome_monstro, atributos_player, efeitos_raciais)
+            if player["current_hp"] > 0:
+                aguardar_enter("\nPressione Enter para recuperar o folego...")
 
         else:
             print("\n" + pensamento_personagem(player["name"], "Foco. Uma escolha errada aqui vira epitafio.", RED))
