@@ -13,11 +13,21 @@ Requisitos:
 
 Para iniciar:
 
+No Windows, a forma mais simples e dar dois cliques em:
+
+```text
+jogar.bat
+```
+
+Esse arquivo abre o jogo automaticamente pelo terminal.
+
+Se preferir rodar manualmente:
+
 ```bash
 python main.py
 ```
 
-No Windows, se o comando acima nao funcionar:
+Ou:
 
 ```bash
 py -3 main.py
@@ -292,4 +302,3 @@ Se encontrar algum comportamento estranho, vale anotar:
 ## Ideia Central
 
 **Desvaneio** nao tenta ser um RPG grafico. Ele tenta ser uma mesa pequena dentro do terminal: texto, escolhas, risco, improviso, personagem pensando, inimigos provocando, NPCs dando pistas e o jogador montando sua propria historia a partir de sistemas simples.
-
