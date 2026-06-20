@@ -1,0 +1,47 @@
+{
+  "name": "Corcum",
+  "class": "Mago",
+  "level": 1,
+  "xp": 0,
+  "gold": 50,
+  "current_hp": 100,
+  "max_hp": 100,
+  "current_location": "phandalin",
+  "attributes": {
+    "strength": 4,
+    "agility": 6,
+    "intelligence": 25,
+    "vitality": 12
+  },
+  "equipped": {
+    "helmet": null,
+    "breastplate": null,
+    "pants": null,
+    "boots": null,
+    "ring": null,
+    "necklace": null,
+    "weapon": {
+      "id": "novice_staff",
+      "name": "Cajado de Aprendiz",
+      "slot": "weapon",
+      "modifiers": {
+        "intelligence": 2
+      },
+      "durability": 100,
+      "max_durability": 100
+    }
+  },
+  "inventory": [
+    {
+      "id": "novice_staff",
+      "name": "Cajado de Aprendiz",
+      "slot": "weapon",
+      "modifiers": {
+        "intelligence": 2
+      },
+      "durability": 100,
+      "max_durability": 100
+    }
+  ],
+  "progresso_areas": {}
+}

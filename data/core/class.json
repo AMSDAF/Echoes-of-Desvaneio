@@ -1,0 +1,42 @@
+{
+  "warrior": {
+    "name": "Guerreiro",
+    "description": "Um combatente feroz, habilidoso em armas de combate corpo a corpo e em defesa.",
+    "base_attributes": {
+      "strength": 12,
+      "agility": 7,
+      "intelligence": 4,
+      "vitality": 12
+    }
+  },
+  "mage": {
+    "name": "Mago",
+    "description": "Mestre em segredos arcanos e poderosos feitiços elementais.",
+    "base_attributes": {
+      "strength": 4,
+      "agility": 6,
+      "intelligence": 14,
+      "vitality": 8
+    }
+  },
+  "archer": {
+    "name": "Arqueiro",
+    "description": "Um atirador de visão aguçada, mortal à distância.",
+    "base_attributes": {
+      "strength": 7,
+      "agility": 13,
+      "intelligence": 5,
+      "vitality": 9
+    }
+  },
+  "druid": {
+    "name": "Druida",
+    "description": "Um guardião da natureza capaz de curar e moldar a magia.",
+    "base_attributes": {
+      "strength": 6,
+      "agility": 8,
+      "intelligence": 11,
+      "vitality": 10
+    }
+  }
+}

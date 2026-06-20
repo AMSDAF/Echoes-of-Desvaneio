@@ -1,0 +1,14 @@
+{
+  "copper_ring": {
+    "name": "Anel de Cobre",
+    "price": 50,
+    "slot": "ring",
+    "modifiers": { "strength": 1 }
+  },
+  "old_necklace": {
+    "name": "Colar Antigo",
+    "price": 50,
+    "slot": "necklace",
+    "modifiers": { "intelligence": 1 }
+  }
+}

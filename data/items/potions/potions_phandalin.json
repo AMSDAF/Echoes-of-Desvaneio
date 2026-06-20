@@ -1,0 +1,20 @@
+{
+  "minor_healing_potion": {
+    "name": "Poção de Vida Menor",
+    "price": 15,
+    "slot": "potion",
+    "modifiers": { "hp_restore": 20 }
+  },
+  "minor_strength_potion": {
+    "name": "Poção de Força Menor",
+    "price": 25,
+    "slot": "potion",
+    "modifiers": { "strength": 2 }
+  },
+  "minor_defense_potion": {
+    "name": "Poção de Defesa Menor",
+    "price": 25,
+    "slot": "potion",
+    "modifiers": { "defense": 2 }
+  }
+}

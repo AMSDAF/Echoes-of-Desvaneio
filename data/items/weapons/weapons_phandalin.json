@@ -1,0 +1,32 @@
+{
+  "wooden_sword": {
+    "name": "Espada de Madeira",
+    "price": 30,
+    "slot": "weapon",
+    "modifiers": { "strength": 2 }
+  },
+  "novice_staff": {
+    "name": "Cajado de Aprendiz",
+    "price": 35,
+    "slot": "weapon",
+    "modifiers": { "intelligence": 2 }
+  },
+  "hunting_bow": {
+    "name": "Arco de Caça",
+    "price": 40,
+    "slot": "weapon",
+    "modifiers": { "agility": 3 }
+  },
+  "rusty_dagger": {
+    "name": "Adaga Enferrujada",
+    "price": 25,
+    "slot": "weapon",
+    "modifiers": { "agility": 2 }
+  },
+  "iron_spear": {
+    "name": "Lança de Ferro",
+    "price": 60,
+    "slot": "weapon",
+    "modifiers": { "strength": 4 }
+  }
+}
