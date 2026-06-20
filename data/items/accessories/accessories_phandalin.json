@@ -1,14 +1,27 @@
 {
   "copper_ring": {
     "name": "Anel de Cobre",
-    "price": 50,
+    "price": 90,
+    "level_required": 1,
+    "rarity": "comum",
     "slot": "ring",
-    "modifiers": { "strength": 1 }
+    "modifiers": { "strength": 1 },
+    "properties": {
+      "physical_damage_bonus": 1,
+      "crit_chance_bonus": 0.02
+    }
   },
   "old_necklace": {
     "name": "Colar Antigo",
-    "price": 50,
+    "price": 90,
+    "level_required": 1,
+    "rarity": "comum",
     "slot": "necklace",
-    "modifiers": { "intelligence": 1 }
+    "modifiers": { "intelligence": 1 },
+    "properties": {
+      "magic_damage_bonus": 1,
+      "magic_damage_reduction": 0.04,
+      "condition_resistance": { "silenced": 1 }
+    }
   }
 }

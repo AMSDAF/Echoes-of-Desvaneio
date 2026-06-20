@@ -1,0 +1,138 @@
+{
+  "phandalin": {
+    "fenda_dos_ratos": [
+      {
+        "id": "pegadas_na_lama",
+        "type": "flavor",
+        "weight": 14,
+        "title": "Pegadas na Lama",
+        "text": "Pequenas marcas de patas se cruzam na lama. Algumas sao recentes demais para o seu gosto."
+      },
+      {
+        "id": "cheiro_de_ozonio",
+        "type": "flavor",
+        "weight": 8,
+        "title": "Ar Parado",
+        "text": "O ar dentro da fenda parece preso. Por um instante, ate o som das gotas para de ecoar."
+      },
+      {
+        "id": "moedas_no_couro",
+        "type": "treasure",
+        "weight": 9,
+        "title": "Bolsa Rasgada",
+        "text": "Voce encontra uma pequena bolsa rasgada presa entre duas pedras.",
+        "gold_min": 4,
+        "gold_max": 10
+      },
+      {
+        "id": "armadilha_de_osso",
+        "type": "check",
+        "weight": 8,
+        "title": "Armadilha de Osso",
+        "text": "Um estalo seco denuncia uma linha de tendao esticada no chao.",
+        "attribute": "dexterity",
+        "dc": 12,
+        "success_text": "Voce pisa para o lado no ultimo instante e desarma a armadilha com a ponta da bota.",
+        "failure_text": "O mecanismo dispara e fragmentos de osso cortam sua perna.",
+        "failure_damage": 5
+      },
+      {
+        "id": "ninho_abandonado",
+        "type": "resource",
+        "weight": 7,
+        "title": "Ninho Abandonado",
+        "text": "Um ninho velho guarda restos de pano seco. Da para improvisar alguns curativos.",
+        "resource": "hp",
+        "value": 6
+      },
+      {
+        "id": "barulho_atras",
+        "type": "ambush",
+        "weight": 8,
+        "title": "Barulho Atras de Voce",
+        "text": "Pedrinhas rolam atras dos seus pes. Algo estava seguindo seus passos."
+      },
+      {
+        "id": "runa_rochosa",
+        "type": "check",
+        "weight": 5,
+        "title": "Runa na Rocha",
+        "text": "Um simbolo arranhado na pedra parece ser um aviso antigo.",
+        "attribute": "wisdom",
+        "dc": 11,
+        "success_text": "Voce entende o aviso e evita um trecho instavel da fenda.",
+        "failure_text": "Voce interpreta tarde demais. O teto treme e poeira cai sobre seus ombros.",
+        "failure_damage": 3
+      }
+    ],
+    "ruinas_tresendar": [
+      {
+        "id": "estandarte_rasgado",
+        "type": "flavor",
+        "weight": 10,
+        "title": "Estandarte Rasgado",
+        "text": "Um velho estandarte preso na parede balanca sem vento. As cores da antiga Tresendar quase desapareceram."
+      },
+      {
+        "id": "porta_emperrada",
+        "type": "check",
+        "weight": 8,
+        "title": "Porta Emperrada",
+        "text": "Uma porta lateral range, inchada pela umidade. Talvez esconda algo.",
+        "attribute": "strength",
+        "dc": 13,
+        "success_text": "Voce forca a madeira ate ela ceder. Dentro, encontra moedas esquecidas.",
+        "success_gold_min": 8,
+        "success_gold_max": 18,
+        "failure_text": "A porta nao abre, mas o barulho ecoa pelos corredores.",
+        "failure_damage": 0
+      },
+      {
+        "id": "sussurro_no_salao",
+        "type": "resource",
+        "weight": 7,
+        "title": "Sussurro no Salao",
+        "text": "Um sussurro estranho arrepia sua nuca, mas tambem desperta sua concentracao.",
+        "resource": "mana",
+        "value": 8
+      },
+      {
+        "id": "escada_quebrada",
+        "type": "check",
+        "weight": 8,
+        "title": "Escada Quebrada",
+        "text": "Uma escada partida leva a uma galeria superior coberta de poeira.",
+        "attribute": "dexterity",
+        "dc": 12,
+        "success_text": "Voce sobe com cuidado e encontra um punhado de moedas numa fresta.",
+        "success_gold_min": 6,
+        "success_gold_max": 14,
+        "failure_text": "A madeira quebra sob seu peso e voce cai de mau jeito.",
+        "failure_damage": 6
+      },
+      {
+        "id": "mesa_de_mapas",
+        "type": "flavor",
+        "weight": 7,
+        "title": "Mesa de Mapas",
+        "text": "Mapas apodrecidos mostram rotas antigas sob a mansao. Alguem estudou estes corredores recentemente."
+      },
+      {
+        "id": "sombra_armada",
+        "type": "ambush",
+        "weight": 10,
+        "title": "Sombra Armada",
+        "text": "Uma silhueta se destaca atras de uma coluna. O brilho de uma lamina responde antes da voz."
+      },
+      {
+        "id": "frasco_empoeirado",
+        "type": "resource",
+        "weight": 5,
+        "title": "Frasco Empoeirado",
+        "text": "Voce encontra um frasco lacrado. O gosto e horrivel, mas o corpo desperta.",
+        "resource": "stamina",
+        "value": 8
+      }
+    ]
+  }
+}

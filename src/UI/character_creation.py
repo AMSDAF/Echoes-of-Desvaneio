@@ -1,3 +1,16 @@
+from src.UI.utils.colors import (
+    CYAN,
+    GREEN,
+    MAGENTA,
+    YELLOW,
+    aguardar_enter,
+    caixa_texto,
+    colorir,
+    fala_entidade,
+    linha_pontilhada,
+    obter_entrada,
+    pensamento_personagem,
+)
 from src.services.attribute_service import NOMES_ATRIBUTOS, normalizar_atributos
 from src.services.character_service import (
     construir_personagem_inicial,
@@ -36,23 +49,22 @@ def _formatar_passiva_racial(raca_dados):
 
 def _escolher_classe(classes):
     class_options = list(classes.keys())
+    print(caixa_texto("ESCOLHA SUA CLASSE", cor=CYAN))
     for i, class_key in enumerate(class_options, 1):
         classe = classes[class_key]
         print(f"[{i}] {classe['name']} - {classe['description']}")
 
-    while True:
-        try:
-            choice = int(input("Escolha o numero da sua classe: ")) - 1
-            if 0 <= choice < len(class_options):
-                selected_class_key = class_options[choice]
-                return classes[selected_class_key]
-            print("Opcao invalida!")
-        except ValueError:
-            print("Por favor, digite um numero valido.")
+    choice = obter_entrada(
+        "Escolha o numero da sua classe: ",
+        opcoes=list(range(1, len(class_options) + 1)),
+    ) - 1
+    selected_class_key = class_options[choice]
+    return classes[selected_class_key]
 
 
 def _escolher_raca(racas):
     race_options = list(racas.keys())
+    print(caixa_texto("ESCOLHA SUA RACA", cor=MAGENTA))
     for i, race_key in enumerate(race_options, 1):
         raca = racas[race_key]
         bonus_texto = _formatar_bonus_racial(raca)
@@ -61,36 +73,34 @@ def _escolher_raca(racas):
         print(f"    Bonus: {bonus_texto}")
         print(f"    Passiva: {passiva_texto}")
 
-    while True:
-        try:
-            choice = int(input("Escolha o numero da sua raca: ")) - 1
-            if 0 <= choice < len(race_options):
-                selected_race_key = race_options[choice]
-                return racas[selected_race_key]
-            print("Opcao invalida!")
-        except ValueError:
-            print("Por favor, digite um numero valido.")
+    choice = obter_entrada(
+        "Escolha o numero da sua raca: ",
+        opcoes=list(range(1, len(race_options) + 1)),
+    ) - 1
+    selected_race_key = race_options[choice]
+    return racas[selected_race_key]
 
 
 def criar_personagem():
     classes = obter_classes_disponiveis()
     racas = obter_racas_disponiveis()
 
-    print("====================================================")
-    print("Saudacoes, viajante! Para dar inicio a sua lendaria jornada,")
-    print("primeiro me diga: qual e o seu nome?")
-    print("====================================================")
-    name = input(">> ").strip()
+    print(caixa_texto("ECHOES OF DESVANEIO", cor=YELLOW))
+    print(fala_entidade("Voz no Desvaneio", "Antes da estrada lembrar seus passos, ela precisa lembrar seu nome."))
+    print(linha_pontilhada())
+    name = obter_entrada(">> ", tipo=str).strip()
+    while not name:
+        print(fala_entidade("Voz no Desvaneio", "Um nome vazio nao ecoa. Tente de novo.", MAGENTA))
+        name = obter_entrada(">> ", tipo=str).strip()
 
-    print(f"\nBelo nome, {name}! Dentro deste mundo, existem varios caminhos")
-    print("a se seguir. Qual sera a sua vocacao?")
+    print("\n" + fala_entidade("Voz no Desvaneio", f"{name}. Sim... esse nome cabe em uma historia perigosa. Qual sera sua vocacao?"))
     selected_class = _escolher_classe(classes)
 
-    print(f"\nExcelente. Agora escolha a origem do sangue e da historia de {name}:")
+    print("\n" + fala_entidade("Voz no Desvaneio", "Agora escolha a origem do sangue, da memoria e das cicatrizes que ainda virao:"))
     selected_race = _escolher_raca(racas)
 
-    print(f"\n{name}, {selected_race['name']} e grande {selected_class['name']}! Vejo grande potencial.")
-    print("Que tal dar um upgrade em seus atributos?")
+    print("\n" + pensamento_personagem(name, f"{selected_race['name']} e {selected_class['name']}. E isso precisa significar alguma coisa.", GREEN))
+    print(fala_entidade("Voz no Desvaneio", "Distribua seus pontos. A estrada cobra caro por fraquezas ignoradas."))
     print("Dica: Forca (fisico), Destreza (defesa/fuga), Constituicao (vida), Inteligencia (magia), Sorte (drops).")
     print(f"Bonus racial escolhido: {_formatar_bonus_racial(selected_race)}")
     print(f"Passiva racial: {_formatar_passiva_racial(selected_race)}")
@@ -109,7 +119,7 @@ def criar_personagem():
     }
 
     while points_to_distribute > 0:
-        print(f"\nPontos restantes: {points_to_distribute}")
+        print(caixa_texto(f"PONTOS RESTANTES: {points_to_distribute}", cor=GREEN))
         print("Atributos atuais antes do bonus racial:")
         for attr, value in player_attributes.items():
             print(f"- {NOMES_ATRIBUTOS.get(attr, attr.capitalize())}: {value}")
@@ -117,31 +127,27 @@ def criar_personagem():
         print("\nQual atributo deseja aumentar?")
         print("[1] Forca | [2] Destreza | [3] Constituicao | [4] Inteligencia")
         print("[5] Sabedoria | [6] Carisma | [7] Sorte")
-        attr_choice = input(">> ").strip()
+        attr_choice = str(obter_entrada(">> ", opcoes=[1, 2, 3, 4, 5, 6, 7]))
 
         if attr_choice in attr_map:
             chosen_attr = attr_map[attr_choice]
-            try:
-                nome_attr = NOMES_ATRIBUTOS.get(chosen_attr, chosen_attr.capitalize())
-                pts = int(input(f"Quantos pontos colocar em {nome_attr}? "))
-                sucesso, pontos_restantes = validar_distribuicao_pontos(
-                    player_attributes[chosen_attr], pts, points_to_distribute
-                )
-                if sucesso:
-                    player_attributes[chosen_attr] += pts
-                    points_to_distribute = pontos_restantes
-                else:
-                    print("Quantidade de pontos invalida!")
-            except ValueError:
-                print("Por favor, digite um numero valido.")
+            nome_attr = NOMES_ATRIBUTOS.get(chosen_attr, chosen_attr.capitalize())
+            pts = obter_entrada(f"Quantos pontos colocar em {nome_attr}? ")
+            sucesso, pontos_restantes = validar_distribuicao_pontos(
+                player_attributes[chosen_attr], pts, points_to_distribute
+            )
+            if sucesso:
+                player_attributes[chosen_attr] += pts
+                points_to_distribute = pontos_restantes
+            else:
+                print(pensamento_personagem(name, "Nao. Forcar alem do que tenho agora so vai quebrar o plano.", RED))
         else:
-            print("Opcao invalida!")
+            print(pensamento_personagem(name, "Esse caminho nao existe. Preciso escolher outro.", RED))
 
-    print("\n====================================================")
-    print("Otima combinacao! Chegou a hora de se equipar.")
-    print("Tome esses 250 de ouro e va na loja para comprar seus equipamentos.")
-    print("Se cuide, viajante, e ate breve...")
-    print("====================================================")
-    input("\nPressione Enter para continuar...")
+    print(caixa_texto("PERSONAGEM CRIADO", cor=GREEN))
+    print(pensamento_personagem(name, "Estou pronto o bastante para comecar. O resto eu aprendo sobrevivendo.", GREEN))
+    print(fala_entidade("Voz no Desvaneio", "Pegue este ouro inicial. Equipamento ruim transforma coragem em obituario."))
+    print(linha_pontilhada())
+    aguardar_enter()
 
     return construir_personagem_inicial(name, selected_class, selected_race, player_attributes)

@@ -1,0 +1,69 @@
+{
+  "phandalin": {
+    "tavern": [
+      {
+        "id": "apostador_de_dados",
+        "type": "check",
+        "weight": 8,
+        "title": "Jogo de Dados",
+        "text": "Um minerador suado bate uma caneca na mesa e te desafia para uma rodada rapida de dados.",
+        "attribute": "charisma",
+        "dc": 12,
+        "success_text": "Voce blefa na hora certa e sai da mesa com algumas moedas.",
+        "success_gold_min": 8,
+        "success_gold_max": 16,
+        "failure_text": "Seu blefe nao convence ninguem. A mesa ri, e voce paga a rodada.",
+        "failure_gold": 5
+      },
+      {
+        "id": "bardo_desafinado",
+        "type": "resource",
+        "weight": 6,
+        "title": "Cancao Desafinada",
+        "text": "Um bardo desafinado canta sobre herois que sobreviveram por pura teimosia. Estranhamente, isso te anima.",
+        "resource": "stamina",
+        "value": 6
+      },
+      {
+        "id": "mapa_molhado",
+        "type": "flavor",
+        "weight": 10,
+        "title": "Mapa Molhado",
+        "text": "Dois viajantes discutem sobre um mapa manchado. Voce ouve o nome 'Tresendar' mais de uma vez."
+      }
+    ],
+    "market": [
+      {
+        "id": "mercador_generoso",
+        "type": "treasure",
+        "weight": 7,
+        "title": "Troco Esquecido",
+        "text": "Um cliente apressado deixa algumas moedas no balcao. O vendedor finge nao ver quando voce aponta.",
+        "gold_min": 4,
+        "gold_max": 9
+      },
+      {
+        "id": "avaliacao_de_lamina",
+        "type": "check",
+        "weight": 7,
+        "title": "Avaliacao de Lamina",
+        "text": "O ferreiro te pergunta se voce sabe diferenciar aco bom de sucata pintada.",
+        "attribute": "intelligence",
+        "dc": 12,
+        "success_text": "Voce identifica a falha na peca. O ferreiro sorri, impressionado, e te paga pela dica.",
+        "success_gold_min": 6,
+        "success_gold_max": 12,
+        "failure_text": "Voce aponta a parte errada da lamina. O ferreiro da uma risada seca.",
+        "failure_gold": 0
+      },
+      {
+        "id": "pedido_discreto_de_iarno",
+        "type": "secret_quest",
+        "weight": 4,
+        "title": "Pedido Discreto",
+        "text": "Iarno baixa a voz: 'Se encontrar um mago renegado nas ruinas, acabe com ele. Algumas perguntas sao perigosas demais.'",
+        "quest_id": "pedido_discreto_de_iarno"
+      }
+    ]
+  }
+}

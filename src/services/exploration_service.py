@@ -1,6 +1,7 @@
 import random
 
 from src.services.database import salvar_json
+from src.services.event_service import resolver_evento_exploracao, sortear_evento_exploracao
 
 
 PLAYER_PATH = "data/core/player.json"
@@ -26,6 +27,24 @@ def processar_exploracao(player, area_id, dados_area):
 
     if random.random() <= dados_area["encounter_chance"]:
         return {"evento": "combate", "tipo_inimigo": "normal"}
+
+    village_id = player.get("current_location", "phandalin")
+    if random.random() <= dados_area.get("event_chance", 0.45):
+        evento = sortear_evento_exploracao(village_id, area_id)
+        if evento:
+            resultado_evento = resolver_evento_exploracao(player, evento)
+            if resultado_evento.get("trigger_combat"):
+                return {
+                    "evento": "evento_exploracao",
+                    "resultado_evento": resultado_evento,
+                    "combate_apos_evento": True,
+                }
+
+            return {
+                "evento": "evento_exploracao",
+                "resultado_evento": resultado_evento,
+                "combate_apos_evento": False,
+            }
 
     if not progresso["covil_descoberto"] and not progresso["chefe_derrotado"]:
         if random.random() <= 0.05:

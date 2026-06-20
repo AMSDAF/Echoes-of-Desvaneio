@@ -1,32 +1,133 @@
 {
   "wooden_sword": {
     "name": "Espada de Madeira",
-    "price": 30,
+    "description": "Uma espada leve para iniciantes. Ideal para Guerreiros.",
+    "price": 55,
+    "level_required": 1,
+    "rarity": "comum",
     "slot": "weapon",
-    "modifiers": { "strength": 2 }
+    "modifiers": { "strength": 2 },
+    "properties": {
+      "physical_damage_bonus": 1,
+      "durability_loss_reduction": 0.05
+    }
   },
   "novice_staff": {
     "name": "Cajado de Aprendiz",
-    "price": 35,
+    "description": "Canaliza pequenas correntes arcanas. Feito para Magos.",
+    "price": 60,
+    "level_required": 1,
+    "rarity": "comum",
     "slot": "weapon",
-    "modifiers": { "intelligence": 2 }
+    "modifiers": { "intelligence": 2 },
+    "properties": {
+      "magic_damage_bonus": 1,
+      "resource_cost_reduction": { "mana": 0.05 }
+    }
   },
-  "hunting_bow": {
-    "name": "Arco de Caça",
-    "price": 40,
+  "rusty_mace": {
+    "name": "Maça Enferrujada",
+    "description": "Uma arma pesada abençoada. Perfeita para Clérigos.",
+    "price": 60,
+    "level_required": 1,
+    "rarity": "comum",
     "slot": "weapon",
-    "modifiers": { "dexterity": 3 }
+    "modifiers": { "wisdom": 2 },
+    "properties": {
+      "healing_bonus": 0.08,
+      "condition_resistance": { "poisoned": 1 }
+    }
   },
   "rusty_dagger": {
     "name": "Adaga Enferrujada",
-    "price": 25,
+    "description": "Fácil de esconder e rápida de golpear. Perfeita para Ladinos.",
+    "price": 50,
+    "level_required": 1,
+    "rarity": "comum",
     "slot": "weapon",
-    "modifiers": { "dexterity": 2 }
+    "modifiers": { "dexterity": 2 },
+    "properties": {
+      "crit_chance_bonus": 0.04,
+      "on_hit_condition": {
+        "id": "bleeding",
+        "chance": 0.14,
+        "duration": 2,
+        "potency": 1,
+        "save": { "attribute": "constitution", "dc": 10 }
+      }
+    }
   },
-  "iron_spear": {
-    "name": "Lança de Ferro",
-    "price": 60,
+  "recruit_greatsword": {
+    "name": "Espada Longa de Recruta",
+    "description": "Uma lâmina imponente que exige postura e presença. Ideal para Paladinos.",
+    "price": 85,
+    "level_required": 2,
+    "rarity": "incomum",
     "slot": "weapon",
-    "modifiers": { "strength": 4 }
+    "modifiers": { "strength": 2, "charisma": 1 },
+    "properties": {
+      "physical_damage_bonus": 2,
+      "condition_resistance": { "stunned": 1 },
+      "on_hit_condition": {
+        "id": "stunned",
+        "chance": 0.12,
+        "duration": 1,
+        "potency": 1,
+        "save": { "attribute": "constitution", "dc": 11 }
+      }
+    }
+  },
+  "old_lute": {
+    "name": "Alaúde Velho",
+    "description": "Suas cordas gastas ainda conseguem encantar e ferir. Perfeito para Bardos.",
+    "price": 70,
+    "level_required": 1,
+    "rarity": "comum",
+    "slot": "weapon",
+    "modifiers": { "charisma": 2 },
+    "properties": {
+      "crit_chance_bonus": 0.03,
+      "resource_cost_reduction": { "mana": 0.05, "stamina": 0.05 },
+      "gold_bonus": 0.05
+    }
+  },
+  "training_axe": {
+    "name": "Machado de Treino",
+    "description": "Pesado, bruto e devastador nas mãos certas. Feito para Bárbaros.",
+    "price": 80,
+    "level_required": 2,
+    "rarity": "incomum",
+    "slot": "weapon",
+    "modifiers": { "strength": 3 },
+    "properties": {
+      "physical_damage_bonus": 3,
+      "crit_damage_multiplier_bonus": 0.20
+    }
+  },
+  "totem_totem": {
+    "name": "Galho de Totem",
+    "description": "Imbuído com os espíritos da floresta selvagem. Ideal para Druidas.",
+    "price": 60,
+    "level_required": 1,
+    "rarity": "comum",
+    "slot": "weapon",
+    "modifiers": { "wisdom": 2 },
+    "properties": {
+      "magic_damage_bonus": 1,
+      "condition_resistance": { "poisoned": 1, "bleeding": 1 }
+    }
+  },
+  "hunting_bow": {
+    "name": "Arco de Caça",
+    "description": "Mantém uma distância segura dos alvos nas estradas.",
+    "price": 75,
+    "level_required": 2,
+    "rarity": "incomum",
+    "slot": "weapon",
+    "modifiers": { "dexterity": 3 },
+    "properties": {
+      "crit_chance_bonus": 0.05,
+      "escape_bonus": 0.05
+    }
   }
 }

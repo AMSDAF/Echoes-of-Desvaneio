@@ -1,50 +1,110 @@
 {
-  "name": "Corcum",
-  "class": "Mago",
-  "level": 1,
-  "xp": 0,
-  "gold": 50,
-  "current_hp": 100,
-  "max_hp": 152,
-  "current_location": "phandalin",
-  "attributes": {
-    "strength": 4,
-    "dexterity": 6,
-    "constitution": 12,
-    "intelligence": 25,
-    "wisdom": 10,
-    "charisma": 10,
-    "luck": 0
-  },
-  "equipped": {
-    "helmet": null,
-    "breastplate": null,
-    "pants": null,
-    "boots": null,
-    "ring": null,
-    "necklace": null,
-    "weapon": {
-      "id": "novice_staff",
-      "name": "Cajado de Aprendiz",
-      "slot": "weapon",
-      "modifiers": {
-        "intelligence": 2
-      },
-      "durability": 100,
-      "max_durability": 100
+    "name": "Corcum",
+    "class": "Mago",
+    "race": "Humano",
+    "level": 1,
+    "xp": 12,
+    "attribute_points": 0,
+    "gold": 67,
+    "current_hp": 39,
+    "max_hp": 47,
+    "current_mana": 68,
+    "max_mana": 86,
+    "current_stamina": 86,
+    "max_stamina": 86,
+    "current_location": "phandalin",
+    "attributes": {
+        "strength": 4,
+        "dexterity": 6,
+        "constitution": 13,
+        "intelligence": 13,
+        "wisdom": 10,
+        "charisma": 10,
+        "luck": 0
+    },
+    "known_skills": [
+        "centelha_arcana",
+        "lanca_eterea"
+    ],
+    "conditions": [],
+    "equipped": {
+        "helmet": null,
+        "breastplate": null,
+        "pants": null,
+        "boots": null,
+        "ring": null,
+        "necklace": null,
+        "weapon": {
+            "id": "novice_staff",
+            "name": "Cajado de Aprendiz",
+            "slot": "weapon",
+            "modifiers": {
+                "intelligence": 2
+            },
+            "durability": 97,
+            "current_durability": 97,
+            "max_durability": 100,
+            "level_required": 1,
+            "rarity": "comum",
+            "properties": {
+                "magic_damage_bonus": 1,
+                "resource_cost_reduction": {
+                    "mana": 0.05
+                }
+            }
+        }
+    },
+    "inventory": [
+        {
+            "id": "minor_healing_potion",
+            "name": "Pocao de Vida Menor",
+            "price": 20,
+            "slot": "consumable",
+            "restore": {
+                "resource": "hp",
+                "value": 20
+            },
+            "description": "Restaura 20 pontos de Vida."
+        }
+    ],
+    "quest_log": {
+        "pedido_discreto_de_iarno": {
+            "status": "active",
+            "progress": {
+                "derrotar_mago_renegado": 0
+            }
+        },
+        "toblen_adega_arranhada": {
+            "status": "active",
+            "progress": {
+                "afastar_ratos_da_adega": 1
+            }
+        }
+    },
+    "completed_quests": [],
+    "progresso_areas": {
+        "fenda_dos_ratos": {
+            "abates": 1,
+            "covil_descoberto": false,
+            "chefe_derrotado": false
+        }
+    },
+    "town_events_seen": [],
+    "npc_memory": {
+        "toblen_stonehill": {
+            "talk_count": 4,
+            "affinity": 4,
+            "known_topics": [
+                "perigo",
+                "sobre",
+                "personal_request"
+            ]
+        }
+    },
+    "bestiary": {
+        "rato_gigante": {
+            "seen": 1,
+            "defeated": 1
+        }
     }
-  },
-  "inventory": [
-    {
-      "id": "novice_staff",
-      "name": "Cajado de Aprendiz",
-      "slot": "weapon",
-      "modifiers": {
-        "intelligence": 2
-      },
-      "durability": 100,
-      "max_durability": 100
-    }
-  ],
-  "progresso_areas": {}
 }

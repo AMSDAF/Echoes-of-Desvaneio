@@ -1,26 +1,51 @@
 {
   "leather_helmet": {
     "name": "Capacete de Couro",
-    "price": 40,
+    "price": 65,
+    "level_required": 1,
+    "rarity": "comum",
     "slot": "helmet",
-    "modifiers": { "constitution": 2 }
+    "modifiers": { "constitution": 2 },
+    "properties": {
+      "condition_resistance": { "stunned": 1 },
+      "physical_damage_reduction": 0.03
+    }
   },
   "recruit_breastplate": {
     "name": "Peitoral de Recruta",
-    "price": 80,
+    "price": 130,
+    "level_required": 2,
+    "rarity": "incomum",
     "slot": "breastplate",
-    "modifiers": { "constitution": 4 }
+    "modifiers": { "constitution": 4 },
+    "properties": {
+      "physical_damage_reduction": 0.08,
+      "durability_loss_reduction": 0.10,
+      "condition_resistance": { "bleeding": 1 }
+    }
   },
   "cloth_pants": {
-    "name": "Calça de Pano",
-    "price": 30,
+    "name": "Calca de Pano",
+    "price": 50,
+    "level_required": 1,
+    "rarity": "comum",
     "slot": "pants",
-    "modifiers": { "dexterity": 1 }
+    "modifiers": { "dexterity": 1 },
+    "properties": {
+      "escape_bonus": 0.03,
+      "condition_resistance": { "corroded": 1 }
+    }
   },
   "worn_boots": {
     "name": "Botas Gastas",
-    "price": 25,
+    "price": 45,
+    "level_required": 1,
+    "rarity": "comum",
     "slot": "boots",
-    "modifiers": { "dexterity": 1 }
+    "modifiers": { "dexterity": 1 },
+    "properties": {
+      "escape_bonus": 0.04,
+      "condition_resistance": { "poisoned": 1 }
+    }
   }
 }

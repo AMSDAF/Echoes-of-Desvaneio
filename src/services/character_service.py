@@ -4,6 +4,11 @@ from src.services.attribute_service import normalizar_atributos
 
 CLASSES_FISICAS = {"Guerreiro", "Ladino", "Barbaro"}
 CLASSES_MAGICAS = {"Mago", "Clerigo", "Druida"}
+HP_BASE = 15
+HP_POR_CONSTITUICAO = 2
+HP_POR_LEVEL = 6
+MANA_BASE = 80
+STAMINA_BASE = 80
 
 
 def obter_classes_disponiveis():
@@ -44,7 +49,10 @@ def construir_personagem_inicial(name, classe_dados, raca_dados, atributos_finai
     atributos_finais = normalizar_atributos(atributos_finais)
     atributos_finais = aplicar_bonus_racial(atributos_finais, raca_dados)
     constituicao = atributos_finais.get("constitution", 10)
-    max_hp = 80 + (constituicao * 6)
+    inteligencia = atributos_finais.get("intelligence", 10)
+    max_hp = HP_BASE + (constituicao * HP_POR_CONSTITUICAO) + HP_POR_LEVEL
+    max_mana = MANA_BASE + (max(0, inteligencia - 10) * 2)
+    max_stamina = STAMINA_BASE + (max(0, constituicao - 10) * 2)
 
     return {
         "name": name,
@@ -55,10 +63,10 @@ def construir_personagem_inicial(name, classe_dados, raca_dados, atributos_finai
         "gold": 250,
         "current_hp": max_hp,
         "max_hp": max_hp,
-        "current_mana": 50,
-        "max_mana": 50,
-        "current_stamina": 50,
-        "max_stamina": 50,
+        "current_mana": max_mana,
+        "max_mana": max_mana,
+        "current_stamina": max_stamina,
+        "max_stamina": max_stamina,
         "known_skills": determinar_habilidades_iniciais(classe_dados),
         "current_location": "phandalin",
         "attributes": atributos_finais,
