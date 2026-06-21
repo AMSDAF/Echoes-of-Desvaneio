@@ -1,4 +1,69 @@
 {
+  "oakridge": {
+    "display_name": "Moradores de Oakridge",
+    "npcs": {
+      "rowan_tallow": {
+        "name": "Rowan Tallow",
+        "title": "Taverneiro do Carvalho Torto",
+        "role": "taverneiro",
+        "location": "tavern",
+        "disposition": "calmo",
+        "description": "Um taverneiro de maos grossas e voz baixa, acostumado a ver novatos confundirem bravura com pressa.",
+        "greeting": "Sente um pouco. A estrada ainda vai estar la quando voce terminar de respirar.",
+        "topics": {
+          "sobre": "Rowan mantem a estalagem aberta para viajantes que ainda nao aprenderam a descansar antes de sangrar.",
+          "local": "Oakridge vive do pouco trafego entre vilas maiores. Quando o bosque rosna, a vila inteira fecha as janelas.",
+          "perigo": "O alfa do bosque nao e so grande. Ele espera o erro, cansa a presa e so entao fecha os dentes."
+        },
+        "rumors": [
+          "Um descanso curto ajuda mana e estamina, mas ferida funda pede noite inteira.",
+          "Pista boa parece detalhe pequeno ate voce perceber que ela aponta para o covil.",
+          "Lobo faminto morde rapido, mas nao pensa como chefe."
+        ],
+        "quest_ids": ["rowan_uivos_na_estrada"]
+      },
+      "mara_fenbrook": {
+        "name": "Mara Fenbrook",
+        "title": "Mercadora do Armazem de Oakridge",
+        "role": "mercadora",
+        "location": "market",
+        "disposition": "direta",
+        "description": "Mara fala pouco, cobra justo e reconhece equipamento ruim pelo som que faz sobre a bancada.",
+        "greeting": "Se vai comprar, compre algo que consiga carregar e usar. Heroismo pesado demais tambem mata.",
+        "topics": {
+          "sobre": "Mara abastece viajantes com armas simples, escudos baratos e conselhos que ninguem paga.",
+          "local": "O armazem e pequeno, mas todo mundo em Oakridge passa por aqui antes de atravessar o bosque.",
+          "perigo": "Salteadores novatos aparecem onde a estrada parece facil. Sao covardes, nao inofensivos."
+        },
+        "rumors": [
+          "Escudo de madeira nao e glamour, mas muda o som de uma mordida.",
+          "Se o item pede nivel maior, guarde para depois. Equipar cedo demais e so vaidade com cabo.",
+          "Ouro de Oakridge vem pouco. Gaste como quem ainda precisa comer."
+        ],
+        "quest_ids": ["mara_caixas_roubadas"]
+      },
+      "bram_vale": {
+        "name": "Bram Vale",
+        "title": "Cacador da Estrada Velha",
+        "role": "cacador",
+        "location": "gate",
+        "disposition": "alerta",
+        "description": "Bram tem olhos de quem mede distancia, vento e fuga antes de cumprimentar alguem.",
+        "greeting": "Pise onde eu piso se nao quiser anunciar jantar para o bosque inteiro.",
+        "topics": {
+          "sobre": "Bram rastreia lobos, salteadores e viajantes teimosos que se perdem entre os dois.",
+          "local": "O Bosque dos Lobos e curto, fechado e cheio de trilhas que parecem voltar para o mesmo lugar.",
+          "perigo": "O alfa deixa os famintos testarem a presa. Quando voce acha que entendeu o padrao, ele aparece."
+        },
+        "rumors": [
+          "Pegadas grandes demais perto da estrada significam que o covil nao esta longe.",
+          "Sangramento parece pouco no primeiro turno. No terceiro, vira decisao ruim.",
+          "Matar lobos sem ler os rastros so troca barulho por silencio."
+        ],
+        "quest_ids": ["bram_rastro_do_alfa"]
+      }
+    }
+  },
   "phandalin": {
     "display_name": "Moradores de Phandalin",
     "npcs": {

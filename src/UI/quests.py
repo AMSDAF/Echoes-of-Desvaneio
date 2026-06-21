@@ -12,6 +12,7 @@ from src.UI.utils.colors import (
     obter_entrada,
     pensamento_personagem,
 )
+from src.UI.level_up import exibir_tela_level_up
 from src.services.quest_service import (
     STATUS_ACTIVE,
     STATUS_CLAIMED,
@@ -167,7 +168,9 @@ def _entregar_concluidas(player):
             print(pensamento_personagem(player.get("name", "Voce"), f"No bolso: {resultado['gold']}G. Na pele: {resultado['xp']} XP de experiencia.", YELLOW))
             resultado_xp = resultado.get("resultado_xp") or {}
             if resultado_xp.get("levels_ganhos", 0) > 0:
-                print(pensamento_personagem(player.get("name", "Voce"), f"Sinto algo mudar. Subi {resultado_xp['levels_ganhos']} nivel.", GREEN))
+                aguardar_enter("\nPressione Enter para sentir a experiencia assentar...")
+                exibir_tela_level_up(player, resultado_xp)
+                return
         else:
             print(pensamento_personagem(player.get("name", "Voce"), resultado.get("mensagem", "Nao consigo entregar isso ainda."), RED))
 

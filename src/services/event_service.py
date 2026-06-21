@@ -8,6 +8,15 @@ from src.services.dice_service import rolar_d20_interativo
 PLAYER_PATH = "data/core/player.json"
 EVENTS_PATH = "data/core/exploration_events.json"
 TOWN_EVENTS_PATH = "data/core/town_events.json"
+EXPLORATION_EVENT_TYPE_MULTIPLIERS = {
+    "flavor": 0.25,
+    "ambush": 1.35,
+    "check": 1.15,
+    "treasure": 1.0,
+    "resource": 1.0,
+    "secret_quest": 1.25,
+    "clue": 1.2,
+}
 
 
 def carregar_eventos_exploracao():
@@ -27,7 +36,12 @@ def sortear_evento_exploracao(village_id, area_id):
     if not eventos:
         return None
 
-    pesos = [max(1, int(evento.get("weight", 1))) for evento in eventos]
+    pesos = []
+    for evento in eventos:
+        peso_base = max(1, int(evento.get("weight", 1)))
+        multiplicador = EXPLORATION_EVENT_TYPE_MULTIPLIERS.get(evento.get("type", "flavor"), 1)
+        pesos.append(max(1, int(round(peso_base * multiplicador))))
+
     return random.choices(eventos, weights=pesos)[0]
 
 
@@ -71,7 +85,7 @@ def _aplicar_restauro(player, resource, value):
     return novo_valor - current_value
 
 
-def resolver_evento_exploracao(player, evento):
+def resolver_evento_exploracao(player, evento, area_id=None):
     tipo = evento.get("type", "flavor")
     resultado = {
         "type": tipo,
@@ -109,6 +123,29 @@ def resolver_evento_exploracao(player, evento):
         restored = _aplicar_restauro(player, resource, value)
         salvar_json(PLAYER_PATH, player)
         resultado["messages"].append(f"Voce recuperou {restored} de {resource}.")
+        return resultado
+
+    if tipo == "clue":
+        if not area_id:
+            resultado["messages"].append("O rastro parece importante, mas se perde antes de formar uma conclusao.")
+            return resultado
+
+        from src.services.exploration_service import adicionar_pistas, revelar_dica_chefe
+
+        quantidade = int(evento.get("clues", 1))
+        pista = adicionar_pistas(player, area_id, quantidade)
+        if pista.get("adicionou"):
+            plural = "pistas" if pista["quantidade"] > 1 else "pista"
+            resultado["messages"].append(f"Voce encontrou {pista['quantidade']} {plural} sobre o covil local.")
+            if player.get("current_location") == "phandalin" and evento.get("boss_hint"):
+                dica = revelar_dica_chefe(player, area_id, evento.get("boss_hint"))
+                if dica.get("revelou"):
+                    if dica.get("text"):
+                        resultado["messages"].append(dica["text"])
+                    if dica.get("revealed_hint"):
+                        resultado["messages"].append(f"Dica revelada: {dica['revealed_hint']}")
+        else:
+            resultado["messages"].append("Esses rastros ja nao importam. A ameaca local foi revelada ou vencida.")
         return resultado
 
     if tipo == "check":

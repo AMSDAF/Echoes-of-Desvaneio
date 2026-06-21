@@ -106,7 +106,8 @@ def criar_personagem():
     print(f"Passiva racial: {_formatar_passiva_racial(selected_race)}")
 
     player_attributes = normalizar_atributos(selected_class["base_attributes"])
-    points_to_distribute = 10
+    points_to_distribute = 7
+    max_atributo_inicial = 16
 
     attr_map = {
         "1": "strength",
@@ -137,6 +138,18 @@ def criar_personagem():
                 player_attributes[chosen_attr], pts, points_to_distribute
             )
             if sucesso:
+                bonus_racial = selected_race.get("attribute_bonuses", {}).get(chosen_attr, 0)
+                valor_final_previsto = player_attributes[chosen_attr] + pts + bonus_racial
+                if valor_final_previsto > max_atributo_inicial:
+                    print(
+                        pensamento_personagem(
+                            name,
+                            f"Se eu forcar {nome_attr} agora, passo do meu limite inicial ({max_atributo_inicial}). Melhor crescer em campo.",
+                            YELLOW,
+                        )
+                    )
+                    continue
+
                 player_attributes[chosen_attr] += pts
                 points_to_distribute = pontos_restantes
             else:

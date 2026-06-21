@@ -19,7 +19,7 @@
       "strength": 6,
       "dexterity": 9,
       "constitution": 8,
-      "intelligence": 15,
+      "intelligence": 14,
       "wisdom": 12,
       "charisma": 10,
       "luck": 1
@@ -33,7 +33,7 @@
       "dexterity": 8,
       "constitution": 12,
       "intelligence": 9,
-      "wisdom": 15,
+      "wisdom": 14,
       "charisma": 11,
       "luck": 1
     }
@@ -43,7 +43,7 @@
     "description": "Especialista agil, oportunista e mortal quando encontra uma abertura.",
     "base_attributes": {
       "strength": 8,
-      "dexterity": 15,
+      "dexterity": 14,
       "constitution": 10,
       "intelligence": 12,
       "wisdom": 10,
@@ -73,7 +73,7 @@
       "constitution": 10,
       "intelligence": 11,
       "wisdom": 10,
-      "charisma": 15,
+      "charisma": 14,
       "luck": 2
     }
   },
@@ -81,9 +81,9 @@
     "name": "Barbaro",
     "description": "Furia bruta em combate, com vigor absurdo e golpes devastadores.",
     "base_attributes": {
-      "strength": 15,
+      "strength": 14,
       "dexterity": 11,
-      "constitution": 15,
+      "constitution": 14,
       "intelligence": 6,
       "wisdom": 9,
       "charisma": 8,
@@ -98,7 +98,7 @@
       "dexterity": 10,
       "constitution": 12,
       "intelligence": 11,
-      "wisdom": 15,
+      "wisdom": 14,
       "charisma": 9,
       "luck": 1
     }

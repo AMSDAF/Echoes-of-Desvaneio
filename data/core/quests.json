@@ -1,4 +1,120 @@
 {
+  "oakridge": {
+    "display_name": "Quadro de Missoes de Oakridge",
+    "quests": {
+      "lobos_na_estrada": {
+        "title": "Lobos na Estrada",
+        "giver": "Rowan Tallow",
+        "description": "Lobos famintos estao rondando perto demais das cercas. Afaste alguns antes que a vila acorde com gritos.",
+        "objectives": [
+          {
+            "id": "abater_lobos",
+            "type": "kill",
+            "label": "Derrote Lobos Famintos",
+            "enemy_ids": ["lobo_faminto"],
+            "required": 3
+          }
+        ],
+        "rewards": {
+          "gold": 14,
+          "xp": 24
+        }
+      },
+      "salteadores_na_trilha": {
+        "title": "Salteadores na Trilha",
+        "giver": "Mara Fenbrook",
+        "description": "Alguns salteadores novatos estao roubando caixas na estrada velha. Eles precisam aprender que Oakridge ainda tem dentes.",
+        "objectives": [
+          {
+            "id": "afastar_salteadores",
+            "type": "kill",
+            "label": "Derrote Salteadores Novatos",
+            "enemy_ids": ["salteador_novato"],
+            "required": 2
+          }
+        ],
+        "rewards": {
+          "gold": 16,
+          "xp": 26
+        }
+      },
+      "o_alfa_do_bosque": {
+        "title": "O Alfa do Bosque",
+        "giver": "Bram Vale",
+        "description": "O chefe da matilha bloqueia a estrada para Phandalin. Encontre o covil, derrube o alfa e abra caminho para a proxima vila.",
+        "objectives": [
+          {
+            "id": "derrotar_alfa",
+            "type": "kill",
+            "label": "Derrote o Alfa dos Lobos",
+            "enemy_ids": ["alfa_dos_lobos"],
+            "required": 1
+          }
+        ],
+        "rewards": {
+          "gold": 32,
+          "xp": 55
+        }
+      },
+      "rowan_uivos_na_estrada": {
+        "title": "Uivos na Estrada",
+        "giver": "Rowan Tallow",
+        "hidden": true,
+        "description": "Rowan pediu que voce reduza a presenca de lobos antes que a estalagem precise trancar as portas ao por do sol.",
+        "objectives": [
+          {
+            "id": "silenciar_uivos",
+            "type": "kill",
+            "label": "Derrote Lobos Famintos no bosque",
+            "enemy_ids": ["lobo_faminto"],
+            "required": 2
+          }
+        ],
+        "rewards": {
+          "gold": 10,
+          "xp": 18
+        }
+      },
+      "mara_caixas_roubadas": {
+        "title": "Caixas Roubadas",
+        "giver": "Mara Fenbrook",
+        "hidden": true,
+        "description": "Mara reconheceu marcas de salteadores perto de caixas quebradas. Ela quer a trilha limpa antes de repor estoque.",
+        "objectives": [
+          {
+            "id": "limpar_trilha",
+            "type": "kill",
+            "label": "Derrote um Salteador Novato",
+            "enemy_ids": ["salteador_novato"],
+            "required": 1
+          }
+        ],
+        "rewards": {
+          "gold": 9,
+          "xp": 14
+        }
+      },
+      "bram_rastro_do_alfa": {
+        "title": "Rastro do Alfa",
+        "giver": "Bram Vale",
+        "hidden": true,
+        "description": "Bram pediu que voce derrube um lobo cinzento. Segundo ele, os maiores sempre rondam perto do caminho do alfa.",
+        "objectives": [
+          {
+            "id": "abater_lobo_cinzento",
+            "type": "kill",
+            "label": "Derrote um Lobo Cinzento",
+            "enemy_ids": ["lobo_cinzento"],
+            "required": 1
+          }
+        ],
+        "rewards": {
+          "gold": 18,
+          "xp": 28
+        }
+      }
+    }
+  },
   "phandalin": {
     "display_name": "Quadro de Missoes de Phandalin",
     "quests": {

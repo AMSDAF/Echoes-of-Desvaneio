@@ -1,0 +1,85 @@
+{
+  "phandalin": {
+    "forge": {
+      "rusty_sword_to_iron_sword": {
+        "name": "Espada Enferrujada -> Espada de Ferro",
+        "base_item": "rusty_sword",
+        "materials": {
+          "lasca_ferro": 2,
+          "couro_estragado": 1
+        },
+        "gold_cost": 10,
+        "result_item": "iron_sword"
+      },
+      "worn_dagger_to_iron_dagger": {
+        "name": "Adaga Gasta -> Adaga de Ferro",
+        "base_item": "worn_dagger",
+        "materials": {
+          "lasca_ferro": 1,
+          "couro_estragado": 1
+        },
+        "gold_cost": 8,
+        "result_item": "iron_dagger"
+      },
+      "improvised_bow_to_hunting_bow": {
+        "name": "Arco Improvisado -> Arco de Caca",
+        "base_item": "improvised_bow",
+        "materials": {
+          "couro_estragado": 2,
+          "dente_afiado": 1
+        },
+        "gold_cost": 12,
+        "result_item": "hunting_bow"
+      },
+      "simple_staff_to_carved_staff": {
+        "name": "Cajado Simples -> Cajado Entalhado",
+        "base_item": "simple_staff",
+        "materials": {
+          "farrapo_tecido": 2,
+          "dente_afiado": 1
+        },
+        "gold_cost": 10,
+        "result_item": "carved_staff"
+      },
+      "chipped_axe_to_iron_axe": {
+        "name": "Machado Lascado -> Machado de Ferro",
+        "base_item": "chipped_axe",
+        "materials": {
+          "lasca_ferro": 3
+        },
+        "gold_cost": 14,
+        "result_item": "iron_axe"
+      },
+      "wooden_shield_to_reinforced_shield": {
+        "name": "Escudo de Madeira -> Escudo Reforcado",
+        "base_item": "wooden_shield",
+        "materials": {
+          "couro_estragado": 2,
+          "fragmento_escudo": 1
+        },
+        "gold_cost": 12,
+        "result_item": "reinforced_shield"
+      },
+      "ragged_armor_to_leather_armor": {
+        "name": "Armadura Rasgada -> Armadura de Couro",
+        "base_item": "ragged_armor",
+        "materials": {
+          "couro_estragado": 3,
+          "farrapo_tecido": 1
+        },
+        "gold_cost": 16,
+        "result_item": "leather_armor"
+      },
+      "old_cloak_to_apprentice_cloak": {
+        "name": "Manto Velho -> Manto de Aprendiz",
+        "base_item": "old_cloak",
+        "materials": {
+          "farrapo_tecido": 3,
+          "essencia_magica": 1
+        },
+        "gold_cost": 18,
+        "result_item": "apprentice_cloak"
+      }
+    }
+  }
+}

@@ -7,10 +7,11 @@ SKILLS_PATH = "data/core/skills.json"
 HP_BASE = 15
 HP_POR_CONSTITUICAO = 2
 HP_POR_LEVEL = 6
-MANA_BASE = 80
-STAMINA_BASE = 80
-RECURSO_POR_LEVEL = 15
-ATTRIBUTE_POINTS_PER_LEVEL = 3
+MANA_BASE = 50
+STAMINA_BASE = 50
+RECURSO_POR_LEVEL = 10
+ATTRIBUTE_POINTS_PER_LEVEL = 2
+SKILL_POINTS_PER_LEVEL = 1
 CLASSES_FISICAS = {"Guerreiro", "Ladino", "Barbaro"}
 CLASSES_MAGICAS = {"Mago", "Clerigo", "Druida"}
 CLASSES_HIBRIDAS = {"Paladino", "Bardo"}
@@ -109,6 +110,8 @@ def garantir_estrutura_evolucao(player):
         "current_stamina": 50,
         "known_skills": ["golpe_preciso", "centelha_arcana"],
         "attribute_points": 0,
+        "skill_points": 0,
+        "skill_upgrades": {},
         "conditions": [],
     }
 
@@ -151,6 +154,7 @@ def desbloquear_skills_por_nivel(player):
 
 def processar_ganho_xp(player, xp_ganho):
     garantir_estrutura_evolucao(player)
+    nivel_anterior = player.get("level", 1)
     player["xp"] += xp_ganho
 
     levels_ganhos = 0
@@ -161,6 +165,7 @@ def processar_ganho_xp(player, xp_ganho):
         player["level"] += 1
         levels_ganhos += 1
         player["attribute_points"] = player.get("attribute_points", 0) + ATTRIBUTE_POINTS_PER_LEVEL
+        player["skill_points"] = player.get("skill_points", 0) + SKILL_POINTS_PER_LEVEL
 
         status_minimos = calcular_status_minimos_por_nivel(player)
         player["max_hp"] = status_minimos["max_hp"]
@@ -176,6 +181,10 @@ def processar_ganho_xp(player, xp_ganho):
     salvar_json(PLAYER_PATH, player)
     return {
         "levels_ganhos": levels_ganhos,
+        "nivel_anterior": nivel_anterior,
+        "nivel_atual": player["level"],
+        "attribute_points_gained": levels_ganhos * ATTRIBUTE_POINTS_PER_LEVEL,
+        "skill_points_gained": levels_ganhos * SKILL_POINTS_PER_LEVEL,
         "novas_skills": novas_skills,
         "xp_atual": player["xp"],
         "xp_proximo": calcular_xp_necessario(player["level"]),

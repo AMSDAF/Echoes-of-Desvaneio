@@ -1,0 +1,23 @@
+{
+  "grade_1": {
+    "gold_cost": 12,
+    "materials": {
+      "lasca_ferro": 1,
+      "couro_estragado": 1
+    }
+  },
+  "grade_2": {
+    "gold_cost": 24,
+    "materials": {
+      "lasca_ferro": 2,
+      "couro_grosso": 1
+    }
+  },
+  "grade_3": {
+    "gold_cost": 40,
+    "materials": {
+      "fragmento_aco": 1,
+      "couro_grosso": 2
+    }
+  }
+}

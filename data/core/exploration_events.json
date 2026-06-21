@@ -1,4 +1,52 @@
 {
+  "oakridge": {
+    "bosque_dos_lobos": [
+      {
+        "id": "pegadas_no_barro",
+        "type": "clue",
+        "weight": 8,
+        "title": "Pegadas no Barro",
+        "text": "Marcas de patas grandes seguem paralelas a estrada, sempre evitando as fogueiras antigas.",
+        "clues": 1
+      },
+      {
+        "id": "carcaca_arrastada",
+        "type": "clue",
+        "weight": 3,
+        "title": "Carcaca Arrastada",
+        "text": "Uma carcaca meio coberta por folhas foi arrastada para dentro do bosque por algo maior que os lobos comuns.",
+        "clues": 2
+      },
+      {
+        "id": "uivo_perto",
+        "type": "ambush",
+        "weight": 7,
+        "title": "Uivo Perto Demais",
+        "text": "Um uivo responde ao seu passo antes que voce consiga ver de onde veio."
+      },
+      {
+        "id": "ponte_podre",
+        "type": "check",
+        "weight": 5,
+        "title": "Ponte Podre",
+        "text": "Uma ponte pequena range sobre um riacho raso. Passar rapido pode evitar um desvio.",
+        "attribute": "dexterity",
+        "dc": 10,
+        "success_text": "Voce atravessa sem quebrar a madeira e ganha tempo.",
+        "failure_text": "A tabua cede e voce bate a perna nas pedras do riacho.",
+        "failure_damage": 3
+      },
+      {
+        "id": "bolsa_de_cacador",
+        "type": "treasure",
+        "weight": 5,
+        "title": "Bolsa de Cacador",
+        "text": "Uma bolsa velha presa num galho guarda algumas moedas esquecidas.",
+        "gold_min": 2,
+        "gold_max": 6
+      }
+    ]
+  },
   "phandalin": {
     "fenda_dos_ratos": [
       {
@@ -51,6 +99,32 @@
         "weight": 8,
         "title": "Barulho Atras de Voce",
         "text": "Pedrinhas rolam atras dos seus pes. Algo estava seguindo seus passos."
+      },
+      {
+        "id": "rastro_de_arrasto",
+        "type": "clue",
+        "weight": 7,
+        "title": "Rastro de Arrasto",
+        "text": "Sulcos longos cortam a lama e seguem para uma parte mais funda da fenda.",
+        "clues": 1,
+        "boss_hint": {
+          "id": "rat_king_exhaustion_warning",
+          "text": "Os sulcos nao parecem de fuga. Parecem de algo pesado arrastando presas ate cansarem.",
+          "revealed_hint": "O Rei dos Ratos pode causar Exaustao. Entre com Estamina sobrando e evite gastar tudo cedo."
+        }
+      },
+      {
+        "id": "osso_marcado",
+        "type": "clue",
+        "weight": 3,
+        "title": "Osso Marcado",
+        "text": "Um osso roido aparece marcado por dentes grandes demais para os ratos comuns.",
+        "clues": 2,
+        "boss_hint": {
+          "id": "rat_king_heavy_bite",
+          "text": "As marcas no osso sao fundas, repetidas, quase metodicas.",
+          "revealed_hint": "O chefe ataca com mordidas fisicas pesadas. Bloqueio e armadura em bom estado importam muito."
+        }
       },
       {
         "id": "runa_rochosa",
@@ -125,6 +199,32 @@
         "text": "Uma silhueta se destaca atras de uma coluna. O brilho de uma lamina responde antes da voz."
       },
       {
+        "id": "sangue_no_brasao",
+        "type": "clue",
+        "weight": 7,
+        "title": "Sangue no Brasao",
+        "text": "Manchas recentes seguem ate um corredor lateral, como se algo pesado patrulhasse sempre o mesmo trajeto.",
+        "clues": 1,
+        "boss_hint": {
+          "id": "bugbear_stun_warning",
+          "text": "As manchas param perto de marcas profundas no piso, como se vitimas tivessem caido antes de reagir.",
+          "revealed_hint": "O Bugbear Esmagador pode Atordoar. Constituicao alta e itens de resistencia ajudam a nao perder o ritmo."
+        }
+      },
+      {
+        "id": "mapa_sob_pedra",
+        "type": "clue",
+        "weight": 3,
+        "title": "Mapa Sob a Pedra",
+        "text": "Debaixo de uma pedra solta, voce encontra rabiscos apontando para uma sala profunda das ruinas.",
+        "clues": 2,
+        "boss_hint": {
+          "id": "bugbear_crushing_force",
+          "text": "Os rabiscos marcam uma sala grande demais para um esconderijo comum.",
+          "revealed_hint": "A criatura parece lenta, mas bate com forca brutal. Entrar ferido contra ela e pedir para cair."
+        }
+      },
+      {
         "id": "frasco_empoeirado",
         "type": "resource",
         "weight": 5,
@@ -132,6 +232,45 @@
         "text": "Voce encontra um frasco lacrado. O gosto e horrivel, mas o corpo desperta.",
         "resource": "stamina",
         "value": 8
+      }
+    ]
+  },
+  "neverwinter": {
+    "esgotos_da_capital": [
+      {
+        "id": "marcas_na_parede_umida",
+        "type": "clue",
+        "weight": 7,
+        "title": "Marcas na Parede Umida",
+        "text": "Arranhoes fundos aparecem sempre na mesma altura, apontando para um tunel esquecido.",
+        "clues": 1
+      },
+      {
+        "id": "sussurro_mental",
+        "type": "clue",
+        "weight": 3,
+        "title": "Sussurro Mental",
+        "text": "Por um instante, uma direcao surge dentro da sua cabeca como uma ordem que nao era sua.",
+        "clues": 2
+      },
+      {
+        "id": "bolhas_no_esgoto",
+        "type": "ambush",
+        "weight": 8,
+        "title": "Bolhas no Esgoto",
+        "text": "A agua suja borbulha ao seu lado. Alguma coisa se move por baixo."
+      },
+      {
+        "id": "canal_desabado",
+        "type": "check",
+        "weight": 6,
+        "title": "Canal Desabado",
+        "text": "Um trecho do canal desabou, mas talvez exista passagem entre as pedras.",
+        "attribute": "dexterity",
+        "dc": 13,
+        "success_text": "Voce atravessa sem fazer barulho e evita chamar atencao.",
+        "failure_text": "As pedras escorregam e o estrondo ecoa pelo esgoto.",
+        "failure_damage": 5
       }
     ]
   }

@@ -1,4 +1,102 @@
 {
+  "lobo_faminto": {
+    "name": "Lobo Faminto",
+    "level": 1,
+    "hp": 22,
+    "attack": 8,
+    "accuracy": 0.01,
+    "defense": 0,
+    "battle_lines": {
+      "intro": ["O Lobo Faminto surge entre arbustos baixos, costelas aparecendo sob o pelo."],
+      "hit": ["O lobo morde rapido e recua, como se ja tivesse aprendido medo de pedra e faca."],
+      "damaged": ["O lobo ganhe, mas seus olhos continuam presos em voce."],
+      "low_hp": ["Ferido, o lobo hesita entre fugir e tentar uma ultima mordida."],
+      "victory": ["O lobo fica sobre voce, respirando quente e tremulo."]
+    },
+    "xp_drop": 10,
+    "gold_drop": 2,
+    "loot_table": [
+      { "item_id": "couro_estragado", "chance": 0.45 },
+      { "item_id": "dente_afiado", "chance": 0.20 }
+    ]
+  },
+  "salteador_novato": {
+    "name": "Salteador Novato",
+    "level": 1,
+    "hp": 26,
+    "attack": 9,
+    "accuracy": 0.02,
+    "defense": 1,
+    "battle_lines": {
+      "intro": ["O Salteador Novato segura a arma errado, mas medo tambem mata quando vem armado."],
+      "hit": ["Ele acerta e parece surpreso com a propria coragem."],
+      "damaged": ["O salteador tropeça para tras: 'Espera, espera!'"],
+      "low_hp": ["Ele olha para a estrada, calculando se ainda da para correr."],
+      "victory": ["O salteador respira pesado: 'Eu... eu consegui?'"]
+    },
+    "xp_drop": 12,
+    "gold_drop": 4,
+    "loot_table": [
+      { "item_id": "farrapo_tecido", "chance": 0.45 },
+      { "item_id": "moeda_velha", "chance": 0.20 }
+    ]
+  },
+  "lobo_cinzento": {
+    "name": "Lobo Cinzento (Raro)",
+    "level": 2,
+    "hp": 46,
+    "attack": 13,
+    "accuracy": 0.03,
+    "defense": 1,
+    "battle_lines": {
+      "intro": ["O Lobo Cinzento nao rosna. Ele apenas aparece, baixo e paciente."],
+      "hit": ["A mordida vem precisa, procurando tendao e abertura."],
+      "damaged": ["O lobo sacode o pelo manchado e muda o angulo do ataque."],
+      "low_hp": ["Mesmo ferido, o lobo cinzento espera seu erro com olhos frios."],
+      "victory": ["O bosque fica quieto enquanto o lobo cinzento some entre as arvores."]
+    },
+    "on_hit_condition": {
+      "id": "bleeding",
+      "chance": 0.12,
+      "duration": 2,
+      "potency": 1,
+      "save": { "attribute": "constitution", "dc": 10 }
+    },
+    "xp_drop": 24,
+    "gold_drop": 7,
+    "loot_table": [
+      { "item_id": "couro_grosso", "chance": 0.35 },
+      { "item_id": "dente_afiado", "chance": 0.35 }
+    ]
+  },
+  "alfa_dos_lobos": {
+    "name": "Alfa dos Lobos (Chefe)",
+    "level": 2,
+    "hp": 85,
+    "attack": 18,
+    "accuracy": 0.04,
+    "defense": 3,
+    "battle_lines": {
+      "intro": ["O Alfa dos Lobos pisa na estrada velha como se ela fosse territorio herdado."],
+      "hit": ["O alfa morde fundo, tentando derrubar antes que voce encontre ritmo."],
+      "damaged": ["O alfa rosna, e o bosque inteiro parece prender a respiracao."],
+      "low_hp": ["Sangrando, o alfa ainda tenta manter a alcateia invisivel ao redor."],
+      "victory": ["O alfa ergue a cabeca. Oakridge continua pequena demais para respirar em paz."]
+    },
+    "on_hit_condition": {
+      "id": "bleeding",
+      "chance": 0.18,
+      "duration": 2,
+      "potency": 1,
+      "save": { "attribute": "constitution", "dc": 11 }
+    },
+    "xp_drop": 60,
+    "gold_drop": 20,
+    "loot_table": [
+      { "item_id": "couro_grosso", "chance": 0.70 },
+      { "item_id": "dente_afiado", "chance": 0.50 }
+    ]
+  },
   "rato_gigante": {
     "name": "Rato Gigante",
     "level": 1,

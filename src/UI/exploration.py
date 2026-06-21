@@ -2,6 +2,7 @@ import random
 
 from src.UI.combat import combater
 from src.UI.utils.colors import (
+    BLUE,
     CYAN,
     GREEN,
     MAGENTA,
@@ -17,11 +18,15 @@ from src.UI.utils.colors import (
 )
 from src.services.database import salvar_json
 from src.services.exploration_service import (
+    calcular_chance_descobrir_covil,
     garantir_estrutura_progresso,
+    listar_dicas_chefe_descobertas,
     processar_exploracao,
     processar_retirada,
     tentar_acampar,
     tentar_avancar_cidade,
+    tentar_descobrir_covil,
+    tentar_encontrar_pista_pos_combate,
 )
 from src.services.quest_service import registrar_abate_quest
 
@@ -61,9 +66,77 @@ def _sortear_enemy_id(dados_area):
     return None
 
 
+def _formatar_recurso_atual(atual, maximo, nome, cor_padrao):
+    try:
+        atual = int(atual)
+        maximo = int(maximo)
+    except (TypeError, ValueError):
+        atual = 0
+        maximo = 0
+
+    cor = RED if nome == "HP" and maximo > 0 and atual / maximo <= 0.30 else cor_padrao
+    return colorir(f"{nome}: {atual}/{maximo}", cor)
+
+
+def _exibir_status_expedicao(player):
+    hp = _formatar_recurso_atual(player.get("current_hp", 0), player.get("max_hp", 0), "HP", GREEN)
+    mana = _formatar_recurso_atual(player.get("current_mana", 0), player.get("max_mana", 0), "Mana", BLUE)
+    estamina = _formatar_recurso_atual(player.get("current_stamina", 0), player.get("max_stamina", 0), "Estamina", CYAN)
+    ouro = colorir(f"Ouro: {player.get('gold', 0)}G", YELLOW)
+    print(f" {hp} | {mana} | {estamina} | {ouro}")
+
+
+def _confirmar_combate_sem_fuga(player, titulo="CHEFE DA AREA"):
+    limpar_tela()
+    print(caixa_texto(titulo, cor=RED))
+    _exibir_status_expedicao(player)
+    print(linha_pontilhada(cor=MAGENTA))
+    print(colorir("Esta luta nao permite fuga.", RED))
+    print(pensamento_personagem(player.get("name", "Voce"), "Se eu entrar agora, ou ele cai... ou eu caio.", RED))
+    print(linha_pontilhada(cor=MAGENTA))
+    resposta = obter_entrada("Entrar mesmo assim? (S/N): ", tipo=str).strip().lower()
+    return resposta == "s"
+
+
+def _descricao_investigacao(progresso):
+    pistas = int(progresso.get("pistas", 0))
+    if pistas <= 0:
+        return "Nenhum rastro confiavel."
+    if pistas <= 2:
+        return "Alguns indicios foram encontrados."
+    if pistas <= 4:
+        return "A ameaca local comeca a deixar um padrao."
+    return "O covil parece cada vez mais proximo."
+
+
+def _formatar_chance(chance):
+    return f"{chance * 100:.1f}%"
+
+
+def _exibir_dicas_chefe(player, village_id, area_id):
+    dicas = listar_dicas_chefe_descobertas(player, village_id, area_id)
+    if not dicas:
+        print(" Dicas descobertas: Nenhuma informacao confiavel sobre o chefe ainda.")
+        return
+
+    print(" Dicas descobertas:")
+    for dica in dicas:
+        print(f"  - {dica.get('revealed_hint', dica.get('text', 'Dica sem texto.'))}")
+
+
+def _encerrar_expedicao_por_derrota(player):
+    if not player.pop("_derrota_recente", False):
+        return False
+
+    print("\n" + pensamento_personagem(player.get("name", "Voce"), "Chega de estrada por enquanto. Preciso voltar para a vila antes que o mundo termine o servico.", RED))
+    aguardar_enter("\nPressione Enter para voltar para a vila...")
+    return True
+
+
 def _registrar_abate(player, area_id, dados_area):
     progresso = _obter_progresso_area(player, area_id)
     progresso["abates"] = progresso.get("abates", 0) + 1
+    mensagens = []
 
     abates_necessarios = dados_area.get("required_boss_kills", 30)
     covil_revelado_agora = (
@@ -77,8 +150,19 @@ def _registrar_abate(player, area_id, dados_area):
         print(caixa_texto("COVIL DESCOBERTO", cor=YELLOW))
         print(colorir("OS RASTROS FINALMENTE SE FECHAM EM UM UNICO PONTO.", YELLOW))
         print(f"O covil do Chefe foi localizado em {dados_area['name'].upper()}!")
+    else:
+        pista = tentar_encontrar_pista_pos_combate(player, area_id)
+        if pista.get("encontrou"):
+            mensagens.append(
+                pensamento_personagem(
+                    player.get("name", "Voce"),
+                    "No corpo, nas pegadas, no medo que ficou no ar... encontrei mais uma pista do covil.",
+                    YELLOW,
+                )
+            )
 
     salvar_json(PLAYER_PATH, player)
+    return mensagens
 
 
 def _registrar_vitoria_chefe(player, area_id, dados_area):
@@ -104,11 +188,13 @@ def _executar_combate_area(player, area_id, dados_area, pode_fugir=True):
 
     venceu = combater(player, enemy_id, pode_fugir=pode_fugir)
     if venceu:
-        _registrar_abate(player, area_id, dados_area)
+        mensagens_pista = _registrar_abate(player, area_id, dados_area)
+        for mensagem in mensagens_pista:
+            print(mensagem)
         mensagens_quest = registrar_abate_quest(player, enemy_id)
         for mensagem in mensagens_quest:
             print(colorir(mensagem, YELLOW))
-        if mensagens_quest:
+        if mensagens_quest or mensagens_pista:
             aguardar_enter()
     else:
         salvar_json(PLAYER_PATH, player)
@@ -120,6 +206,11 @@ def _executar_combate_chefe(player, area_id, dados_area):
     boss_id = dados_area.get("boss")
     if not boss_id:
         print("\nEsta area ainda nao possui chefe configurado.")
+        return False
+
+    if not _confirmar_combate_sem_fuga(player):
+        print("\n" + pensamento_personagem(player.get("name", "Voce"), "Ainda nao. Recuar antes do primeiro golpe tambem e sobreviver.", CYAN))
+        aguardar_enter()
         return False
 
     venceu = combater(player, boss_id, pode_fugir=False)
@@ -169,7 +260,11 @@ def menu_interna_da_area(player, area_id, dados_area):
         next_village_id = dados_area.get("next_village_id", "indisponivel")
 
         print(caixa_texto(f"ZONA DE EXPLORACAO: {dados_area['name'].upper()}", cor=GREEN))
+        _exibir_status_expedicao(player)
+        print(linha_pontilhada(cor=MAGENTA))
         print(f" Progresso de Abates: [{progresso.get('abates', 0)}/{abates_necessarios}]")
+        print(f" Investigacao: {_descricao_investigacao(progresso)}")
+        _exibir_dicas_chefe(player, player.get("current_location", "phandalin"), area_id)
 
         if progresso.get("chefe_derrotado", False):
             print(" Status da Area: O Guardiao desta regiao foi derrotado! [LIVRE]")
@@ -195,6 +290,8 @@ def menu_interna_da_area(player, area_id, dados_area):
             if resultado["evento"] == "combate":
                 print("\n[EMBOSCADA!] Monstros saltam das sombras!")
                 _executar_combate_area(player, area_id, dados_area, pode_fugir=True)
+                if _encerrar_expedicao_por_derrota(player):
+                    break
 
             elif resultado["evento"] == "covil_encontrado":
                 print(f"\n{nome_hero} para de repente e afasta alguns galhos...")
@@ -208,6 +305,8 @@ def menu_interna_da_area(player, area_id, dados_area):
                     print(colorir("\nA situacao vira combate!", RED))
                     aguardar_enter()
                     _executar_combate_area(player, area_id, dados_area, pode_fugir=True)
+                    if _encerrar_expedicao_por_derrota(player):
+                        break
                 else:
                     aguardar_enter()
 
@@ -236,9 +335,25 @@ def menu_interna_da_area(player, area_id, dados_area):
             elif progresso.get("abates", 0) >= abates_necessarios or progresso.get("covil_descoberto", False):
                 print(f"\n{nome_hero} marcha em direcao ao perigo fatal...")
                 _executar_combate_chefe(player, area_id, dados_area)
+                if _encerrar_expedicao_por_derrota(player):
+                    break
                 aguardar_enter()
             else:
-                print(f"\n{nome_hero}: 'O chefe esta bem escondido. Preciso eliminar mais dos seus capangas primeiro ou dar a sorte de achar seu covil.'")
+                chance = calcular_chance_descobrir_covil(progresso)
+                print(caixa_texto("CACADA AO COVIL", cor=YELLOW))
+                print(f"Chance de encontrar rastros decisivos: {colorir(_formatar_chance(chance), YELLOW)}")
+                print(pensamento_personagem(nome_hero, "Vou seguir os rastros. Se eu estiver certo, encontro a toca. Se estiver errado, so perco tempo e folego.", CYAN))
+                resultado_busca = tentar_descobrir_covil(player, area_id)
+                if resultado_busca.get("sucesso"):
+                    print("\n" + caixa_texto("COVIL DESCOBERTO", cor=YELLOW))
+                    print(pensamento_personagem(nome_hero, "As marcas se alinham. Pegadas, sangue seco, silencio demais... achei.", GREEN))
+                    print(colorir(f"O covil do Chefe foi localizado em {dados_area['name'].upper()}!", YELLOW))
+                    aguardar_enter("\nPressione Enter para decidir se encara o perigo...")
+                    _executar_combate_chefe(player, area_id, dados_area)
+                    if _encerrar_expedicao_por_derrota(player):
+                        break
+                else:
+                    print("\n" + pensamento_personagem(nome_hero, "Nada. Os rastros quebram antes de virar caminho. Preciso de mais pistas ou mais corpos no chao.", RED))
                 aguardar_enter()
 
         elif escolha == "4":
@@ -256,6 +371,8 @@ def menu_interna_da_area(player, area_id, dados_area):
                 print(colorir("O Guardiao da Estrada bloqueia a passagem!", RED))
                 print(f"{nome_hero}: 'Ele bloqueou a estrada... vou ter que lutar. E fugir nao parece uma opcao.'")
                 venceu = _executar_combate_chefe(player, area_id, dados_area)
+                if _encerrar_expedicao_por_derrota(player):
+                    break
                 if venceu:
                     print("\nCom o Guardiao derrotado, tente avancar novamente para seguir viagem.")
                 aguardar_enter()
@@ -265,6 +382,8 @@ def menu_interna_da_area(player, area_id, dados_area):
             if res["evento"] == "combate":
                 print("\nNo caminho de volta para a vila, algo ouviu seus passos!")
                 _executar_combate_area(player, area_id, dados_area, pode_fugir=True)
+                if _encerrar_expedicao_por_derrota(player):
+                    break
             else:
                 print(f"\n{nome_hero} consegue voltar pelas trilhas em seguranca ate os portoes da vila.")
             break

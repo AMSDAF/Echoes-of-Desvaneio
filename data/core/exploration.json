@@ -1,4 +1,22 @@
 {
+  "oakridge": {
+    "display_name": "Oakridge",
+    "areas": {
+      "bosque_dos_lobos": {
+        "name": "Bosque dos Lobos",
+        "description": "Um bosque baixo cercando a estrada velha. Uivos curtos ensinam cedo que coragem tambem precisa de preparo.",
+        "unlocked": true,
+        "encounter_chance": 0.72,
+        "event_chance": 0.18,
+        "required_boss_kills": 8,
+        "boss_unlocks_next_village": true,
+        "next_village_id": "phandalin",
+        "normal_enemies": ["lobo_faminto", "salteador_novato"],
+        "rare_enemies": ["lobo_cinzento"],
+        "boss": "alfa_dos_lobos"
+      }
+    }
+  },
   "phandalin": {
     "display_name": "Phandalin",
     "areas": {
@@ -6,8 +24,8 @@
         "name": "Fenda dos Ratos",
         "description": "Uma fenda úmida e escura. O som de garras ecoa nas paredes.",
         "unlocked": true,
-        "encounter_chance": 0.40,
-        "event_chance": 0.55,
+        "encounter_chance": 0.70,
+        "event_chance": 0.20,
         "required_boss_kills": 30,
         "boss_unlocks_next_village": false,
         "normal_enemies": ["rato_gigante", "goblin_batedor"],
@@ -18,8 +36,8 @@
         "name": "Ruínas de Tresendar",
         "description": "Antigo castelo abandonado. Covil de bandidos e perigos maiores.",
         "unlocked": true,
-        "encounter_chance": 0.60,
-        "event_chance": 0.50,
+        "encounter_chance": 0.72,
+        "event_chance": 0.22,
         "required_boss_kills": 45,
         "boss_unlocks_next_village": true,
         "next_village_id": "neverwinter",
@@ -36,8 +54,8 @@
         "name": "Esgotos de Neverwinter",
         "description": "Labirinto fedorento abaixo da metrópole. Ninguém desce aqui sem aço bom.",
         "unlocked": false,
-        "encounter_chance": 0.55,
-        "event_chance": 0.45,
+        "encounter_chance": 0.68,
+        "event_chance": 0.20,
         "required_boss_kills": 40,
         "boss_unlocks_next_village": true,
         "next_village_id": "vale_do_vento_gelado",

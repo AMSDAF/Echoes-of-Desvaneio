@@ -1,4 +1,32 @@
 {
+  "lobo_faminto": {
+    "category": "Fera",
+    "habitat": "Bosque dos Lobos",
+    "lore": "Lobos magros que aprenderam a rondar trilhas humanas quando a fome aperta.",
+    "tactics": "Atacam rapido, mas tem pouca defesa e caem quando o aventureiro mantem postura.",
+    "preparation": "Entre com vida cheia e use bloqueio se estiver inseguro."
+  },
+  "salteador_novato": {
+    "category": "Humanoide",
+    "habitat": "Estrada Abandonada",
+    "lore": "Gente desesperada demais para trabalhar e inexperiente demais para roubar direito.",
+    "tactics": "Causa dano simples e serve como primeiro teste contra inimigos armados.",
+    "preparation": "Qualquer arma inicial decente deve bastar."
+  },
+  "lobo_cinzento": {
+    "category": "Fera Rara",
+    "habitat": "Bosque dos Lobos",
+    "lore": "Um caçador silencioso que sobreviveu mais tempo que os lobos famintos.",
+    "tactics": "Pode causar Sangramento e pune aventureiros sem preparo.",
+    "preparation": "Bandagens, armadura leve e recursos guardados ajudam bastante."
+  },
+  "alfa_dos_lobos": {
+    "category": "Chefe",
+    "habitat": "Covil no Bosque dos Lobos",
+    "lore": "O lider da alcateia que tornou a estrada de Oakridge perigosa demais para camponeses.",
+    "tactics": "Dano fisico forte para o tutorial e chance de Sangramento.",
+    "preparation": "Descanse, leve pocao e nao entre sem Estamina."
+  },
   "rato_gigante": {
     "category": "Fera",
     "habitat": "Fenda dos Ratos",

@@ -7,8 +7,8 @@ CLASSES_MAGICAS = {"Mago", "Clerigo", "Druida"}
 HP_BASE = 15
 HP_POR_CONSTITUICAO = 2
 HP_POR_LEVEL = 6
-MANA_BASE = 80
-STAMINA_BASE = 80
+MANA_BASE = 50
+STAMINA_BASE = 50
 
 
 def obter_classes_disponiveis():
@@ -60,7 +60,7 @@ def construir_personagem_inicial(name, classe_dados, raca_dados, atributos_finai
         "race": raca_dados["name"],
         "level": 1,
         "xp": 0,
-        "gold": 250,
+        "gold": 90,
         "current_hp": max_hp,
         "max_hp": max_hp,
         "current_mana": max_mana,
@@ -68,11 +68,18 @@ def construir_personagem_inicial(name, classe_dados, raca_dados, atributos_finai
         "current_stamina": max_stamina,
         "max_stamina": max_stamina,
         "known_skills": determinar_habilidades_iniciais(classe_dados),
-        "current_location": "phandalin",
+        "skill_points": 0,
+        "skill_upgrades": {},
+        "attribute_points": 0,
+        "conditions": [],
+        "current_location": "oakridge",
+        "unlocked_villages": {
+            "oakridge": True
+        },
         "attributes": atributos_finais,
         "equipped": {
             "helmet": None, "breastplate": None, "pants": None,
-            "boots": None, "ring": None, "necklace": None, "weapon": None
+            "boots": None, "shield": None, "ring": None, "necklace": None, "weapon": None
         },
         "inventory": [],
         "progresso_areas": {}

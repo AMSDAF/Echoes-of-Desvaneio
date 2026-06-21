@@ -20,6 +20,7 @@ EQUIPMENT_SLOTS = (
     "breastplate",
     "pants",
     "boots",
+    "shield",
     "ring",
     "necklace",
     "weapon",
@@ -38,11 +39,156 @@ PROPRIEDADES_NUMERICAS = (
     "escape_bonus",
     "gold_bonus",
     "xp_bonus",
+    "defense_bonus",
 )
+NUMERAIS_GRAU = {
+    1: "I",
+    2: "II",
+    3: "III",
+    4: "IV",
+    5: "V",
+}
 
 
 def _salvar_player(player):
     salvar_json(PLAYER_PATH, player)
+
+
+def obter_quantidade_item(item):
+    try:
+        return max(1, int((item or {}).get("quantity", 1)))
+    except (TypeError, ValueError):
+        return 1
+
+
+def item_e_empilhavel(item):
+    if not item:
+        return False
+
+    if item.get("stackable") is False:
+        return False
+
+    return item.get("stackable") is True or item.get("slot") in {"consumable", "potion"}
+
+
+def formatar_nome_com_quantidade(item):
+    nome = formatar_nome_com_grau(item)
+    quantidade = obter_quantidade_item(item)
+    if quantidade > 1:
+        return f"{nome} x{quantidade}"
+    return nome
+
+
+def obter_grau_item(item):
+    try:
+        return max(0, int((item or {}).get("grade", 0)))
+    except (TypeError, ValueError):
+        return 0
+
+
+def obter_grau_maximo_item(item):
+    try:
+        return max(0, int((item or {}).get("max_grade", 0)))
+    except (TypeError, ValueError):
+        return 0
+
+
+def formatar_nome_com_grau(item):
+    nome = (item or {}).get("name", "Item desconhecido")
+    grau = obter_grau_item(item)
+    if grau <= 0:
+        return nome
+    return f"{nome} [Grau {NUMERAIS_GRAU.get(grau, grau)}]"
+
+
+def consolidar_itens_empilhaveis(player, salvar=True):
+    """Agrupa duplicatas empilhaveis sem tocar em equipamentos ou itens unicos."""
+    inventario = player.get("inventory")
+    if not isinstance(inventario, list):
+        player["inventory"] = []
+        if salvar:
+            _salvar_player(player)
+        return True
+
+    grupos = {}
+    novo_inventario = []
+    modificado = False
+
+    for item in inventario:
+        if not item_e_empilhavel(item) or not item.get("id"):
+            novo_inventario.append(item)
+            continue
+
+        item_id = item["id"]
+        quantidade = obter_quantidade_item(item)
+        if item_id in grupos:
+            grupos[item_id]["quantity"] = obter_quantidade_item(grupos[item_id]) + quantidade
+            modificado = True
+            continue
+
+        if item.get("quantity") != quantidade:
+            item["quantity"] = quantidade
+            modificado = True
+
+        grupos[item_id] = item
+        novo_inventario.append(item)
+
+    if modificado:
+        player["inventory"] = novo_inventario
+        if salvar:
+            _salvar_player(player)
+
+    return modificado
+
+
+def adicionar_item_ao_inventario(player, item, quantidade=1):
+    if not item:
+        return None
+
+    if "inventory" not in player or not isinstance(player["inventory"], list):
+        player["inventory"] = []
+
+    try:
+        quantidade = max(1, int(quantidade))
+    except (TypeError, ValueError):
+        quantidade = 1
+
+    item_id = item.get("id")
+    if item_e_empilhavel(item) and item_id:
+        consolidar_itens_empilhaveis(player, salvar=False)
+        for item_existente in player["inventory"]:
+            if item_e_empilhavel(item_existente) and item_existente.get("id") == item_id:
+                item_existente["quantity"] = obter_quantidade_item(item_existente) + quantidade
+                for chave, valor in item.items():
+                    if chave != "quantity" and chave not in item_existente:
+                        item_existente[chave] = valor
+                _salvar_player(player)
+                return item_existente
+
+    novo_item = dict(item)
+    novo_item["quantity"] = quantidade
+    player["inventory"].append(novo_item)
+    _salvar_player(player)
+    return novo_item
+
+
+def remover_item_do_inventario(player, item, quantidade=1):
+    if not item or item not in player.get("inventory", []):
+        return False
+
+    try:
+        quantidade = max(1, int(quantidade))
+    except (TypeError, ValueError):
+        quantidade = 1
+
+    quantidade_atual = obter_quantidade_item(item)
+    if quantidade_atual > quantidade:
+        item["quantity"] = quantidade_atual - quantidade
+    else:
+        player["inventory"].remove(item)
+
+    _salvar_player(player)
+    return True
 
 
 def _garantir_equipados(player):
@@ -125,11 +271,15 @@ def calcular_propriedades_equipadas(player):
         "condition_resistance": {},
         "resource_cost_reduction": {},
         "on_hit_conditions": [],
+        "has_shield": False,
     }
 
     for item_equipado in player.get("equipped", {}).values():
         if not item_equipado:
             continue
+
+        if item_equipado.get("slot") == "shield":
+            propriedades["has_shield"] = True
 
         item_properties = item_equipado.get("properties", {})
         for chave in PROPRIEDADES_NUMERICAS:
@@ -145,6 +295,13 @@ def calcular_propriedades_equipadas(player):
         on_hit = item_properties.get("on_hit_condition")
         if on_hit:
             propriedades["on_hit_conditions"].append(on_hit)
+
+        grau = obter_grau_item(item_equipado)
+        if grau > 0:
+            if item_equipado.get("slot") == "weapon":
+                _somar_propriedade_numerica(propriedades, "physical_damage_bonus", grau)
+            elif item_equipado.get("slot") in {"helmet", "breastplate", "pants", "boots", "shield"}:
+                _somar_propriedade_numerica(propriedades, "defense_bonus", grau)
 
     return propriedades
 
@@ -183,6 +340,7 @@ def formatar_propriedades_item(item):
         "escape_bonus": "Fuga +{}%",
         "gold_bonus": "Ouro +{}%",
         "xp_bonus": "XP +{}%",
+        "defense_bonus": "Defesa +{}",
     }
 
     for chave, modelo in textos_numericos.items():
@@ -290,7 +448,7 @@ def aplicar_desgaste_defensivo(player, postura_defesa, dano_recebido):
     minimo, maximo = desgaste_por_postura.get(postura_defesa, (1, 2))
     multiplicador_desgaste = calcular_multiplicador_desgaste(player)
 
-    slots_alvo = ("breastplate", "helmet", "pants", "boots")
+    slots_alvo = ("breastplate", "shield", "helmet", "pants", "boots")
     slots_equipados = [
         slot for slot in slots_alvo
         if player.get("equipped", {}).get(slot)
@@ -364,10 +522,7 @@ def consumir_consumivel(player, item):
                     "mensagem": f"Voce nao esta sob efeito de {obter_nome_condicao(remove_condition)}.",
                 }
 
-            if item in player.get("inventory", []):
-                player["inventory"].remove(item)
-
-            _salvar_player(player)
+            remover_item_do_inventario(player, item)
             return {
                 "sucesso": True,
                 "item_name": item.get("name", "Consumivel"),
@@ -380,10 +535,7 @@ def consumir_consumivel(player, item):
             if not condicao:
                 return {"sucesso": False, "mensagem": "Esse item nao pode ser usado agora."}
 
-            if item in player.get("inventory", []):
-                player["inventory"].remove(item)
-
-            _salvar_player(player)
+            remover_item_do_inventario(player, item)
             return {
                 "sucesso": True,
                 "item_name": item.get("name", "Consumivel"),
@@ -404,10 +556,7 @@ def consumir_consumivel(player, item):
 
     player[current_key] = new_value
 
-    if item in player.get("inventory", []):
-        player["inventory"].remove(item)
-
-    _salvar_player(player)
+    remover_item_do_inventario(player, item)
     return {
         "sucesso": True,
         "item_name": item.get("name", "Consumivel"),
@@ -465,8 +614,5 @@ def consumir_pocao(player, item):
             player[attr_normalizado] = player.get(attr_normalizado, 0) + val
             efeitos_aplicados.append((attr_normalizado, val))
 
-    if item in player.get("inventory", []):
-        player["inventory"].remove(item)
-
-    _salvar_player(player)
+    remover_item_do_inventario(player, item)
     return efeitos_aplicados

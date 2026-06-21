@@ -7,7 +7,6 @@
     "slot": "ring",
     "modifiers": { "strength": 1 },
     "properties": {
-      "physical_damage_bonus": 1,
       "crit_chance_bonus": 0.02
     }
   },
@@ -19,9 +18,20 @@
     "slot": "necklace",
     "modifiers": { "intelligence": 1 },
     "properties": {
-      "magic_damage_bonus": 1,
-      "magic_damage_reduction": 0.04,
+      "magic_damage_reduction": 0.03,
       "condition_resistance": { "silenced": 1 }
+    }
+  },
+  "apprentice_cloak": {
+    "name": "Manto de Aprendiz",
+    "price": 95,
+    "level_required": 2,
+    "rarity": "incomum",
+    "slot": "necklace",
+    "modifiers": { "intelligence": 1, "wisdom": 1 },
+    "properties": {
+      "magic_damage_reduction": 0.04,
+      "resource_cost_reduction": { "mana": 0.03 }
     }
   }
 }

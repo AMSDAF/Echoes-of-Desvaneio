@@ -22,7 +22,35 @@ from src.services.event_service import resolver_evento_urbano
 
 PLAYER_PATH = "data/core/player.json"
 TAVERN_PATH = "data/core/tavern.json"
-REST_COST = 10
+REST_OPTIONS = {
+    1: {
+        "name": "Cochilo Curto",
+        "duration": "1 hora",
+        "cost": 10,
+        "restore": {"hp": 0.0, "mana": 0.25, "stamina": 0.35},
+        "start": "Uma hora nao fecha corte nenhum... mas talvez cale o tremor das maos.",
+        "end": "Nao foi descanso de verdade, mas minha respiracao voltou ao lugar.",
+        "art": ["             Zzz...", "       O barulho da taverna vira uma parede distante."],
+    },
+    2: {
+        "name": "Quarto Simples",
+        "duration": "4 horas",
+        "cost": 25,
+        "restore": {"hp": 0.25, "mana": 0.60, "stamina": 0.75},
+        "start": "Quatro horas. Se eu fechar os olhos rapido, talvez o corpo aceite continuar.",
+        "end": "Nao acordei inteiro... mas acordei capaz.",
+        "art": ["             Zzz...", "          Zzz... Zzz...", "     As dores diminuem enquanto a tarde escorre pela janela."],
+    },
+    3: {
+        "name": "Noite Inteira",
+        "duration": "8 horas",
+        "cost": 50,
+        "restore": {"hp": 1.0, "mana": 1.0, "stamina": 1.0},
+        "start": "Uma noite inteira. Hoje eu escolho viver ate amanha.",
+        "end": "Pela primeira vez em dias, acordei sem sentir o mundo mordendo meus ossos.",
+        "art": ["             Zzz...", "          Zzz... Zzz...", "       A noite passa. O mundo fica quieto.", "     A manha encontra voce respirando melhor."],
+    },
+}
 NOMES_ATRIBUTOS_EVENTO = {
     "strength": "Forca",
     "dexterity": "Destreza",
@@ -60,29 +88,97 @@ def _conversar_taverneiro(dados_taverna):
     print("\n" + fala_entidade(taverneiro, random.choice(dialogos)))
 
 
+def _formatar_recurso(atual, maximo, nome, cor):
+    return colorir(f"{nome}: {atual}/{maximo}", cor)
+
+
+def _restaurar_percentual(player, resource, percentual):
+    current_key = f"current_{resource}"
+    max_key = f"max_{resource}"
+    maximo = int(player.get(max_key, player.get(current_key, 0)))
+    atual = int(player.get(current_key, maximo))
+
+    if percentual >= 1:
+        restaurado = maximo - atual
+        player[current_key] = maximo
+        return max(0, restaurado)
+
+    restaurado = int(round(maximo * percentual))
+    novo_valor = min(maximo, atual + restaurado)
+    player[current_key] = novo_valor
+    return max(0, novo_valor - atual)
+
+
+def _exibir_status_descanso(player):
+    hp = _formatar_recurso(player.get("current_hp", 0), player.get("max_hp", 0), "HP", GREEN)
+    mana = _formatar_recurso(player.get("current_mana", 0), player.get("max_mana", 0), "Mana", BLUE)
+    estamina = _formatar_recurso(player.get("current_stamina", 0), player.get("max_stamina", 0), "Estamina", CYAN)
+    ouro = colorir(f"Ouro: {player.get('gold', 0)}G", YELLOW)
+    print(f"{hp} | {mana} | {estamina} | {ouro}")
+
+
+def _aplicar_descanso(player, opcao_descanso):
+    restore = opcao_descanso["restore"]
+    return {
+        "hp": _restaurar_percentual(player, "hp", restore.get("hp", 0)),
+        "mana": _restaurar_percentual(player, "mana", restore.get("mana", 0)),
+        "stamina": _restaurar_percentual(player, "stamina", restore.get("stamina", 0)),
+    }
+
+
 def _descansar_na_estalagem(player, dados_taverna):
     taverneiro = dados_taverna.get("keeper", "Taverneiro")
 
-    if player.get("gold", 0) < REST_COST:
-        print(colorir(f"\n{taverneiro}: \"Quarto quente custa moeda quente. Nao trabalho de graca, viajante.\"", RED))
+    limpar_tela()
+    print(caixa_texto("ALUGAR UM QUARTO", cor=BLUE))
+    _exibir_status_descanso(player)
+    print(linha_pontilhada())
+    for indice, opcao in REST_OPTIONS.items():
+        print(
+            f"[{indice}] {opcao['name']} - {opcao['duration']} - "
+            f"{colorir(str(opcao['cost']) + 'G', YELLOW)}"
+        )
+        print(
+            f"    HP +{int(opcao['restore']['hp'] * 100)}% | "
+            f"Mana +{int(opcao['restore']['mana'] * 100)}% | "
+            f"Estamina +{int(opcao['restore']['stamina'] * 100)}%"
+        )
+    print("[4] Voltar")
+    print(linha_pontilhada())
+
+    escolha = obter_entrada("Quanto tempo pretende dormir? ", opcoes=[1, 2, 3, 4])
+    if escolha == 4:
         return
 
-    player["gold"] -= REST_COST
-    player["current_hp"] = player.get("max_hp", player.get("current_hp", 100))
-    player["current_mana"] = player.get("max_mana", player.get("current_mana", 50))
-    player["current_stamina"] = player.get("max_stamina", player.get("current_stamina", 50))
+    opcao_descanso = REST_OPTIONS[escolha]
+    custo = opcao_descanso["cost"]
+    nome_heroi = player.get("name", "Voce")
+
+    if player.get("gold", 0) < custo:
+        print(colorir(f"\n{taverneiro}: \"Quarto quente custa moeda quente. Nao trabalho de graca, viajante.\"", RED))
+        print(pensamento_personagem(nome_heroi, "Sem moeda, sem cama. A estrada vai rir de mim se eu insistir.", RED))
+        return
+
+    print("\n" + pensamento_personagem(nome_heroi, opcao_descanso["start"], CYAN))
+    player["gold"] -= custo
+    recuperado = _aplicar_descanso(player, opcao_descanso)
     salvar_json(PLAYER_PATH, player)
 
-    print(caixa_texto("A NOITE PASSA DEVAGAR...", cor=BLUE))
-    print("             Zzz...")
-    print("          Zzz... Zzz...")
-    print("     O mundo fica quieto por algumas horas.")
+    print(caixa_texto(f"{opcao_descanso['duration'].upper()} DE DESCANSO", cor=BLUE))
+    for linha in opcao_descanso["art"]:
+        print(linha)
     print(linha_pontilhada())
-    print(colorir("Voce acorda se sentindo totalmente revigorado!", GREEN))
+    print(pensamento_personagem(nome_heroi, opcao_descanso["end"], GREEN))
     print(
-        f"{colorir('HP', GREEN)}, {colorir('Mana', BLUE)} e "
-        f"{colorir('Estamina', CYAN)} restaurados. "
-        f"Ouro restante: {colorir(str(player.get('gold', 0)) + 'G', YELLOW)}"
+        pensamento_personagem(
+            nome_heroi,
+            (
+                f"Recuperei {recuperado['hp']} de vida, "
+                f"{recuperado['mana']} de mana e {recuperado['stamina']} de estamina. "
+                f"Restam {player.get('gold', 0)}G."
+            ),
+            YELLOW,
+        )
     )
 
 
@@ -126,7 +222,7 @@ def exibir_taverna(player):
         print(linha_pontilhada(cor=MAGENTA))
         print("[1] Ouvir boatos locais")
         print("[2] Conversar com o Taverneiro")
-        print(f"[3] Alugar um Quarto para Descansar (Custo: {colorir(str(REST_COST) + 'G', YELLOW)})")
+        print("[3] Alugar um Quarto para Descansar")
         print("[4] Observar a Taverna")
         print("[5] Voltar para a Vila")
         print(linha_pontilhada(cor=MAGENTA))

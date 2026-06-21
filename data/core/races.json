@@ -3,11 +3,7 @@
     "name": "Humano",
     "description": "Versatil e adaptavel, cresce bem em qualquer caminho.",
     "attribute_bonuses": {
-      "strength": 1,
-      "dexterity": 1,
       "constitution": 1,
-      "intelligence": 1,
-      "wisdom": 1,
       "charisma": 1,
       "luck": 1
     },
@@ -122,7 +118,6 @@
     "description": "Ponte viva entre mundos, elegante nas palavras e firme sob pressao.",
     "attribute_bonuses": {
       "charisma": 2,
-      "dexterity": 1,
       "constitution": 1
     },
     "passive": {

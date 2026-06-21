@@ -26,6 +26,81 @@ from src.services.npc_service import garantir_memoria_npcs
 from src.services.quest_service import garantir_quest_log
 
 
+def garantir_vilas_desbloqueadas(player):
+    if not isinstance(player.get("unlocked_villages"), dict):
+        player["unlocked_villages"] = {}
+
+    modificado = False
+    vilas = player["unlocked_villages"]
+
+    if vilas.get("oakridge") is not True:
+        vilas["oakridge"] = True
+        modificado = True
+
+    local_atual = player.get("current_location")
+    if not local_atual:
+        local_atual = "phandalin"
+        player["current_location"] = local_atual
+        modificado = True
+
+    if vilas.get(local_atual) is not True:
+        vilas[local_atual] = True
+        modificado = True
+
+    return modificado
+
+
+def obter_vilas_liberadas(player):
+    dados_exploracao = carregar_json("data/core/exploration.json") or {}
+    vilas = player.setdefault("unlocked_villages", {})
+    local_atual = player.get("current_location", "phandalin")
+    vilas[local_atual] = True
+    vilas["oakridge"] = True
+
+    liberadas = []
+    for village_id, dados_vila in dados_exploracao.items():
+        if vilas.get(village_id):
+            liberadas.append((village_id, dados_vila.get("display_name", village_id.title())))
+
+    return liberadas
+
+
+def viajar_entre_vilas(player):
+    vilas_liberadas = obter_vilas_liberadas(player)
+    local_atual = player.get("current_location", "phandalin")
+
+    limpar_tela()
+    print(caixa_texto("VIAGEM ENTRE VILAS", cor=CYAN))
+    print(pensamento_personagem(player["name"], "A estrada aberta tambem e uma escolha. Melhor decidir para onde meus passos apontam.", CYAN))
+    print(linha_pontilhada())
+
+    for indice, (village_id, nome_vila) in enumerate(vilas_liberadas, 1):
+        marcador = " [ATUAL]" if village_id == local_atual else ""
+        print(f"[{indice}] {nome_vila}{marcador}")
+    print(f"[{len(vilas_liberadas) + 1}] Voltar")
+    print(linha_pontilhada())
+
+    escolha = obter_entrada(
+        "Escolha o destino: ",
+        opcoes=list(range(1, len(vilas_liberadas) + 2)),
+    )
+
+    if escolha == len(vilas_liberadas) + 1:
+        return
+
+    destino_id, destino_nome = vilas_liberadas[escolha - 1]
+    if destino_id == local_atual:
+        print(pensamento_personagem(player["name"], "Ja estou aqui. As vezes o mapa tambem tira sarro.", YELLOW))
+        aguardar_enter()
+        return
+
+    player["current_location"] = destino_id
+    salvar_json("data/core/player.json", player)
+    print(colorir(f"\n>> Voce viajou para {destino_nome}. <<", GREEN))
+    print(pensamento_personagem(player["name"], "Outra placa, outro cheiro de estrada. Ainda sou eu chegando vivo.", GREEN))
+    aguardar_enter()
+
+
 player = carregar_json("data/core/player.json")
 
 if not player:
@@ -33,12 +108,14 @@ if not player:
     garantir_quest_log(player)
     garantir_memoria_npcs(player)
     garantir_bestiario(player)
+    garantir_vilas_desbloqueadas(player)
     salvar_json("data/core/player.json", player)
 else:
     modificado = garantir_estrutura_evolucao(player)
     modificado = garantir_quest_log(player) or modificado
     modificado = garantir_memoria_npcs(player) or modificado
     modificado = garantir_bestiario(player) or modificado
+    modificado = garantir_vilas_desbloqueadas(player) or modificado
     if modificado:
         salvar_json("data/core/player.json", player)
 
@@ -48,7 +125,7 @@ def menu_principal(player):
         limpar_tela()
         print(caixa_texto("MENU PRINCIPAL", cor=CYAN))
         print(f"Nome: {player['name']} | Classe: {player['class']} | Nivel: {player['level']}")
-        print(f"Ouro: {colorir(str(player['gold']) + 'G', YELLOW)} | XP: {player['xp']}")
+        print(f"Ouro: {colorir(str(player['gold']) + 'G', YELLOW)} | XP: {player['xp']} | Vila: {player.get('current_location', 'phandalin').upper()}")
         print(linha_pontilhada())
         print("[1] Explorar Regioes Selvagens")
         print("[2] Visitar o Centro Comercial")
@@ -57,10 +134,11 @@ def menu_principal(player):
         print("[5] Quadro de Missoes")
         print("[6] Bestiario")
         print("[7] Ver Status e Inventario")
-        print("[8] Salvar e Sair")
+        print("[8] Viajar entre Vilas")
+        print("[9] Salvar e Sair")
         print(linha_pontilhada())
 
-        opcao = str(obter_entrada("Escolha uma opcao: ", opcoes=[1, 2, 3, 4, 5, 6, 7, 8]))
+        opcao = str(obter_entrada("Escolha uma opcao: ", opcoes=[1, 2, 3, 4, 5, 6, 7, 8, 9]))
 
         if opcao == "1":
             dados_exploracao = carregar_json("data/core/exploration.json")
@@ -126,6 +204,9 @@ def menu_principal(player):
             exibir_status_e_inventario(player)
 
         elif opcao == "8":
+            viajar_entre_vilas(player)
+
+        elif opcao == "9":
             salvar_json("data/core/player.json", player)
             print(pensamento_personagem(player["name"], "Tudo anotado. Se eu sumir, ao menos a historia sabe onde parei.", GREEN))
             break

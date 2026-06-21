@@ -3,15 +3,17 @@ import random
 from src.services.attribute_service import calcular_modificador_atributo
 from src.services.condition_service import calcular_multiplicador_custo_recurso
 from src.services.database import carregar_json, salvar_json
-from src.services.item_service import calcular_propriedades_equipadas
+from src.services.item_service import adicionar_item_ao_inventario, calcular_propriedades_equipadas
 from src.services.level_service import garantir_estrutura_evolucao, processar_ganho_xp
+from src.services.loot_service import montar_loot_para_inventario
+from src.services.skill_service import aplicar_progresso_habilidade
 
 
 PLAYER_PATH = "data/core/player.json"
 ENEMIES_PATH = "data/enemies/enemies.json"
 RACES_PATH = "data/core/races.json"
 SKILLS_PATH = "data/core/skills.json"
-DANO_BASE_PADRAO = 10
+DANO_BASE_PADRAO = 6
 CHANCE_CRITICO_BASE = 0.05
 
 
@@ -73,7 +75,7 @@ def listar_habilidades_conhecidas(player, categoria):
     known_skills = set(player.get("known_skills", []))
 
     return [
-        {"id": skill_id, "category": categoria, **skill_data}
+        aplicar_progresso_habilidade(player, skill_id, categoria, skill_data)
         for skill_id, skill_data in skills_categoria.items()
         if skill_id in known_skills
     ]
@@ -155,17 +157,28 @@ def _obter_efeito(efeitos_raciais, nome, padrao=0):
 def calcular_chance_esquiva(atributos_defensor, efeitos_raciais=None, precisao_atacante=0):
     dex = _obter_atributo(atributos_defensor, "dexterity")
     luck = _obter_atributo(atributos_defensor, "luck", 0)
-    dex_bonus = aplicar_retorno_decrescente(max(0, dex - 10), 24) * 0.30
+    dex_bonus = aplicar_retorno_decrescente(max(0, dex - 10), 12) * 0.50
     luck_bonus = aplicar_retorno_decrescente(luck, 30) * 0.18
     bonus_racial = _obter_efeito(efeitos_raciais, "dodge_chance_bonus")
     chance = 0.18 + dex_bonus + luck_bonus + bonus_racial - precisao_atacante
     return min(0.65, max(0.05, chance))
 
 
-def calcular_percentual_dano_bloqueio(atributos_defensor, efeitos_raciais=None):
+def calcular_chance_sorte_esquiva(atributos_defensor, efeitos_raciais=None):
+    luck = _obter_atributo(atributos_defensor, "luck", 0)
+    bonus_racial = _obter_efeito(efeitos_raciais, "lucky_dodge_chance_bonus")
+    chance = 0.03 + min(0.12, luck * 0.01) + bonus_racial
+    return min(0.20, max(0.0, chance))
+
+
+def calcular_percentual_dano_bloqueio(atributos_defensor, efeitos_raciais=None, propriedades_defensor=None):
     mod_const = calcular_modificador_atributo(_obter_atributo(atributos_defensor, "constitution"))
     reducao_racial = _obter_efeito(efeitos_raciais, "block_damage_factor_reduction")
-    return max(0.10, 0.40 - (mod_const * 0.02) - reducao_racial)
+    tem_escudo = bool((propriedades_defensor or {}).get("has_shield"))
+    piso = 0.50 if tem_escudo else 0.70
+    bonus_escudo = 0.15 if tem_escudo else 0
+    percentual = 0.82 - (mod_const * 0.025) - bonus_escudo - reducao_racial
+    return max(piso, min(0.90, percentual))
 
 
 def calcular_chance_contra_ataque(atributos_defensor, efeitos_raciais=None, precisao_atacante=0):
@@ -193,19 +206,19 @@ def calcular_chance_critico(efeitos_raciais=None, propriedades=None):
 
 
 def calcular_dano_base(atacante_atributos, tipo_ataque, efeitos_raciais=None, propriedades=None):
-    """Calcula o dano bruto inicial com modificador D&D e passivas raciais."""
+    """Calcula dano base sem deixar atributo bruto explodir o nivel 1."""
     atributo = "intelligence" if tipo_ataque == "magia" else "strength"
-    modificador = calcular_modificador_atributo(_obter_atributo(atacante_atributos, atributo))
-    dano = max(1, DANO_BASE_PADRAO + modificador)
+    valor_atributo = _obter_atributo(atacante_atributos, atributo)
+    attribute_bonus = max(0, int(valor_atributo) - 10) // 2
+    propriedades = propriedades or {}
+    dano = DANO_BASE_PADRAO + attribute_bonus + propriedades.get("damage_bonus", 0)
 
     if tipo_ataque == "magia":
+        dano += propriedades.get("magic_damage_bonus", 0)
         dano *= _obter_efeito(efeitos_raciais, "magic_damage_multiplier", 1)
-        dano += (propriedades or {}).get("magic_damage_bonus", 0)
     else:
+        dano += propriedades.get("physical_damage_bonus", 0)
         dano *= _obter_efeito(efeitos_raciais, "physical_damage_multiplier", 1)
-        dano += (propriedades or {}).get("physical_damage_bonus", 0)
-
-    dano += (propriedades or {}).get("damage_bonus", 0)
 
     return max(1, int(round(dano)))
 
@@ -247,6 +260,7 @@ def processar_defesa(
     precisao_atacante=0,
     contra_ataque_evita_dano=True,
     propriedades_defensor=None,
+    dano_contra_ataque=None,
 ):
     """
     Processa a reacao do defensor a um ataque recebido.
@@ -266,25 +280,29 @@ def processar_defesa(
         if random.random() <= chance_esquiva:
             return 0, 0, "Esquiva perfeita! Nenhum dano recebido."
 
-        return int(dano_real * 0.5), 0, "Falhou na esquiva, mas minimizou o impacto! Recebeu 50% do dano."
+        chance_sorte = calcular_chance_sorte_esquiva(atributos_defensor, efeitos_raciais)
+        if random.random() <= chance_sorte:
+            return max(1, int(round(dano_real * 0.80))), 0, "Falhou na esquiva, mas a sorte aparou o pior. Recebeu 80% do dano."
+
+        return dano_real, 0, "Falhou na esquiva! Recebeu 100% do dano."
 
     if postura_defesa == "bloquear":
-        percentual_dano = calcular_percentual_dano_bloqueio(atributos_defensor, efeitos_raciais)
-        dano_recebido = int(dano_real * percentual_dano)
+        percentual_dano = calcular_percentual_dano_bloqueio(atributos_defensor, efeitos_raciais, propriedades_defensor)
+        dano_recebido = max(1, int(round(dano_real * percentual_dano)))
         percentual_texto = int(round(percentual_dano * 100))
         return dano_recebido, 0, f"Bloqueou o impacto! Recebeu apenas {percentual_texto}% do dano."
 
     if postura_defesa == "contra_atacar":
         chance_contra_ataque = calcular_chance_contra_ataque(atributos_defensor, efeitos_raciais, precisao_atacante)
         if random.random() <= chance_contra_ataque:
-            dano_devolvido = max(1, int(dano_bruto * 0.35))
+            dano_devolvido = max(1, int(round((dano_contra_ataque if dano_contra_ataque is not None else dano_bruto) * 0.80)))
             if contra_ataque_evita_dano:
-                return 0, dano_devolvido, f"Contra-ataque critico! Evitou o golpe e revidou causando {dano_devolvido} de dano!"
+                return 0, dano_devolvido, f"Contra-ataque perfeito! Evitou o golpe e revidou causando {dano_devolvido} de dano!"
 
-            return int(dano_real * 0.35), dano_devolvido, f"Contra-ataque parcial! Aparou parte do golpe e revidou causando {dano_devolvido} de dano!"
+            return 0, dano_devolvido, f"Contra-ataque perfeito! Revidou causando {dano_devolvido} de dano!"
 
-        dano_punicao = int(dano_real * 1.25)
-        return dano_punicao, 0, "Falhou no contra-ataque! Ficou vulneravel e recebeu 125% de dano!"
+        dano_punicao = max(1, int(round(dano_real * 1.10)))
+        return dano_punicao, 0, "Falhou no contra-ataque! Ficou vulneravel e recebeu 110% de dano!"
 
     return dano_real, 0, "Recebeu o golpe em cheio!"
 
@@ -307,7 +325,7 @@ def processar_vitoria(player, dados_monstro):
     gold_drop = int(round(dados_monstro["gold_drop"] * (1 + max(0, propriedades.get("gold_bonus", 0)))))
     dados_monstro["xp_drop"] = xp_drop
     dados_monstro["gold_drop"] = gold_drop
-    processar_ganho_xp(player, xp_drop)
+    resultado_xp = processar_ganho_xp(player, xp_drop)
     player["gold"] += gold_drop
 
     materiais_ganhos = []
@@ -317,13 +335,12 @@ def processar_vitoria(player, dados_monstro):
     for loot in dados_monstro.get("loot_table", []):
         chance_final = min(1.0, loot["chance"] + bonus_luck)
         if random.random() <= chance_final:
-            item_material = {
-                "id": loot["item_id"],
-                "name": loot["item_id"].replace("_", " ").title(),
-                "type": "material",
-            }
-            player["inventory"].append(item_material)
-            materiais_ganhos.append(item_material["name"])
+            item_material = montar_loot_para_inventario(loot["item_id"])
+            item_adicionado = adicionar_item_ao_inventario(player, item_material)
+            materiais_ganhos.append(item_adicionado.get("name", item_material["name"]))
 
     salvar_json(PLAYER_PATH, player)
-    return materiais_ganhos
+    return {
+        "materiais": materiais_ganhos,
+        "resultado_xp": resultado_xp,
+    }
