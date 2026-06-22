@@ -60,6 +60,7 @@ def construir_personagem_inicial(name, classe_dados, raca_dados, atributos_finai
         "race": raca_dados["name"],
         "level": 1,
         "xp": 0,
+        "xp_system_version": 2,
         "gold": 90,
         "current_hp": max_hp,
         "max_hp": max_hp,

@@ -1,6 +1,7 @@
 import random
 
 from src.services.attribute_service import calcular_modificador_atributo
+from src.services.city_data_service import carregar_inimigos_cidade
 from src.services.condition_service import calcular_multiplicador_custo_recurso
 from src.services.database import carregar_json, salvar_json
 from src.services.item_service import adicionar_item_ao_inventario, calcular_propriedades_equipadas
@@ -10,7 +11,6 @@ from src.services.skill_service import aplicar_progresso_habilidade
 
 
 PLAYER_PATH = "data/core/player.json"
-ENEMIES_PATH = "data/enemies/enemies.json"
 RACES_PATH = "data/core/races.json"
 SKILLS_PATH = "data/core/skills.json"
 DANO_BASE_PADRAO = 6
@@ -39,9 +39,17 @@ def _float_limitado(valor, minimo, maximo, padrao):
     return max(minimo, min(maximo, numero))
 
 
-def carregar_dados_monstro(enemy_id):
-    """Busca os atributos base do monstro no banco de dados."""
-    inimigos = carregar_json(ENEMIES_PATH) or {}
+def carregar_dados_monstro(enemy_id, player=None):
+    """Busca o monstro no arquivo de inimigos da cidade atual."""
+    if player is None:
+        player = carregar_json(PLAYER_PATH) or {}
+
+    if isinstance(player, dict):
+        city_id = player.get("current_location", "phandalin")
+    else:
+        city_id = str(player or "phandalin")
+
+    inimigos = carregar_inimigos_cidade(city_id)
     return inimigos.get(enemy_id)
 
 
@@ -318,22 +326,39 @@ def calcular_desgaste_arma(player):
         arma["current_durability"] = arma["durability"]
 
 
+def calcular_recompensa_intervalo(valor, sorte=0):
+    minimo = int(valor.get("min", 0))
+    maximo = int(valor.get("max", minimo))
+
+    if maximo < minimo:
+        maximo = minimo
+
+    recompensa = random.randint(minimo, maximo)
+
+    chance_max = min(sorte * 0.02, 0.30)
+
+    if random.random() < chance_max:
+        return maximo
+
+    return recompensa
+
+
 def processar_vitoria(player, dados_monstro):
-    """Aplica as recompensas de XP, Ouro e rola a tabela de loot para materiais."""
     propriedades = calcular_propriedades_equipadas(player)
-    xp_drop = int(round(dados_monstro["xp_drop"] * (1 + max(0, propriedades.get("xp_bonus", 0)))))
-    gold_drop = int(round(dados_monstro["gold_drop"] * (1 + max(0, propriedades.get("gold_bonus", 0)))))
-    dados_monstro["xp_drop"] = xp_drop
-    dados_monstro["gold_drop"] = gold_drop
-    resultado_xp = processar_ganho_xp(player, xp_drop)
-    player["gold"] += gold_drop
+    sorte = player.get("attributes", {}).get("luck", 0)
+    xp_base = calcular_recompensa_intervalo(dados_monstro["xp_drop"], sorte)
+    gold_base = calcular_recompensa_intervalo(dados_monstro["gold_drop"], sorte)
+    xp_ganho = int(round(xp_base * (1 + max(0, propriedades.get("xp_bonus", 0)))))
+    gold_ganho = int(round(gold_base * (1 + max(0, propriedades.get("gold_bonus", 0)))))
+    resultado_xp = processar_ganho_xp(player, xp_ganho)
+    player["gold"] += gold_ganho
 
     materiais_ganhos = []
     luck = player.get("attributes", {}).get("luck", 0)
-    bonus_luck = luck * 0.015
+    bonus_luck = luck * 0.005
 
     for loot in dados_monstro.get("loot_table", []):
-        chance_final = min(1.0, loot["chance"] + bonus_luck)
+        chance_final = min(0.95, loot["chance"] + bonus_luck)
         if random.random() <= chance_final:
             item_material = montar_loot_para_inventario(loot["item_id"])
             item_adicionado = adicionar_item_ao_inventario(player, item_material)
@@ -341,6 +366,8 @@ def processar_vitoria(player, dados_monstro):
 
     salvar_json(PLAYER_PATH, player)
     return {
+        "xp_ganho": xp_ganho,
+        "gold_ganho": gold_ganho,
         "materiais": materiais_ganhos,
         "resultado_xp": resultado_xp,
     }

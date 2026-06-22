@@ -1,0 +1,74 @@
+{
+  "nome_exibicao": "VILA DE PHANDALIN - FRONTEIRA DA COSTA DA ESPADA",
+  "lojas": {
+    "1": {
+      "nome": "Forja de Phandalin",
+      "vendedor": "Harbin Wester",
+      "services": ["equipment_upgrade"],
+      "inventory": {
+        "weapons": [
+          "steel_sword",
+          "steel_dagger",
+          "steel_axe",
+          "reinforced_bow",
+          "carved_staff"
+        ],
+        "shields": ["reinforced_shield"]
+      },
+      "dialogos": {
+        "primeira_vez": "Ola viajante, vejo que te falta armas decentes. Que tal comprar algo no precinho?",
+        "retorno": "Hum, voce de novo? Veio buscar mais aco? Aproveita que a forja ta quente e o estoque recheado!",
+        "inveja": "Haha, por todos os deuses, onde arrumou essa arma? Eu te dou uma grana boa por ela... Nao? Ok, voce quem sabe.",
+        "sucesso_compra": "Excelente escolha! Essa lamina vai cortar goblins como se fossem manteiga.",
+        "sem_ouro": "Ei, volte aqui quando tiver moedas de verdade! Nao trabalho por caridade kkkk."
+      }
+    },
+    "2": {
+      "nome": "Alparcaria de Couro",
+      "vendedor": "Linene Graywind",
+      "inventory": {
+        "armor": ["leather_armor"]
+      },
+      "dialogos": {
+        "primeira_vez": "Saudacoes. Andar por essas terras sem protecao e suicidio. Veja minhas armaduras de couro.",
+        "retorno": "Bom ver que sobreviveu! Veio reforcar suas defesas?",
+        "inveja": "Essa armadura... que acabamento impecavel! Nao quer me vender? Pago bem...",
+        "sucesso_compra": "Ajustada perfeitamente. Ela vai te proteger bem nos Arredores, garanto.",
+        "sem_ouro": "Couro legitimo custa caro, meu jovem. Volte quando tiver ouro suficiente."
+      }
+    },
+    "3": {
+      "nome": "Mesa do Velho Sabio",
+      "vendedor": "Iarno Albrek",
+      "inventory": {},
+      "dialogos": {
+        "primeira_vez": "Aproxime-se, jovem. Sinto uma energia latente em voce... talvez um amuleto ajude a canaliza-la?",
+        "retorno": "Ah, o jovem Corcum. Retornou para buscar mais do meu conhecimento mistico?",
+        "inveja": "Interessante... esse artefato que voce carrega emana um poder antigo. Fascinante, mas nao esta a venda, presumo?",
+        "sucesso_compra": "Um amuleto com propriedades formidaveis. Use-o com sabedoria.",
+        "sem_ouro": "Os segredos do arcano e os amuletos raros nao sao de graca. Traga-me o ouro necessario."
+      }
+    },
+    "4": {
+      "nome": "Provisoes da Barthen",
+      "vendedor": "Elmar Barthen",
+      "inventory": {
+        "potions": [
+          "minor_healing_potion",
+          "minor_mana_potion",
+          "minor_stamina_potion",
+          "bandage",
+          "minor_antidote",
+          "cooling_salve"
+        ]
+      },
+      "dialogos": {
+        "primeira_vez": "Bem-vindo ao meu armazem! Precisa de pocoes para a jornada? Tenho do bom e do melhor.",
+        "retorno": "Saudacoes, meu amigo! Veio reabastecer o estoque de pocoes antes de voltar aos campos?",
+        "inveja": "Nossa, que item formidavel voce tem ai! Se um dia quiser negociar, o velho Barthen aqui faz um preco camarada.",
+        "sucesso_compra": "Beba isso quando a situacao apertar, vai salvar a sua pele!",
+        "sem_ouro": "Fiado so amanha, garoto! Minhas pocoes de cura valem cada peca de ouro."
+      }
+    }
+  }
+}

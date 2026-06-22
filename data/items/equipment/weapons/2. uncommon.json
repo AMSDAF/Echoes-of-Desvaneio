@@ -1,0 +1,102 @@
+{
+  "steel_sword": {
+    "name": "Espada de Aço",
+    "description": "Uma lâmina de aço equilibrada para aventureiros mais experientes.",
+    "price": 85,
+    "level_required": 2,
+    "rarity": "uncommon",
+    "slot": "weapon",
+    "modifiers": {"strength": 1},
+    "properties": {"physical_damage_bonus": 2}
+  },
+  "steel_dagger": {
+    "name": "Adaga de Aço",
+    "description": "Uma adaga firme de aço com fio preciso.",
+    "price": 75,
+    "level_required": 2,
+    "rarity": "uncommon",
+    "slot": "weapon",
+    "modifiers": {"dexterity": 1},
+    "properties": {"crit_chance_bonus": 0.03}
+  },
+  "steel_axe": {
+    "name": "Machado de Aço",
+    "description": "Um machado de aço pesado, construído para golpes diretos.",
+    "price": 90,
+    "level_required": 2,
+    "rarity": "uncommon",
+    "slot": "weapon",
+    "modifiers": {"strength": 2},
+    "properties": {"physical_damage_bonus": 2}
+  },
+  "reinforced_bow": {
+    "name": "Arco Reforçado",
+    "description": "Um arco reforçado com melhor tensão e estabilidade.",
+    "price": 80,
+    "level_required": 2,
+    "rarity": "uncommon",
+    "slot": "weapon",
+    "modifiers": {"dexterity": 2},
+    "properties": {"crit_chance_bonus": 0.03}
+  },
+  "carved_staff": {
+    "name": "Cajado Entalhado",
+    "description": "Entalhes simples conduzem a energia arcana com menos desperdício.",
+    "price": 80,
+    "level_required": 2,
+    "rarity": "uncommon",
+    "slot": "weapon",
+    "modifiers": {"intelligence": 1, "wisdom": 1},
+    "properties": {"magic_damage_bonus": 2, "resource_cost_reduction": {"mana": 0.04}}
+  },
+  "iron_sword": {
+    "name": "Espada de Ferro",
+    "description": "Uma espada restaurada com lâmina de ferro firme e bem alinhada.",
+    "price": 115,
+    "level_required": 3,
+    "rarity": "uncommon",
+    "slot": "weapon",
+    "modifiers": {"strength": 2},
+    "properties": {"physical_damage_bonus": 3, "durability_loss_reduction": 0.04}
+  },
+  "iron_dagger": {
+    "name": "Adaga de Ferro",
+    "description": "Uma adaga restaurada, pequena e bem afiada.",
+    "price": 105,
+    "level_required": 3,
+    "rarity": "uncommon",
+    "slot": "weapon",
+    "modifiers": {"dexterity": 2},
+    "properties": {"crit_chance_bonus": 0.04}
+  },
+  "iron_axe": {
+    "name": "Machado de Ferro",
+    "description": "Um machado restaurado com cabeça de ferro e cabo renovado.",
+    "price": 125,
+    "level_required": 3,
+    "rarity": "uncommon",
+    "slot": "weapon",
+    "modifiers": {"strength": 3},
+    "properties": {"physical_damage_bonus": 3}
+  },
+  "recurve_bow": {
+    "name": "Arco Recurvo",
+    "description": "A curvatura aprimorada aumenta a força e a precisão dos disparos.",
+    "price": 118,
+    "level_required": 3,
+    "rarity": "uncommon",
+    "slot": "weapon",
+    "modifiers": {"dexterity": 3},
+    "properties": {"crit_chance_bonus": 0.04}
+  },
+  "runic_staff": {
+    "name": "Cajado Rúnico",
+    "description": "Runas restauradas percorrem a madeira e estabilizam o fluxo de mana.",
+    "price": 122,
+    "level_required": 3,
+    "rarity": "uncommon",
+    "slot": "weapon",
+    "modifiers": {"intelligence": 3},
+    "properties": {"magic_damage_bonus": 3, "resource_cost_reduction": {"mana": 0.05}}
+  }
+}

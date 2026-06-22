@@ -1,0 +1,37 @@
+{
+  "recruit_breastplate": {
+    "name": "Peitoral de Recruta",
+    "price": 130,
+    "level_required": 2,
+    "rarity": "incomum",
+    "slot": "breastplate",
+    "modifiers": {
+      "constitution": 2
+    },
+    "properties": {
+      "physical_damage_reduction": 0.05,
+      "durability_loss_reduction": 0.06,
+      "condition_resistance": {
+        "bleeding": 1
+      }
+    },
+    "max_grade": 3
+  },
+  "leather_armor": {
+    "name": "Armadura de Couro",
+    "price": 100,
+    "level_required": 2,
+    "rarity": "incomum",
+    "slot": "breastplate",
+    "modifiers": {
+      "constitution": 1
+    },
+    "properties": {
+      "physical_damage_reduction": 0.04,
+      "condition_resistance": {
+        "bleeding": 1
+      }
+    },
+    "max_grade": 3
+  }
+}

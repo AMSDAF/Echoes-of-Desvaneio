@@ -1,0 +1,14 @@
+{
+  "pergaminho_rasgado": {
+    "name": "Pergaminho Rasgado",
+    "description": "Fragmento de escrita arcana, incompleto mas ainda valioso.",
+    "rarity": "incomun",
+    "category": "valuable",
+    "sell_price": 12,
+    "stackable": true,
+    "crafting": {
+      "usable": false,
+      "tags": ["arcane", "scroll", "lore"]
+    }
+  }
+}

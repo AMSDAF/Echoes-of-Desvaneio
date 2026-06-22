@@ -1,0 +1,73 @@
+{
+  "ragged_armor": {
+    "name": "Armadura Rasgada",
+    "description": "Couro gasto e costuras cansadas. Ruim, mas ainda melhor que tecido comum.",
+    "price": 34,
+    "level_required": 1,
+    "rarity": "common",
+    "slot": "breastplate",
+    "modifiers": {},
+    "properties": {}
+  },
+  "old_cloak": {
+    "name": "Manto Velho",
+    "description": "Um manto surrado que ainda guarda calor e um pouco de misterio.",
+    "price": 30,
+    "level_required": 1,
+    "rarity": "common",
+    "slot": "necklace",
+    "modifiers": {},
+    "properties": {}
+  },
+  "leather_helmet": {
+    "name": "Capacete de Couro",
+    "price": 65,
+    "level_required": 1,
+    "rarity": "comum",
+    "slot": "helmet",
+    "modifiers": {
+      "constitution": 1
+    },
+    "properties": {
+      "condition_resistance": {
+        "stunned": 1
+      },
+      "physical_damage_reduction": 0.02
+    },
+    "max_grade": 3
+  },
+  "cloth_pants": {
+      "name": "Calca de Pano",
+      "price": 50,
+      "level_required": 1,
+      "rarity": "comum",
+      "slot": "pants",
+      "modifiers": {
+        "dexterity": 1
+      },
+      "properties": {
+        "escape_bonus": 0.02,
+        "condition_resistance": {
+          "corroded": 1
+        }
+      },
+      "max_grade": 3
+    },
+    "worn_boots": {
+      "name": "Botas Gastas",
+      "price": 45,
+      "level_required": 1,
+      "rarity": "comum",
+      "slot": "boots",
+      "modifiers": {
+        "dexterity": 1
+      },
+      "properties": {
+        "escape_bonus": 0.02,
+        "condition_resistance": {
+          "poisoned": 1
+        }
+      },
+      "max_grade": 3
+    }
+}

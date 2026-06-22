@@ -21,7 +21,9 @@ from src.UI.utils.colors import (
 )
 from src.services.database import carregar_json, salvar_json
 from src.services.bestiary_service import garantir_bestiario
+from src.services.city_data_service import carregar_exploracao_cidade
 from src.services.level_service import garantir_estrutura_evolucao
+from src.services.level_service import xp_para_proximo_level
 from src.services.npc_service import garantir_memoria_npcs
 from src.services.quest_service import garantir_quest_log
 
@@ -51,15 +53,18 @@ def garantir_vilas_desbloqueadas(player):
 
 
 def obter_vilas_liberadas(player):
-    dados_exploracao = carregar_json("data/core/exploration.json") or {}
     vilas = player.setdefault("unlocked_villages", {})
     local_atual = player.get("current_location", "phandalin")
     vilas[local_atual] = True
     vilas["oakridge"] = True
 
     liberadas = []
-    for village_id, dados_vila in dados_exploracao.items():
-        if vilas.get(village_id):
+    for village_id, desbloqueada in vilas.items():
+        if not desbloqueada:
+            continue
+
+        dados_vila = carregar_exploracao_cidade(village_id)
+        if dados_vila:
             liberadas.append((village_id, dados_vila.get("display_name", village_id.title())))
 
     return liberadas
@@ -125,7 +130,11 @@ def menu_principal(player):
         limpar_tela()
         print(caixa_texto("MENU PRINCIPAL", cor=CYAN))
         print(f"Nome: {player['name']} | Classe: {player['class']} | Nivel: {player['level']}")
-        print(f"Ouro: {colorir(str(player['gold']) + 'G', YELLOW)} | XP: {player['xp']} | Vila: {player.get('current_location', 'phandalin').upper()}")
+        print(
+            f"Ouro: {colorir(str(player['gold']) + 'G', YELLOW)} | "
+            f"XP: {player['xp']}/{xp_para_proximo_level(player.get('level', 1))} | "
+            f"Vila: {player.get('current_location', 'phandalin').upper()}"
+        )
         print(linha_pontilhada())
         print("[1] Explorar Regioes Selvagens")
         print("[2] Visitar o Centro Comercial")
@@ -141,17 +150,38 @@ def menu_principal(player):
         opcao = str(obter_entrada("Escolha uma opcao: ", opcoes=[1, 2, 3, 4, 5, 6, 7, 8, 9]))
 
         if opcao == "1":
-            dados_exploracao = carregar_json("data/core/exploration.json")
             local_atual_id = player.get("current_location", "phandalin")
+            dados_da_vila = carregar_exploracao_cidade(local_atual_id)
 
-            if local_atual_id not in dados_exploracao:
-                local_atual_id = "phandalin"
+            if not dados_da_vila:
+                print(
+                    "\n"
+                    + pensamento_personagem(
+                        player["name"],
+                        "Nao encontro um mapa confiavel desta regiao. Melhor nao partir as cegas.",
+                        RED,
+                    )
+                )
+                aguardar_enter()
+                continue
 
-            dados_da_vila = dados_exploracao[local_atual_id]
             areas_disponiveis = dados_da_vila.get("areas", {})
 
+            if not areas_disponiveis:
+                print(
+                    "\n"
+                    + pensamento_personagem(
+                        player["name"],
+                        "Nao ha rotas de exploracao registradas por aqui.",
+                        YELLOW,
+                    )
+                )
+                aguardar_enter()
+                continue
+
             limpar_tela()
-            print(caixa_texto(f"MAPA DE EXPLORACAO: {dados_exploracao[local_atual_id]['display_name'].upper()}", cor=GREEN))
+            nome_vila = dados_da_vila.get("display_name", local_atual_id).upper()
+            print(caixa_texto(f"MAPA DE EXPLORACAO: {nome_vila}", cor=GREEN))
             lista_areas = list(areas_disponiveis.items())
 
             for i, (_, area_info) in enumerate(lista_areas, 1):

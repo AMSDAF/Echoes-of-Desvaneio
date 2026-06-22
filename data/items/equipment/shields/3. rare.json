@@ -1,0 +1,12 @@
+{
+  "guardian_shield": {
+    "name": "Escudo do Guardião",
+    "description": "Um escudo resistente construído para enfrentar ameaças de grande porte.",
+    "price": 440,
+    "level_required": 8,
+    "rarity": "rare",
+    "slot": "shield",
+    "modifiers": {"constitution": 4},
+    "properties": {"physical_damage_reduction": 0.1, "magic_damage_reduction": 0.04, "durability_loss_reduction": 0.08}
+  }
+}

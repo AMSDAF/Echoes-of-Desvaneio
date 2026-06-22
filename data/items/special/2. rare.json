@@ -1,0 +1,26 @@
+{
+  "nucleo_elementar_fraco": {
+    "name": "Nucleo Elementar Fraco",
+    "description": "Pequeno nucleo instavel, ainda quente de energia elemental.",
+    "rarity": "raro",
+    "category": "special",
+    "sell_price": 25,
+    "stackable": true,
+    "crafting": {
+      "usable": true,
+      "tags": ["elemental", "core", "alchemy"]
+    }
+  },
+  "cristal_psionico": {
+    "name": "Cristal Psionico",
+    "description": "Cristal que vibra perto da testa, como se escutasse pensamentos.",
+    "rarity": "raro",
+    "category": "special",
+    "sell_price": 60,
+    "stackable": true,
+    "crafting": {
+      "usable": true,
+      "tags": ["psionic", "crystal", "aberration"]
+    }
+  }
+}

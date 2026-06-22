@@ -1,0 +1,18 @@
+{
+  "display_name": "Oakridge",
+  "areas": {
+    "bosque_dos_lobos": {
+      "name": "Bosque dos Lobos",
+      "description": "Um bosque baixo cercando a estrada velha. Uivos curtos ensinam cedo que coragem tambem precisa de preparo.",
+      "unlocked": true,
+      "encounter_chance": 0.72,
+      "event_chance": 0.18,
+      "required_boss_kills": 8,
+      "boss_unlocks_next_village": true,
+      "next_village_id": "phandalin",
+      "normal_enemies": ["lobo_faminto", "salteador_novato"],
+      "rare_enemies": ["lobo_cinzento"],
+      "boss": "alfa_dos_lobos"
+    }
+  }
+}

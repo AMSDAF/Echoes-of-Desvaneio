@@ -1,0 +1,14 @@
+{
+  "coroa_esgoto": {
+    "name": "Coroa do Esgoto",
+    "description": "Adorno imundo de um rei que nunca deveria ter reinado.",
+    "rarity": "raro",
+    "category": "valuable",
+    "sell_price": 35,
+    "stackable": true,
+    "crafting": {
+      "usable": false,
+      "tags": ["boss", "trophy", "rat"]
+    }
+  }
+}

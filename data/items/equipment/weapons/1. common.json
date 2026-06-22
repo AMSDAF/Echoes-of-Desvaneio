@@ -1,0 +1,102 @@
+{
+  "stone_sword": {
+    "name": "Espada de Pedra",
+    "description": "Uma lâmina de pedra simples, feita para os primeiros perigos da estrada.",
+    "price": 28,
+    "level_required": 1,
+    "rarity": "common",
+    "slot": "weapon",
+    "modifiers": {},
+    "properties": {"physical_damage_bonus": 1}
+  },
+  "flint_dagger": {
+    "name": "Adaga de Sílex",
+    "description": "Uma lâmina curta de sílex, leve e afiada o bastante para sobreviver.",
+    "price": 24,
+    "level_required": 1,
+    "rarity": "common",
+    "slot": "weapon",
+    "modifiers": {"dexterity": 1},
+    "properties": {}
+  },
+  "stone_axe": {
+    "name": "Machado de Pedra",
+    "description": "Uma cabeça de pedra presa a um cabo firme por tiras de couro.",
+    "price": 32,
+    "level_required": 1,
+    "rarity": "common",
+    "slot": "weapon",
+    "modifiers": {"strength": 1},
+    "properties": {}
+  },
+  "ash_bow": {
+    "name": "Arco de Freixo",
+    "description": "Um arco simples de madeira de freixo, flexível e confiável.",
+    "price": 30,
+    "level_required": 1,
+    "rarity": "common",
+    "slot": "weapon",
+    "modifiers": {},
+    "properties": {"crit_chance_bonus": 0.01}
+  },
+  "oak_staff": {
+    "name": "Cajado de Carvalho",
+    "description": "Um cajado robusto de carvalho usado como apoio e foco arcano.",
+    "price": 28,
+    "level_required": 1,
+    "rarity": "common",
+    "slot": "weapon",
+    "modifiers": {"intelligence": 1},
+    "properties": {}
+  },
+  "worn_sword": {
+    "name": "Espada Gasta",
+    "description": "Uma espada humana marcada por anos de uso e pouco cuidado.",
+    "price": 18,
+    "level_required": 1,
+    "rarity": "common",
+    "slot": "weapon",
+    "modifiers": {},
+    "properties": {"physical_damage_bonus": 1}
+  },
+  "worn_dagger": {
+    "name": "Adaga Gasta",
+    "description": "O fio perdeu qualidade, mas a lâmina ainda encontra brechas.",
+    "price": 16,
+    "level_required": 1,
+    "rarity": "common",
+    "slot": "weapon",
+    "modifiers": {"dexterity": 1},
+    "properties": {}
+  },
+  "worn_axe": {
+    "name": "Machado Gasto",
+    "description": "Um machado humano com cabo cansado e metal coberto por mossas.",
+    "price": 20,
+    "level_required": 1,
+    "rarity": "common",
+    "slot": "weapon",
+    "modifiers": {"strength": 1},
+    "properties": {}
+  },
+  "worn_bow": {
+    "name": "Arco Gasto",
+    "description": "Um arco empenado pelo tempo, ainda útil em mãos pacientes.",
+    "price": 18,
+    "level_required": 1,
+    "rarity": "common",
+    "slot": "weapon",
+    "modifiers": {},
+    "properties": {"crit_chance_bonus": 0.01}
+  },
+  "worn_staff": {
+    "name": "Cajado Gasto",
+    "description": "Um foco antigo cujas marcas quase desapareceram da madeira.",
+    "price": 18,
+    "level_required": 1,
+    "rarity": "common",
+    "slot": "weapon",
+    "modifiers": {"intelligence": 1},
+    "properties": {}
+  }
+}

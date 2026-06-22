@@ -1,0 +1,86 @@
+{
+  "couro_grosso": {
+    "name": "Couro Grosso",
+    "description": "Couro resistente retirado de criatura robusta.",
+    "rarity": "incomun",
+    "category": "material",
+    "sell_price": 8,
+    "stackable": true,
+    "crafting": {
+      "usable": true,
+      "tags": ["leather", "beast", "reinforced"]
+    }
+  },
+  "fragmento_escudo": {
+    "name": "Fragmento de Escudo",
+    "description": "Pedaco de escudo velho, ainda firme o bastante para reforcos.",
+    "rarity": "incomun",
+    "category": "material",
+    "sell_price": 9,
+    "stackable": true,
+    "crafting": {
+      "usable": true,
+      "tags": ["metal", "shield", "undead"]
+    }
+  },
+  "fragmento_aco": {
+    "name": "Fragmento de Aco",
+    "description": "Pedaco de aco pesado, valioso para armas e armaduras.",
+    "rarity": "incomun",
+    "category": "material",
+    "sell_price": 22,
+    "stackable": true,
+    "crafting": {
+      "usable": true,
+      "tags": ["metal", "steel", "reinforced"]
+    }
+  },
+  "veneno_basico": {
+    "name": "Veneno Basico",
+    "description": "Pequena dose instavel de toxina, perigosa ate no frasco.",
+    "rarity": "incomun",
+    "category": "material",
+    "sell_price": 14,
+    "stackable": true,
+    "crafting": {
+      "usable": true,
+      "tags": ["poison", "alchemy", "rogue"]
+    }
+  },
+  "geleia_acida": {
+    "name": "Geleia Acida",
+    "description": "Massa viscosa que ainda corrói lentamente o recipiente.",
+    "rarity": "incomun",
+    "category": "material",
+    "sell_price": 12,
+    "stackable": true,
+    "crafting": {
+      "usable": true,
+      "tags": ["acid", "ooze", "alchemy"]
+    }
+  },
+  "escama_duravel": {
+    "name": "Escama Duravel",
+    "description": "Escama rigida, resistente a cortes e umidade.",
+    "rarity": "incomun",
+    "category": "material",
+    "sell_price": 22,
+    "stackable": true,
+    "crafting": {
+      "usable": true,
+      "tags": ["scale", "beast", "armor"]
+    }
+  },
+  "dente_jacare": {
+    "name": "Dente de Jacare",
+    "description": "Dente grande e curvo, ainda marcado por mordida feroz.",
+    "rarity": "incomun",
+    "category": "material",
+    "sell_price": 18,
+    "stackable": true,
+    "crafting": {
+      "usable": true,
+      "tags": ["bone", "beast", "sharp"]
+    }
+  }
+}

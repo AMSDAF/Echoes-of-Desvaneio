@@ -160,8 +160,8 @@ def _menu_npc(player, npc_id, npc):
 
 def exibir_npcs_vila(player):
     village_id = player.get("current_location", "phandalin")
-    dados_vila = carregar_npcs().get(village_id, carregar_npcs().get("phandalin", {}))
-    npcs = listar_npcs_vila(village_id) or listar_npcs_vila("phandalin")
+    dados_vila = carregar_npcs(village_id)
+    npcs = listar_npcs_vila(village_id)
     nome_vila = dados_vila.get("display_name", "Moradores")
 
     while True:

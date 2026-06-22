@@ -24,6 +24,7 @@ from src.services.quest_service import (
     garantir_quest_log,
     listar_quests_vila,
     obter_estado_quest,
+    obter_quest,
 )
 
 
@@ -103,7 +104,7 @@ def _listar_ativas(player):
         if estado.get("status") not in {STATUS_ACTIVE, STATUS_COMPLETED}:
             continue
 
-        _, quest = _obter_quest_local(quest_id)
+        _, quest = obter_quest(quest_id, player=player)
         if quest:
             ativas.append((quest_id, quest, estado))
 
@@ -120,15 +121,6 @@ def _listar_ativas(player):
     aguardar_enter()
 
 
-def _obter_quest_local(quest_id):
-    for village_data in carregar_quests().values():
-        quest = village_data.get("quests", {}).get(quest_id)
-        if quest:
-            return village_data, quest
-
-    return None, None
-
-
 def _entregar_concluidas(player):
     garantir_quest_log(player)
     concluidas = []
@@ -136,7 +128,7 @@ def _entregar_concluidas(player):
         if estado.get("status") != STATUS_COMPLETED:
             continue
 
-        _, quest = _obter_quest_local(quest_id)
+        _, quest = obter_quest(quest_id, player=player)
         if quest:
             concluidas.append((quest_id, quest))
 
@@ -181,7 +173,20 @@ def _entregar_concluidas(player):
 def exibir_quadro_missoes(player):
     garantir_quest_log(player)
     village_id = player.get("current_location", "phandalin")
-    village_data = carregar_quests().get(village_id, carregar_quests().get("phandalin", {}))
+    village_data = carregar_quests(village_id)
+    if not village_data:
+        limpar_tela()
+        print(caixa_texto("QUADRO DE MISSOES", cor=YELLOW))
+        print(
+            pensamento_personagem(
+                player.get("name", "Voce"),
+                "Nao ha um quadro de missoes acessivel nesta cidade.",
+                CYAN,
+            )
+        )
+        aguardar_enter()
+        return
+
     titulo = village_data.get("display_name", "Quadro de Missoes")
 
     while True:

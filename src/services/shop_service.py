@@ -2,7 +2,8 @@ import math
 
 from src.services.attribute_service import calcular_modificador_atributo
 from src.services.combat_service import obter_efeitos_raciais
-from src.services.database import carregar_json, salvar_json
+from src.services.database import salvar_json
+from src.services.item_catalog_service import buscar_item_catalogo, normalizar_slot_item
 from src.services.item_service import (
     adicionar_item_ao_inventario,
     calcular_atributos_totais,
@@ -13,13 +14,6 @@ from src.services.item_service import (
 
 
 PLAYER_PATH = "data/core/player.json"
-ITEM_DATABASE_PATHS = (
-    "data/items/oakridge/oakridge_store.json",
-    "data/items/weapons/weapons_phandalin.json",
-    "data/items/armor/armor_phandalin.json",
-    "data/items/accessories/accessories_phandalin.json",
-    "data/items/potions/potions_phandalin.json",
-)
 DEFAULT_DURABILITY = 100
 EQUIPMENT_SLOTS = {
     "helmet",
@@ -120,11 +114,12 @@ def registrar_compra_loja(player, local_id, loja_id):
 
 
 def _montar_item_para_inventario(item_key, item_dados):
+    slot = normalizar_slot_item(item_dados)
     item = {
         "id": item_key,
         "name": item_dados["name"],
         "price": item_dados.get("price", 0),
-        "slot": item_dados["slot"],
+        "slot": slot,
         "modifiers": item_dados.get("modifiers", {}),
     }
 
@@ -190,12 +185,8 @@ def obter_preco_base_item(item):
     if not item_id:
         return 0
 
-    for caminho in ITEM_DATABASE_PATHS:
-        dados = carregar_json(caminho) or {}
-        if item_id in dados:
-            return int(dados[item_id].get("price", 0))
-
-    return 0
+    dados = buscar_item_catalogo(item_id) or {}
+    return int(dados.get("price", 0))
 
 
 def item_esta_equipado(player, item):

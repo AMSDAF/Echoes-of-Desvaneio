@@ -1,0 +1,50 @@
+{
+  "cauda_real": {
+    "name": "Cauda Real",
+    "description": "Cauda rara marcada por pelos grossos e cheiro forte de covil.",
+    "rarity": "raro",
+    "category": "material",
+    "sell_price": 18,
+    "stackable": true,
+    "crafting": {
+      "usable": true,
+      "tags": ["beast", "boss", "trophy"]
+    }
+  },
+  "pele_urso": {
+    "name": "Pele de Urso",
+    "description": "Pele espessa e quente, tomada de um predador brutal.",
+    "rarity": "raro",
+    "category": "material",
+    "sell_price": 30,
+    "stackable": true,
+    "crafting": {
+      "usable": true,
+      "tags": ["hide", "beast", "boss"]
+    }
+  },
+  "chifre_bugbear": {
+    "name": "Chifre de Bugbear",
+    "description": "Chifre grosso e rachado, trofeu de uma criatura esmagadora.",
+    "rarity": "raro",
+    "category": "material",
+    "sell_price": 28,
+    "stackable": true,
+    "crafting": {
+      "usable": true,
+      "tags": ["bone", "goblin", "boss", "trophy"]
+    }
+  },
+  "tentaculo_preservado": {
+    "name": "Tentaculo Preservado",
+    "description": "Tentaculo frio e inquietante, preservado por energia psionica.",
+    "rarity": "raro",
+    "category": "material",
+    "sell_price": 45,
+    "stackable": true,
+    "crafting": {
+      "usable": true,
+      "tags": ["aberration", "psionic", "boss"]
+    }
+  }
+}

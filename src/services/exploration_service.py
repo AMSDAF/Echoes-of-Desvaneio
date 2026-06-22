@@ -1,5 +1,6 @@
 import random
 
+from src.services.city_data_service import carregar_exploracao_cidade
 from src.services.database import salvar_json
 from src.services.event_service import (
     carregar_eventos_exploracao,
@@ -14,6 +15,20 @@ BASE_COVIL_DISCOVERY_CHANCE = 0.005
 KILL_DISCOVERY_BONUS = 0.01
 CLUE_DISCOVERY_BONUS = 0.08
 MAX_COVIL_DISCOVERY_CHANCE = 0.75
+
+
+def carregar_exploracao_atual(player):
+    city_id = player.get("current_location", "phandalin")
+    return carregar_exploracao_cidade(city_id)
+
+
+def carregar_area_atual(player, area_id):
+    dados_exploracao = carregar_exploracao_atual(player)
+    return dados_exploracao.get("areas", {}).get(area_id, {})
+
+
+def _resolver_dados_area(player, area_id, dados_area=None):
+    return carregar_area_atual(player, area_id) or dados_area or {}
 
 
 def garantir_estrutura_progresso(player, area_id):
@@ -137,6 +152,10 @@ def tentar_descobrir_covil(player, area_id):
 
 def processar_exploracao(player, area_id, dados_area):
     """Processa encontros, descoberta do boss e achado de ouro."""
+    dados_area = _resolver_dados_area(player, area_id, dados_area)
+    if not dados_area:
+        return {"evento": "indisponivel", "mensagem": "Area de exploracao indisponivel."}
+
     garantir_estrutura_progresso(player, area_id)
     progresso = player["progresso_areas"][area_id]
 
@@ -194,6 +213,10 @@ def tentar_acampar(player):
 
 def tentar_avancar_cidade(player, area_id, dados_area):
     """Tenta transicionar para a proxima vila liberada pelo boss da area."""
+    dados_area = _resolver_dados_area(player, area_id, dados_area)
+    if not dados_area:
+        return {"status": "sem_proxima_cidade"}
+
     garantir_estrutura_progresso(player, area_id)
     progresso = player["progresso_areas"][area_id]
 

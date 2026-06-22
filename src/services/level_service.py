@@ -15,10 +15,34 @@ SKILL_POINTS_PER_LEVEL = 1
 CLASSES_FISICAS = {"Guerreiro", "Ladino", "Barbaro"}
 CLASSES_MAGICAS = {"Mago", "Clerigo", "Druida"}
 CLASSES_HIBRIDAS = {"Paladino", "Bardo"}
+XP_SYSTEM_VERSION = 2
+
+
+def xp_total_para_level(level):
+    level = max(1, int(level or 1))
+    if level <= 1:
+        return 0
+    return int(75 * ((level - 1) ** 1.6))
+
+
+def xp_para_proximo_level(level):
+    return xp_total_para_level(max(1, int(level or 1)) + 1)
 
 
 def calcular_xp_necessario(level):
-    return int(100 * (level ** 1.5))
+    """Alias temporario para chamadas antigas: retorna o limite total seguinte."""
+    return xp_para_proximo_level(level)
+
+
+def migrar_xp_para_acumulado(player):
+    if int(player.get("xp_system_version", 1)) >= XP_SYSTEM_VERSION:
+        return False
+
+    level = max(1, int(player.get("level", 1)))
+    xp_relativo_antigo = max(0, int(player.get("xp", 0)))
+    player["xp"] = xp_total_para_level(level) + xp_relativo_antigo
+    player["xp_system_version"] = XP_SYSTEM_VERSION
+    return True
 
 
 def carregar_skills():
@@ -120,6 +144,9 @@ def garantir_estrutura_evolucao(player):
             player[key] = list(value) if isinstance(value, list) else value
             modificado = True
 
+    if migrar_xp_para_acumulado(player):
+        modificado = True
+
     if sincronizar_status_por_nivel(player):
         modificado = True
 
@@ -137,6 +164,10 @@ def garantir_estrutura_evolucao(player):
             known_skills.append(skill_id)
             modificado = True
 
+    levels_pendentes, _ = _aplicar_level_ups_acumulados(player)
+    if levels_pendentes > 0:
+        modificado = True
+
     return modificado
 
 
@@ -152,16 +183,11 @@ def desbloquear_skills_por_nivel(player):
     return novas_skills
 
 
-def processar_ganho_xp(player, xp_ganho):
-    garantir_estrutura_evolucao(player)
-    nivel_anterior = player.get("level", 1)
-    player["xp"] += xp_ganho
-
+def _aplicar_level_ups_acumulados(player):
     levels_ganhos = 0
     novas_skills = []
 
-    while player["xp"] >= calcular_xp_necessario(player["level"]):
-        player["xp"] -= calcular_xp_necessario(player["level"])
+    while player["xp"] >= xp_para_proximo_level(player["level"]):
         player["level"] += 1
         levels_ganhos += 1
         player["attribute_points"] = player.get("attribute_points", 0) + ATTRIBUTE_POINTS_PER_LEVEL
@@ -171,12 +197,20 @@ def processar_ganho_xp(player, xp_ganho):
         player["max_hp"] = status_minimos["max_hp"]
         player["max_mana"] = status_minimos["max_mana"]
         player["max_stamina"] = status_minimos["max_stamina"]
-
         player["current_hp"] = player["max_hp"]
         player["current_mana"] = player["max_mana"]
         player["current_stamina"] = player["max_stamina"]
-
         novas_skills.extend(desbloquear_skills_por_nivel(player))
+
+    return levels_ganhos, novas_skills
+
+
+def processar_ganho_xp(player, xp_ganho):
+    garantir_estrutura_evolucao(player)
+    nivel_anterior = player.get("level", 1)
+    player["xp"] = max(0, int(player.get("xp", 0))) + max(0, int(xp_ganho))
+
+    levels_ganhos, novas_skills = _aplicar_level_ups_acumulados(player)
 
     salvar_json(PLAYER_PATH, player)
     return {
@@ -187,7 +221,7 @@ def processar_ganho_xp(player, xp_ganho):
         "skill_points_gained": levels_ganhos * SKILL_POINTS_PER_LEVEL,
         "novas_skills": novas_skills,
         "xp_atual": player["xp"],
-        "xp_proximo": calcular_xp_necessario(player["level"]),
+        "xp_proximo": xp_para_proximo_level(player["level"]),
     }
 
 

@@ -1,0 +1,25 @@
+{
+  "name": "O Grifo Dourado",
+  "keeper": "Mira Valen",
+  "services": {
+    "rest_costs": {
+      "short": 12,
+      "simple": 28,
+      "full": 55
+    },
+    "rumor": {
+      "cost": 8,
+      "limit": 4
+    }
+  },
+  "rumors": [
+    "Boato: Em Neverwinter, informacao viaja mais rapido que ladino em telhado molhado.",
+    "Boato: Inimigos de areas avancadas miram melhor; so Destreza nao salva quem ignora defesa.",
+    "Boato: Clerigos e druidas experientes fazem uma simples pocao render como milagre."
+  ],
+  "dialogues": [
+    "Mira sorri sem mostrar os dentes: 'Toda cidade grande tem duas portas: a principal e a que alguem te vende.'",
+    "Mira aponta para uma mesa no canto: 'Mercenarios contam vantagem. Sobreviventes contam padroes.'",
+    "Mira ergue uma sobrancelha: 'Voce parece alguem que ja descobriu que sorte nao substitui preparo.'"
+  ]
+}

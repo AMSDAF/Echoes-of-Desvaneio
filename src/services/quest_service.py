@@ -1,16 +1,33 @@
-from src.services.database import carregar_json, salvar_json
+from src.services.city_data_service import CITIES_ROOT, carregar_quests_cidade
+from src.services.database import salvar_json
 from src.services.level_service import processar_ganho_xp
 
 
 PLAYER_PATH = "data/core/player.json"
-QUESTS_PATH = "data/core/quests.json"
 STATUS_ACTIVE = "active"
 STATUS_COMPLETED = "completed"
 STATUS_CLAIMED = "reward_claimed"
 
 
-def carregar_quests():
-    return carregar_json(QUESTS_PATH) or {}
+def carregar_quests(village_id):
+    return carregar_quests_cidade(village_id)
+
+
+def _listar_ids_cidades():
+    if not CITIES_ROOT.exists():
+        return []
+
+    city_ids = []
+    for folder in CITIES_ROOT.iterdir():
+        if not folder.is_dir():
+            continue
+
+        nome = folder.name
+        if ". " in nome:
+            nome = nome.split(". ", 1)[1]
+        city_ids.append(nome.strip().lower())
+
+    return city_ids
 
 
 def garantir_quest_log(player):
@@ -22,15 +39,23 @@ def garantir_quest_log(player):
 
 
 def listar_quests_vila(village_id):
-    dados = carregar_quests().get(village_id, {})
+    dados = carregar_quests(village_id)
     return dados.get("quests", {})
 
 
-def obter_quest(quest_id):
-    for village_id, village_data in carregar_quests().items():
-        quest = village_data.get("quests", {}).get(quest_id)
+def obter_quest(quest_id, player=None, village_id=None):
+    if village_id is None and isinstance(player, dict):
+        village_id = player.get("current_location", "phandalin")
+
+    cidades = _listar_ids_cidades()
+    if village_id:
+        village_id = str(village_id).strip().lower()
+        cidades = [village_id] + [cidade for cidade in cidades if cidade != village_id]
+
+    for city_id in cidades:
+        quest = listar_quests_vila(city_id).get(quest_id)
         if quest:
-            return village_id, quest
+            return city_id, quest
 
     return None, None
 
@@ -48,7 +73,7 @@ def _criar_progresso_inicial(quest):
 
 
 def aceitar_quest(player, quest_id):
-    _, quest = obter_quest(quest_id)
+    _, quest = obter_quest(quest_id, player=player)
     if not quest:
         return {"sucesso": False, "mensagem": "Missao nao encontrada."}
 
@@ -85,7 +110,7 @@ def registrar_abate_quest(player, enemy_id):
         if estado.get("status") != STATUS_ACTIVE:
             continue
 
-        _, quest = obter_quest(quest_id)
+        _, quest = obter_quest(quest_id, player=player)
         if not quest:
             continue
 
@@ -122,7 +147,7 @@ def registrar_abate_quest(player, enemy_id):
 def entregar_quest(player, quest_id):
     garantir_quest_log(player)
     estado = player["quest_log"].get(quest_id)
-    _, quest = obter_quest(quest_id)
+    _, quest = obter_quest(quest_id, player=player)
 
     if not estado or not quest:
         return {"sucesso": False, "mensagem": "Missao nao encontrada no diario."}

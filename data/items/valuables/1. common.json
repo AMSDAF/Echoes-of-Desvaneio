@@ -1,0 +1,38 @@
+{
+  "orelha_goblin": {
+    "name": "Orelha de Goblin",
+    "description": "Prova desagradavel de uma caçada concluida.",
+    "rarity": "comun",
+    "category": "valuable",
+    "sell_price": 8,
+    "stackable": true,
+    "crafting": {
+      "usable": false,
+      "tags": ["goblin", "trophy", "proof"]
+    }
+  },
+  "moeda_velha": {
+    "name": "Moeda Velha",
+    "description": "Moeda antiga, gasta por maos demais para contar historia limpa.",
+    "rarity": "comun",
+    "category": "valuable",
+    "sell_price": 6,
+    "stackable": true,
+    "crafting": {
+      "usable": false,
+      "tags": ["coin", "old"]
+    }
+  },
+  "bandana_suja": {
+    "name": "Bandana Suja",
+    "description": "Pano de bandido, manchado por poeira, suor e ma escolha.",
+    "rarity": "comun",
+    "category": "valuable",
+    "sell_price": 5,
+    "stackable": true,
+    "crafting": {
+      "usable": false,
+      "tags": ["bandit", "cloth", "trophy"]
+    }
+  }
+}

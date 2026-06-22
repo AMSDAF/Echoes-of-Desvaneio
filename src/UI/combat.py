@@ -471,13 +471,10 @@ def _usar_item_em_combate(player):
 
 def _calcular_penalidade_derrota(player, chefe=False):
     ouro_atual = max(0, int(player.get("gold", 0)))
-    xp_atual = max(0, int(player.get("xp", 0)))
     percentual_ouro = 0.25 if chefe else 0.15
-    percentual_xp = 0.15 if chefe else 0.08
 
     ouro_perdido = min(ouro_atual, max(5 if ouro_atual > 0 else 0, int(round(ouro_atual * percentual_ouro))))
-    xp_perdido = min(xp_atual, int(round(xp_atual * percentual_xp)))
-    return ouro_perdido, xp_perdido
+    return ouro_perdido, 0
 
 
 def _processar_derrota(player, dados_monstro, nome_monstro, pode_fugir):
@@ -485,7 +482,7 @@ def _processar_derrota(player, dados_monstro, nome_monstro, pode_fugir):
     ouro_perdido, xp_perdido = _calcular_penalidade_derrota(player, chefe)
 
     player["gold"] = max(0, int(player.get("gold", 0)) - ouro_perdido)
-    player["xp"] = max(0, int(player.get("xp", 0)) - xp_perdido)
+    player["xp"] = max(0, int(player.get("xp", 0)))
     player["current_hp"] = max(1, int(player.get("max_hp", 1) * 0.20))
     player["current_mana"] = max(0, int(player.get("max_mana", 0) * 0.15))
     player["current_stamina"] = max(0, int(player.get("max_stamina", 0) * 0.15))
@@ -504,7 +501,7 @@ def _processar_derrota(player, dados_monstro, nome_monstro, pode_fugir):
         print(pensamento_personagem(player.get("name", "Voce"), "A trilha me cuspiu de volta. Da proxima vez, eu volto menos arrogante.", CYAN))
     print(linha_pontilhada(cor=MAGENTA))
     print(colorir(f"Ouro perdido: {ouro_perdido}G", YELLOW))
-    print(colorir(f"XP perdido: {xp_perdido}", YELLOW))
+    print(colorir(f"XP total preservado: {player['xp']}", YELLOW))
     print(f"HP: {_formatar_hp(player['current_hp'], player['max_hp'])}")
     print(f"Mana: {_formatar_mana(player.get('current_mana', 0), player.get('max_mana', 0))}")
     print(f"Estamina: {_formatar_estamina(player.get('current_stamina', 0), player.get('max_stamina', 0))}")
@@ -754,7 +751,13 @@ def combater(player, enemy_id, pode_fugir=True):
     registrar_derrota_inimigo(player, enemy_id)
     recompensas = processar_vitoria(player, dados_monstro)
     materiais = recompensas.get("materiais", [])
-    print(pensamento_personagem(player["name"], f"Recompensa justa: +{dados_monstro['xp_drop']} XP e +{dados_monstro['gold_drop']}G.", YELLOW))
+    print(
+        pensamento_personagem(
+            player["name"],
+            f"Recompensa: +{recompensas.get('xp_ganho', 0)} XP e +{recompensas.get('gold_ganho', 0)}G.",
+            YELLOW,
+        )
+    )
     if materiais:
         print(f"Materiais coletados para Craft: {', '.join(materiais)}")
     aguardar_enter("\nPressione Enter para coletar os espolios...")

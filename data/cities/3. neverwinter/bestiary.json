@@ -1,0 +1,30 @@
+{
+  "ladrao_adaga": {
+    "category": "Humanoide",
+    "habitat": "Becos e estradas comerciais",
+    "lore": "Um oportunista rapido com lamina curta e nenhum interesse em duelo justo.",
+    "tactics": "Usa veneno e se apoia em precisao.",
+    "preparation": "Antidoto e alto dano inicial impedem que o veneno decida a luta."
+  },
+  "gosma_acida": {
+    "category": "Aberracao",
+    "habitat": "Esgotos e tuneis umidos",
+    "lore": "Uma massa viva de acido fraco, restos minerais e paciencia sem mente.",
+    "tactics": "Pode Corroer equipamento, aumentando desgaste defensivo.",
+    "preparation": "Evite prolongar combate. Repare ou troque armaduras depois de enfrentar gosmas."
+  },
+  "crocodilo_de_esgoto": {
+    "category": "Fera",
+    "habitat": "Canais subterraneos",
+    "lore": "Predador de emboscada que aprendeu a seguir cheiro de sangue e movimento na agua suja.",
+    "tactics": "Mordidas fortes causam Sangramento pesado.",
+    "preparation": "Bandagens, bloqueio e dano alto sao melhores que tentar brincar de agilidade."
+  },
+  "devorador_de_mentes_fraco": {
+    "category": "Chefe Psionico",
+    "habitat": "Profundezas corrompidas",
+    "lore": "Uma sombra menor de horrores muito maiores. Mesmo enfraquecido, pensa a luta por voce.",
+    "tactics": "Dano magico alto e Silencio prolongado.",
+    "preparation": "Sabedoria, reducao magica, Gole de Clareza e recursos cheios antes da luta."
+  }
+}

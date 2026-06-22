@@ -1,0 +1,65 @@
+{
+  "minor_healing_potion": {
+    "name": "Pocao de Vida Menor",
+    "price": 20,
+    "slot": "consumable",
+    "rarity": "comum",
+    "restore": {
+      "resource": "hp",
+      "value": 20
+    },
+    "description": "Restaura 20 pontos de Vida.",
+    "stackable": true
+  },
+  "minor_mana_potion": {
+    "name": "Pocao de Mana Menor",
+    "price": 22,
+    "slot": "consumable",
+    "rarity": "comum",
+    "restore": {
+      "resource": "mana",
+      "value": 20
+    },
+    "description": "Restaura 20 pontos de Mana.",
+    "stackable": true
+  },
+  "minor_stamina_potion": {
+    "name": "Pocao de Estamina Menor",
+    "price": 22,
+    "slot": "consumable",
+    "rarity": "comum",
+    "restore": {
+      "resource": "stamina",
+      "value": 20
+    },
+    "description": "Restaura 20 pontos de Estamina.",
+    "stackable": true
+  },
+  "bandage": {
+    "name": "Bandagem Limpa",
+    "price": 12,
+    "slot": "consumable",
+    "rarity": "comum",
+    "remove_condition": "bleeding",
+    "description": "Remove Sangramento durante o combate.",
+    "stackable": true
+  },
+  "minor_antidote": {
+    "name": "Antidoto Menor",
+    "price": 18,
+    "slot": "consumable",
+    "rarity": "comum",
+    "remove_condition": "poisoned",
+    "description": "Remove Envenenamento durante o combate.",
+    "stackable": true
+  },
+  "cooling_salve": {
+    "name": "Unguento Frio",
+    "price": 18,
+    "slot": "consumable",
+    "rarity": "comum",
+    "remove_condition": "burning",
+    "description": "Apaga queimaduras arcanas e alquimicas.",
+    "stackable": true
+  }
+}

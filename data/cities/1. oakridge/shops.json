@@ -1,0 +1,27 @@
+{
+  "nome_exibicao": "OAKRIDGE - ENTREPOSTO DA ESTRADA VELHA",
+  "lojas": {
+    "1": {
+      "nome": "Armazem de Oakridge",
+      "vendedor": "Mara Fenbrook",
+      "inventory": {
+        "weapons": [
+          "stone_sword",
+          "flint_dagger",
+          "stone_axe",
+          "ash_bow",
+          "oak_staff"
+        ],
+        "shields": ["wooden_shield"],
+        "potions": ["minor_healing_potion", "bandage"]
+      },
+      "dialogos": {
+        "primeira_vez": "Primeira estrada? Entao compra simples, testa simples e volta vivo. Oakridge nao tem luxo, mas tem o que impede um fim besta.",
+        "retorno": "De volta inteiro. Isso ja coloca voce acima da media dos apressados.",
+        "inveja": "Esse equipamento ainda tem historia pela frente. Cuide dele antes de procurar coisa bonita demais.",
+        "sucesso_compra": "Boa escolha. Nao e elegante, mas coisa confiavel raramente precisa se exibir.",
+        "sem_ouro": "O taverneiro aceita historias. Eu aceito moeda. Volte quando a bolsa fizer barulho."
+      }
+    }
+  }
+}

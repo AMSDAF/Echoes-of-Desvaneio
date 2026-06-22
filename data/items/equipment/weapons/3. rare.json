@@ -1,0 +1,52 @@
+{
+  "refined_sword": {
+    "name": "Espada Refinada",
+    "description": "Uma espada de acabamento preciso, feita para combates exigentes.",
+    "price": 420,
+    "level_required": 8,
+    "rarity": "rare",
+    "slot": "weapon",
+    "modifiers": {"strength": 4},
+    "properties": {"physical_damage_bonus": 5, "crit_chance_bonus": 0.03}
+  },
+  "refined_dagger": {
+    "name": "Adaga Refinada",
+    "description": "Uma adaga leve de fio impecável e equilíbrio cuidadoso.",
+    "price": 390,
+    "level_required": 8,
+    "rarity": "rare",
+    "slot": "weapon",
+    "modifiers": {"dexterity": 4},
+    "properties": {"physical_damage_bonus": 4, "crit_chance_bonus": 0.07}
+  },
+  "refined_axe": {
+    "name": "Machado Refinado",
+    "description": "Um machado de guerra bem balanceado apesar do peso elevado.",
+    "price": 450,
+    "level_required": 8,
+    "rarity": "rare",
+    "slot": "weapon",
+    "modifiers": {"strength": 5},
+    "properties": {"physical_damage_bonus": 6}
+  },
+  "composite_bow": {
+    "name": "Arco Composto",
+    "description": "Camadas de materiais resistentes garantem potência e estabilidade.",
+    "price": 430,
+    "level_required": 8,
+    "rarity": "rare",
+    "slot": "weapon",
+    "modifiers": {"dexterity": 5},
+    "properties": {"physical_damage_bonus": 4, "crit_chance_bonus": 0.05}
+  },
+  "arcane_staff": {
+    "name": "Cajado Arcano",
+    "description": "Um foco raro capaz de conduzir grandes quantidades de energia mágica.",
+    "price": 460,
+    "level_required": 8,
+    "rarity": "rare",
+    "slot": "weapon",
+    "modifiers": {"intelligence": 5},
+    "properties": {"magic_damage_bonus": 6, "resource_cost_reduction": {"mana": 0.08}}
+  }
+}

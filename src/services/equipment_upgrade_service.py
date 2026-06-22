@@ -1,4 +1,5 @@
 from src.services.database import carregar_json, salvar_json
+from src.services.item_catalog_service import buscar_item_catalogo, carregar_catalogo_itens, normalizar_slot_item
 from src.services.item_service import (
     adicionar_item_ao_inventario,
     obter_grau_item,
@@ -9,19 +10,8 @@ from src.services.item_service import (
 
 
 PLAYER_PATH = "data/core/player.json"
-RECIPES_PATH = "data/core/equipment_upgrades.json"
+RECIPES_PATH = "data/systems/equipment_upgrades.json"
 GRADE_COSTS_PATH = "data/core/equipment_grade_costs.json"
-ITEM_DATABASE_PATHS = (
-    "data/items/oakridge/oakridge_store.json",
-    "data/items/weapons/weapons_phandalin.json",
-    "data/items/armor/armor_phandalin.json",
-    "data/items/accessories/accessories_phandalin.json",
-    "data/items/potions/potions_phandalin.json",
-    "data/items/loot/materials.json",
-    "data/items/loot/valuables.json",
-    "data/items/loot/quest_items.json",
-    "data/items/loot/special.json",
-)
 DEFAULT_DURABILITY = 100
 EQUIPMENT_SLOTS = {
     "helmet",
@@ -48,15 +38,11 @@ def carregar_custos_grau():
 
 
 def carregar_banco_itens():
-    banco = {}
-    for caminho in ITEM_DATABASE_PATHS:
-        dados = carregar_json(caminho) or {}
-        banco.update(dados)
-    return banco
+    return carregar_catalogo_itens()
 
 
 def obter_item_banco(item_id):
-    return carregar_banco_itens().get(item_id)
+    return buscar_item_catalogo(item_id)
 
 
 def montar_item_para_inventario(item_id):
@@ -68,7 +54,7 @@ def montar_item_para_inventario(item_id):
         "id": item_id,
         "name": dados.get("name", item_id),
         "price": dados.get("price", 0),
-        "slot": dados.get("slot"),
+        "slot": normalizar_slot_item(dados),
         "modifiers": dados.get("modifiers", {}),
     }
 
@@ -165,13 +151,21 @@ def quantidade_item(player, item_id):
     return obter_quantidade_item(item)
 
 
+def validar_receita_catalogo(receita):
+    ids = [receita.get("base_item"), receita.get("result_item")]
+    ids.extend(receita.get("materials", {}).keys())
+    ausentes = [item_id for item_id in ids if not item_id or not obter_item_banco(item_id)]
+    return {"ok": not ausentes, "missing_items": ausentes}
+
+
 def avaliar_receita(player, receita):
+    validacao_catalogo = validar_receita_catalogo(receita)
     materiais = receita.get("materials", {})
     requisitos_materiais = {
         item_id: {
             "required": quantidade,
             "current": quantidade_item(player, item_id),
-            "ok": quantidade_item(player, item_id) >= quantidade,
+            "ok": obter_item_banco(item_id) is not None and quantidade_item(player, item_id) >= quantidade,
         }
         for item_id, quantidade in materiais.items()
     }
@@ -179,7 +173,12 @@ def avaliar_receita(player, receita):
     ouro_atual = int(player.get("gold", 0))
     custo_ouro = int(receita.get("gold_cost", 0))
     return {
-        "base_ok": jogador_tem_item_base(player, receita.get("base_item")),
+        "catalog_ok": validacao_catalogo["ok"],
+        "missing_catalog_items": validacao_catalogo["missing_items"],
+        "base_ok": (
+            obter_item_banco(receita.get("base_item")) is not None
+            and jogador_tem_item_base(player, receita.get("base_item"))
+        ),
         "gold_ok": ouro_atual >= custo_ouro,
         "gold_current": ouro_atual,
         "gold_required": custo_ouro,
@@ -188,6 +187,9 @@ def avaliar_receita(player, receita):
 
 
 def avaliar_aprimoramento_grau(player, item):
+    if not obter_item_banco(item.get("id")):
+        return {"upgradeable": False, "mensagem": "Item nao encontrado no catalogo global."}
+
     _sincronizar_max_grade_do_banco(item)
     grau = obter_grau_item(item)
     grau_maximo = obter_grau_maximo_item(item)
@@ -205,7 +207,7 @@ def avaliar_aprimoramento_grau(player, item):
         item_id: {
             "required": quantidade,
             "current": quantidade_item(player, item_id),
-            "ok": quantidade_item(player, item_id) >= quantidade,
+            "ok": obter_item_banco(item_id) is not None and quantidade_item(player, item_id) >= quantidade,
         }
         for item_id, quantidade in materiais.items()
     }
@@ -235,7 +237,8 @@ def aprimoramento_grau_disponivel(player, item):
 def receita_disponivel(player, receita):
     avaliacao = avaliar_receita(player, receita)
     return (
-        avaliacao["base_ok"]
+        avaliacao["catalog_ok"]
+        and avaliacao["base_ok"]
         and avaliacao["gold_ok"]
         and all(material["ok"] for material in avaliacao["materials"].values())
     )
@@ -262,6 +265,14 @@ def melhorar_equipamento(player, recipe_id, village_id="phandalin", station_id="
         return {"sucesso": False, "mensagem": "Receita nao encontrada."}
 
     avaliacao = avaliar_receita(player, receita)
+    if not avaliacao.get("catalog_ok"):
+        ausentes = ", ".join(avaliacao.get("missing_catalog_items", []))
+        return {
+            "sucesso": False,
+            "mensagem": f"Receita possui itens ausentes no catalogo: {ausentes}.",
+            "avaliacao": avaliacao,
+        }
+
     if not receita_disponivel(player, receita):
         return {
             "sucesso": False,

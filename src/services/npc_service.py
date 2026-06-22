@@ -1,15 +1,15 @@
 import random
 
-from src.services.database import carregar_json, salvar_json
+from src.services.city_data_service import carregar_npcs_cidade
+from src.services.database import salvar_json
 from src.services.quest_service import aceitar_quest, obter_estado_quest, obter_quest
 
 
-NPCS_PATH = "data/core/npcs.json"
 PLAYER_PATH = "data/core/player.json"
 
 
-def carregar_npcs():
-    return carregar_json(NPCS_PATH) or {}
+def carregar_npcs(village_id):
+    return carregar_npcs_cidade(village_id)
 
 
 def garantir_memoria_npcs(player):
@@ -21,7 +21,7 @@ def garantir_memoria_npcs(player):
 
 
 def listar_npcs_vila(village_id):
-    dados = carregar_npcs().get(village_id, {})
+    dados = carregar_npcs(village_id)
     return dados.get("npcs", {})
 
 
@@ -86,7 +86,7 @@ def obter_texto_topico(npc, topic_id):
 def listar_quests_npc(player, npc):
     quests = []
     for quest_id in npc.get("quest_ids", []):
-        _, quest = obter_quest(quest_id)
+        _, quest = obter_quest(quest_id, player=player)
         if not quest:
             continue
 

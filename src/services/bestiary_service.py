@@ -1,17 +1,22 @@
-from src.services.database import carregar_json, salvar_json
+from src.services.city_data_service import carregar_bestiario_cidade, carregar_inimigos_cidade
+from src.services.database import salvar_json
 
 
 PLAYER_PATH = "data/core/player.json"
-ENEMIES_PATH = "data/enemies/enemies.json"
-BESTIARY_PATH = "data/core/bestiary.json"
 
 
-def carregar_inimigos():
-    return carregar_json(ENEMIES_PATH) or {}
+def _obter_cidade(player):
+    if isinstance(player, dict):
+        return player.get("current_location", "phandalin")
+    return str(player or "phandalin")
 
 
-def carregar_bestiario_base():
-    return carregar_json(BESTIARY_PATH) or {}
+def carregar_inimigos(player):
+    return carregar_inimigos_cidade(_obter_cidade(player))
+
+
+def carregar_bestiario_base(player):
+    return carregar_bestiario_cidade(_obter_cidade(player))
 
 
 def garantir_bestiario(player):
@@ -46,8 +51,8 @@ def registrar_derrota_inimigo(player, enemy_id):
 
 def listar_entradas_bestiario(player):
     garantir_bestiario(player)
-    inimigos = carregar_inimigos()
-    lore = carregar_bestiario_base()
+    inimigos = carregar_inimigos(player)
+    lore = carregar_bestiario_base(player)
 
     entradas = []
     for enemy_id, dados in inimigos.items():

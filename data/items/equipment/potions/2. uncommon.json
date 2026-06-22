@@ -1,0 +1,46 @@
+{
+  "clarity_draught": {
+    "name": "Gole de Clareza",
+    "price": 25,
+    "slot": "consumable",
+    "rarity": "incomum",
+    "remove_condition": "silenced",
+    "description": "Remove Silencio e ajuda conjuradores a retomar o foco.",
+    "stackable": true
+  },
+  "minor_guard_potion": {
+    "name": "Pocao de Guarda Menor",
+    "price": 30,
+    "slot": "consumable",
+    "rarity": "incomum",
+    "applies_condition": {
+      "id": "fortified",
+      "duration": 3,
+      "potency": 0.2
+    },
+    "description": "Reduz em 20% o dano recebido por 3 turnos.",
+    "stackable": true
+  },
+  "minor_strength_potion": {
+    "name": "Pocao de Forca Menor",
+    "price": 35,
+    "slot": "consumable",
+    "rarity": "incomum",
+    "modifiers": {
+      "strength": 2
+    },
+    "description": "Aumenta Forca em 2 pontos.",
+    "stackable": true
+  },
+  "minor_defense_potion": {
+    "name": "Pocao de Defesa Menor",
+    "price": 35,
+    "slot": "consumable",
+    "rarity": "incomum",
+    "modifiers": {
+      "defense": 2
+    },
+    "description": "Aumenta Defesa em 2 pontos.",
+    "stackable": true
+  }
+}

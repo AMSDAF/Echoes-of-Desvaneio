@@ -1,13 +1,13 @@
 import random
 
 from src.services.attribute_service import calcular_modificador_atributo, normalizar_atributos
+from src.services.city_data_service import carregar_eventos_cidade
 from src.services.database import carregar_json, salvar_json
 from src.services.dice_service import rolar_d20_interativo
 
 
 PLAYER_PATH = "data/core/player.json"
-EVENTS_PATH = "data/core/exploration_events.json"
-TOWN_EVENTS_PATH = "data/core/town_events.json"
+EVENTS_PATH = "data/systems/exploration_events.json"
 EXPLORATION_EVENT_TYPE_MULTIPLIERS = {
     "flavor": 0.25,
     "ambush": 1.35,
@@ -23,8 +23,8 @@ def carregar_eventos_exploracao():
     return carregar_json(EVENTS_PATH) or {}
 
 
-def carregar_eventos_urbanos():
-    return carregar_json(TOWN_EVENTS_PATH) or {}
+def carregar_eventos_urbanos(village_id):
+    return carregar_eventos_cidade(village_id)
 
 
 def listar_eventos_area(village_id, area_id):
@@ -46,7 +46,7 @@ def sortear_evento_exploracao(village_id, area_id):
 
 
 def listar_eventos_urbanos(village_id, contexto):
-    return carregar_eventos_urbanos().get(village_id, {}).get(contexto, [])
+    return carregar_eventos_urbanos(village_id).get(contexto, [])
 
 
 def sortear_evento_urbano(village_id, contexto):
@@ -137,7 +137,7 @@ def resolver_evento_exploracao(player, evento, area_id=None):
         if pista.get("adicionou"):
             plural = "pistas" if pista["quantidade"] > 1 else "pista"
             resultado["messages"].append(f"Voce encontrou {pista['quantidade']} {plural} sobre o covil local.")
-            if player.get("current_location") == "phandalin" and evento.get("boss_hint"):
+            if evento.get("boss_hint"):
                 dica = revelar_dica_chefe(player, area_id, evento.get("boss_hint"))
                 if dica.get("revelou"):
                     if dica.get("text"):

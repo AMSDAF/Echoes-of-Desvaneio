@@ -1,0 +1,22 @@
+{
+  "reinforced_shield": {
+    "name": "Escudo Reforçado",
+    "description": "Madeira reforçada por aro metálico e correias firmes.",
+    "price": 85,
+    "level_required": 2,
+    "rarity": "uncommon",
+    "slot": "shield",
+    "modifiers": {"constitution": 1},
+    "properties": {"physical_damage_reduction": 0.05, "durability_loss_reduction": 0.05}
+  },
+  "iron_shield": {
+    "name": "Escudo de Ferro",
+    "description": "Um escudo restaurado com placa de ferro e empunhadura renovada.",
+    "price": 125,
+    "level_required": 3,
+    "rarity": "uncommon",
+    "slot": "shield",
+    "modifiers": {"constitution": 2},
+    "properties": {"physical_damage_reduction": 0.07, "durability_loss_reduction": 0.06}
+  }
+}

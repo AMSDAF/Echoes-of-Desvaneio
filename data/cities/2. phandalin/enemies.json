@@ -1,0 +1,315 @@
+{
+  "rato_gigante": {
+    "name": "Rato Gigante",
+    "level": 1,
+    "hp": 30,
+    "attack": 7,
+    "accuracy": 0.02,
+    "defense": 1,
+    "battle_lines": {
+      "intro": ["O Rato Gigante fareja o ar e avanca com os dentes expostos."],
+      "hit": [
+        "O rato morde e rasga, guinchando como se aquilo fosse fome antiga."
+      ],
+      "damaged": [
+        "O rato recua meio passo, mas volta a atacar com mais desespero."
+      ],
+      "low_hp": [
+        "Ferido, o rato se encolhe por um instante antes de saltar de novo."
+      ],
+      "victory": [
+        "O rato some sobre voce em uma massa de pelo, dente e sangue."
+      ]
+    },
+    "on_hit_condition": {
+      "id": "bleeding",
+      "chance": 0.15,
+      "duration": 2,
+      "potency": 1,
+      "save": { "attribute": "constitution", "dc": 10 }
+    },
+    "xp_drop": {
+      "min": 28,
+      "max": 38
+    },
+    "gold_drop": {
+      "min": 5,
+      "max": 8
+    },
+    "loot_table": [
+      { "item_id": "couro_estragado", "chance": 0.6 },
+      { "item_id": "dente_afiado", "chance": 0.25 }
+    ]
+  },
+  "goblin_batedor": {
+    "name": "Goblin Batedor",
+    "level": 1,
+    "hp": 34,
+    "attack": 9,
+    "accuracy": 0.03,
+    "defense": 1,
+    "battle_lines": {
+      "intro": ["O Goblin Batedor gira uma adaga curta e sorri com malicia."],
+      "hit": ["O goblin ri fino: 'Devagar demais!'"],
+      "damaged": ["O goblin cospe no chao: 'Isso foi sorte!'"],
+      "low_hp": [
+        "O goblin perde o sorriso e procura uma rota de fuga com os olhos."
+      ],
+      "victory": [
+        "O goblin se inclina sobre voce: 'Eu disse que era devagar demais.'"
+      ]
+    },
+    "on_hit_condition": {
+      "id": "poisoned",
+      "chance": 0.18,
+      "duration": 2,
+      "potency": 1,
+      "save": { "attribute": "constitution", "dc": 11 }
+    },
+    "xp_drop": {
+      "min": 34,
+      "max": 46
+    },
+    "gold_drop": {
+      "min": 7,
+      "max": 11
+    },
+    "loot_table": [
+      { "item_id": "farrapo_tecido", "chance": 0.5 },
+      { "item_id": "lasca_ferro", "chance": 0.3 },
+      { "item_id": "orelha_goblin", "chance": 0.1 }
+    ]
+  },
+  "rato_mutante_gordo": {
+    "name": "Rato Mutante Gordo (Raro)",
+    "level": 2,
+    "hp": 58,
+    "attack": 12,
+    "accuracy": 0.04,
+    "defense": 2,
+    "battle_lines": {
+      "intro": [
+        "O Rato Mutante Gordo arrasta o ventre pelo chao, vazando baba toxica."
+      ],
+      "hit": ["A mordida vem pesada e deixa um gosto amargo no ar."],
+      "damaged": ["A criatura incha o dorso e solta um guincho borbulhante."],
+      "low_hp": ["Mesmo ferido, o rato mutante parece mais toxina que carne."],
+      "victory": ["O rato mutante desaba sobre voce como uma febre viva."]
+    },
+    "on_hit_condition": {
+      "id": "poisoned",
+      "chance": 0.28,
+      "duration": 3,
+      "potency": 2,
+      "save": { "attribute": "constitution", "dc": 12 }
+    },
+    "xp_drop": {
+      "min": 70,
+      "max": 95
+    },
+    "gold_drop": {
+      "min": 14,
+      "max": 22
+    },
+    "loot_table": [
+      { "item_id": "couro_grosso", "chance": 0.7 },
+      { "item_id": "soro_mutante", "chance": 0.4 }
+    ]
+  },
+  "rei_dos_ratos": {
+    "name": "Rei dos Ratos (Chefe)",
+    "level": 3,
+    "hp": 115,
+    "attack": 17,
+    "accuracy": 0.06,
+    "defense": 4,
+    "battle_lines": {
+      "intro": [
+        "O Rei dos Ratos ergue a cabeca; ao redor, tudo parece obedecer ao seu cheiro."
+      ],
+      "hit": ["O Rei dos Ratos golpeia com peso de bicho velho e cruel."],
+      "damaged": [
+        "A criatura range os dentes, e a fenda inteira parece responder."
+      ],
+      "low_hp": [
+        "O Rei dos Ratos sangra, mas ainda tenta comandar o caos ao redor."
+      ],
+      "victory": [
+        "O Rei dos Ratos pisa sobre voce, dono absoluto da fenda por mais uma noite."
+      ]
+    },
+    "on_hit_condition": {
+      "id": "exhausted",
+      "chance": 0.25,
+      "duration": 2,
+      "potency": 1,
+      "save": { "attribute": "constitution", "dc": 13 }
+    },
+    "xp_drop": {
+      "min": 150,
+      "max": 210
+    },
+    "gold_drop": {
+      "min": 35,
+      "max": 50
+    },
+    "loot_table": [
+      { "item_id": "coroa_esgoto", "chance": 1.0 },
+      { "item_id": "couro_grosso", "chance": 0.8 },
+      { "item_id": "cauda_real", "chance": 0.5 }
+    ]
+  },
+  "bandido_capanga": {
+    "name": "Bandido Capanga",
+    "level": 2,
+    "hp": 50,
+    "attack": 12,
+    "accuracy": 0.05,
+    "defense": 2,
+    "battle_lines": {
+      "intro": ["O Bandido Capanga levanta a arma: 'Bolsa no chao. Agora.'"],
+      "hit": ["O bandido rosna: 'Facil demais.'"],
+      "damaged": ["O bandido cambaleia: 'Vai pagar por isso.'"],
+      "low_hp": ["O bandido olha para os lados, finalmente menos valente."],
+      "victory": ["O bandido limpa a lamina: 'Devia ter largado a bolsa.'"]
+    },
+    "on_hit_condition": {
+      "id": "bleeding",
+      "chance": 0.22,
+      "duration": 2,
+      "potency": 2,
+      "save": { "attribute": "constitution", "dc": 12 }
+    },
+    "xp_drop": {
+      "min": 55,
+      "max": 75
+    },
+    "gold_drop": {
+      "min": 12,
+      "max": 18
+    },
+    "loot_table": [
+      { "item_id": "moeda_velha", "chance": 0.4 },
+      { "item_id": "bandana_suja", "chance": 0.3 },
+      { "item_id": "lasca_ferro", "chance": 0.2 }
+    ]
+  },
+  "esqueleto_guarda": {
+    "name": "Esqueleto Guarda",
+    "level": 2,
+    "hp": 48,
+    "attack": 12,
+    "accuracy": 0.04,
+    "defense": 2,
+    "battle_lines": {
+      "intro": [
+        "O Esqueleto Guarda se move sem pressa, ossos batendo como dados secos."
+      ],
+      "hit": ["O golpe vem sem raiva, sem medo, sem hesitacao."],
+      "damaged": ["Ossos racham, mas a criatura apenas reajusta a postura."],
+      "low_hp": [
+        "Partes do esqueleto caem, mas a ordem que o move ainda resiste."
+      ],
+      "victory": [
+        "O esqueleto para sobre voce, silencioso como uma porta de tumba."
+      ]
+    },
+    "on_hit_condition": {
+      "id": "stunned",
+      "chance": 0.18,
+      "duration": 1,
+      "potency": 1,
+      "save": { "attribute": "constitution", "dc": 12 }
+    },
+    "xp_drop": {
+      "min": 55,
+      "max": 75
+    },
+    "gold_drop": {
+      "min": 10,
+      "max": 16
+    },
+    "loot_table": [
+      { "item_id": "po_osso", "chance": 0.65 },
+      { "item_id": "fragmento_escudo", "chance": 0.25 }
+    ]
+  },
+  "mago_renegado": {
+    "name": "Mago Renegado (Raro)",
+    "level": 3,
+    "hp": 70,
+    "attack": 15,
+    "attack_type": "magia",
+    "accuracy": 0.06,
+    "defense": 2,
+    "battle_lines": {
+      "intro": [
+        "O Mago Renegado sorri: 'Vamos medir o tamanho da sua ignorancia.'"
+      ],
+      "hit": ["O mago sussurra uma silaba errada, e a dor responde."],
+      "damaged": ["O mago perde a compostura por um segundo: 'Interessante.'"],
+      "low_hp": [
+        "O Mago Renegado aperta os dentes, canalizando poder com pressa demais."
+      ],
+      "victory": [
+        "O mago observa sua queda: 'Potencial desperdicado. Uma pena.'"
+      ]
+    },
+    "on_hit_condition": {
+      "id": "silenced",
+      "chance": 0.22,
+      "duration": 1,
+      "potency": 1,
+      "save": { "attribute": "wisdom", "dc": 12 }
+    },
+    "xp_drop": {
+      "min": 90,
+      "max": 125
+    },
+    "gold_drop": {
+      "min": 22,
+      "max": 32
+    },
+    "loot_table": [
+      { "item_id": "essencia_magica", "chance": 0.5 },
+      { "item_id": "pergaminho_rasgado", "chance": 0.35 }
+    ]
+  },
+  "bugbear_esmagador": {
+    "name": "Bugbear Esmagador (Chefe)",
+    "level": 4,
+    "hp": 175,
+    "attack": 22,
+    "accuracy": 0.08,
+    "defense": 5,
+    "battle_lines": {
+      "intro": [
+        "O Bugbear Esmagador estala o pescoco e sorri como quem ja venceu."
+      ],
+      "hit": ["O bugbear gargalha quando o impacto ecoa."],
+      "damaged": ["O bugbear toca o ferimento e o sorriso desaparece."],
+      "low_hp": ["O bugbear respira pesado, cada passo ainda perigoso."],
+      "victory": ["O bugbear ergue a arma: 'Pequeno demais.'"]
+    },
+    "on_hit_condition": {
+      "id": "stunned",
+      "chance": 0.28,
+      "duration": 1,
+      "potency": 1,
+      "save": { "attribute": "constitution", "dc": 14 }
+    },
+    "xp_drop": {
+      "min": 240,
+      "max": 330
+    },
+    "gold_drop": {
+      "min": 60,
+      "max": 85
+    },
+    "loot_table": [
+      { "item_id": "pele_urso", "chance": 1.0 },
+      { "item_id": "fragmento_aco", "chance": 0.6 },
+      { "item_id": "chifre_bugbear", "chance": 0.4 }
+    ]
+  }
+}

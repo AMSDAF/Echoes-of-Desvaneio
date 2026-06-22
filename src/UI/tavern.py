@@ -16,17 +16,17 @@ from src.UI.utils.colors import (
     obter_entrada,
     pensamento_personagem,
 )
-from src.services.database import carregar_json, salvar_json
+from src.services.city_data_service import carregar_taverna_cidade
+from src.services.database import salvar_json
 from src.services.event_service import resolver_evento_urbano
 
 
 PLAYER_PATH = "data/core/player.json"
-TAVERN_PATH = "data/core/tavern.json"
 REST_OPTIONS = {
     1: {
         "name": "Cochilo Curto",
         "duration": "1 hora",
-        "cost": 10,
+        "cost": 2,
         "restore": {"hp": 0.0, "mana": 0.25, "stamina": 0.35},
         "start": "Uma hora nao fecha corte nenhum... mas talvez cale o tremor das maos.",
         "end": "Nao foi descanso de verdade, mas minha respiracao voltou ao lugar.",
@@ -35,7 +35,7 @@ REST_OPTIONS = {
     2: {
         "name": "Quarto Simples",
         "duration": "4 horas",
-        "cost": 25,
+        "cost": 5,
         "restore": {"hp": 0.25, "mana": 0.60, "stamina": 0.75},
         "start": "Quatro horas. Se eu fechar os olhos rapido, talvez o corpo aceite continuar.",
         "end": "Nao acordei inteiro... mas acordei capaz.",
@@ -44,12 +44,17 @@ REST_OPTIONS = {
     3: {
         "name": "Noite Inteira",
         "duration": "8 horas",
-        "cost": 50,
+        "cost": 10,
         "restore": {"hp": 1.0, "mana": 1.0, "stamina": 1.0},
         "start": "Uma noite inteira. Hoje eu escolho viver ate amanha.",
         "end": "Pela primeira vez em dias, acordei sem sentir o mundo mordendo meus ossos.",
         "art": ["             Zzz...", "          Zzz... Zzz...", "       A noite passa. O mundo fica quieto.", "     A manha encontra voce respirando melhor."],
     },
+}
+REST_KEYS = {
+    1: "short",
+    2: "simple",
+    3: "full",
 }
 NOMES_ATRIBUTOS_EVENTO = {
     "strength": "Forca",
@@ -62,19 +67,72 @@ NOMES_ATRIBUTOS_EVENTO = {
 }
 
 
+def _obter_cidade_atual(player):
+    return player.get("current_location", "phandalin")
+
+
 def _obter_dados_taverna(player):
-    tavernas = carregar_json(TAVERN_PATH) or {}
-    local_atual = player.get("current_location", "phandalin")
-    return tavernas.get(local_atual) or tavernas.get("phandalin") or {}
+    local_atual = _obter_cidade_atual(player)
+    return carregar_taverna_cidade(local_atual)
 
 
-def _ouvir_boato(dados_taverna):
+def _obter_custo_descanso(dados_taverna, rest_key, fallback):
+    try:
+        custo = dados_taverna.get("services", {}).get("rest_costs", {}).get(rest_key, fallback)
+        return max(0, int(custo))
+    except (AttributeError, TypeError, ValueError):
+        return max(0, int(fallback))
+
+
+def _obter_config_rumor(dados_taverna):
+    try:
+        config = dados_taverna.get("services", {}).get("rumor", {})
+        custo = max(0, int(config.get("cost", 0)))
+        limite_bruto = config.get("limit")
+        limite = None if limite_bruto is None else max(0, int(limite_bruto))
+        return {"cost": custo, "limit": limite}
+    except (AttributeError, TypeError, ValueError):
+        return {"cost": 0, "limit": None}
+
+
+def _pode_ouvir_rumor(player, cidade, limite):
+    usados = player.setdefault("tavern_rumors_used", {})
+    if not isinstance(usados, dict):
+        player["tavern_rumors_used"] = {}
+        usados = player["tavern_rumors_used"]
+
+    quantidade = max(0, int(usados.get(cidade, 0)))
+    return limite is None or quantidade < limite
+
+
+def _ouvir_boato(player, dados_taverna, cidade):
     boatos = dados_taverna.get("rumors", [])
     if not boatos:
         print("\n" + pensamento_personagem("Voce", "Muito barulho, pouca informacao. Hoje a taverna so sabe beber.", CYAN))
-        return
+        return False
+
+    config = _obter_config_rumor(dados_taverna)
+    custo = config["cost"]
+    limite = config["limit"]
+    nome_heroi = player.get("name", "Voce")
+
+    if not _pode_ouvir_rumor(player, cidade, limite):
+        print("\n" + pensamento_personagem(nome_heroi, "Ja ouvi tudo que esta taverna pretende vender hoje.", RED))
+        return False
+
+    if player.get("gold", 0) < custo:
+        print("\n" + pensamento_personagem(nome_heroi, "Informacao tambem custa moeda. Minha bolsa nao acompanha minha curiosidade.", RED))
+        return False
+
+    player["gold"] = max(0, int(player.get("gold", 0)) - custo)
+    usados = player.setdefault("tavern_rumors_used", {})
+    usados[cidade] = max(0, int(usados.get(cidade, 0))) + 1
+    salvar_json(PLAYER_PATH, player)
 
     print(f"\nUma voz na mesa ao lado murmura: \"{random.choice(boatos)}\"")
+    if custo > 0:
+        print(pensamento_personagem(nome_heroi, f"A informacao me custou {custo}G. Restam {player.get('gold', 0)}G.", YELLOW))
+    return True
 
 
 def _conversar_taverneiro(dados_taverna):
@@ -134,9 +192,10 @@ def _descansar_na_estalagem(player, dados_taverna):
     _exibir_status_descanso(player)
     print(linha_pontilhada())
     for indice, opcao in REST_OPTIONS.items():
+        custo = _obter_custo_descanso(dados_taverna, REST_KEYS[indice], opcao["cost"])
         print(
             f"[{indice}] {opcao['name']} - {opcao['duration']} - "
-            f"{colorir(str(opcao['cost']) + 'G', YELLOW)}"
+            f"{colorir(str(custo) + 'G', YELLOW)}"
         )
         print(
             f"    HP +{int(opcao['restore']['hp'] * 100)}% | "
@@ -151,7 +210,11 @@ def _descansar_na_estalagem(player, dados_taverna):
         return
 
     opcao_descanso = REST_OPTIONS[escolha]
-    custo = opcao_descanso["cost"]
+    custo = _obter_custo_descanso(
+        dados_taverna,
+        REST_KEYS[escolha],
+        opcao_descanso["cost"],
+    )
     nome_heroi = player.get("name", "Voce")
 
     if player.get("gold", 0) < custo:
@@ -211,6 +274,20 @@ def _exibir_evento_taverna(player):
 
 def exibir_taverna(player):
     dados_taverna = _obter_dados_taverna(player)
+    cidade_atual = _obter_cidade_atual(player)
+    if not dados_taverna:
+        limpar_tela()
+        print(caixa_texto("TAVERNA INDISPONIVEL", cor=YELLOW))
+        print(
+            pensamento_personagem(
+                player.get("name", "Viajante"),
+                "Nao encontro uma estalagem aberta nesta cidade.",
+                CYAN,
+            )
+        )
+        aguardar_enter()
+        return
+
     nome_taverna = dados_taverna.get("name", "Taverna Local")
     nome_heroi = player.get("name", "Viajante")
 
@@ -220,7 +297,10 @@ def exibir_taverna(player):
         print(f"{nome_heroi} sente o cheiro de madeira velha, ensopado quente e historias mal contadas.")
         print(f"Ouro: {colorir(str(player.get('gold', 0)) + 'G', YELLOW)}")
         print(linha_pontilhada(cor=MAGENTA))
-        print("[1] Ouvir boatos locais")
+        config_rumor = _obter_config_rumor(dados_taverna)
+        usados = max(0, int(player.get("tavern_rumors_used", {}).get(cidade_atual, 0))) if isinstance(player.get("tavern_rumors_used", {}), dict) else 0
+        limite_texto = "sem limite" if config_rumor["limit"] is None else f"{usados}/{config_rumor['limit']}"
+        print(f"[1] Ouvir boatos locais - {config_rumor['cost']}G ({limite_texto})")
         print("[2] Conversar com o Taverneiro")
         print("[3] Alugar um Quarto para Descansar")
         print("[4] Observar a Taverna")
@@ -230,7 +310,7 @@ def exibir_taverna(player):
         escolha = str(obter_entrada("O que deseja fazer? ", opcoes=[1, 2, 3, 4, 5]))
 
         if escolha == "1":
-            _ouvir_boato(dados_taverna)
+            _ouvir_boato(player, dados_taverna, cidade_atual)
             aguardar_enter()
         elif escolha == "2":
             _conversar_taverneiro(dados_taverna)

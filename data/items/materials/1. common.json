@@ -1,0 +1,62 @@
+{
+    "couro_estragado": {
+    "name": "Couro Estragado",
+    "description": "Retalho de couro rasgado, ainda util para remendos simples.",
+    "rarity": "comun",
+    "category": "material",
+    "sell_price": 2,
+    "stackable": true,
+    "crafting": {
+      "usable": true,
+      "tags": ["leather", "beast", "basic"]
+    }
+  },
+  "dente_afiado": {
+    "name": "Dente Afiado",
+    "description": "Dente pequeno e cortante, bom para pontas e adornos rusticos.",
+    "rarity": "comun",
+    "category": "material",
+    "sell_price": 3,
+    "stackable": true,
+    "crafting": {
+      "usable": true,
+      "tags": ["bone", "beast", "sharp"]
+    }
+  },
+  "farrapo_tecido": {
+    "name": "Farrapo de Tecido",
+    "description": "Pano sujo e resistente, reaproveitavel em bandagens ou reforcos.",
+    "rarity": "comun",
+    "category": "material",
+    "sell_price": 3,
+    "stackable": true,
+    "crafting": {
+      "usable": true,
+      "tags": ["cloth", "basic"]
+    }
+  },
+  "lasca_ferro": {
+    "name": "Lasca de Ferro",
+    "description": "Fragmento metalico irregular, pesado demais para ser lixo.",
+    "rarity": "comun",
+    "category": "material",
+    "sell_price": 5,
+    "stackable": true,
+    "crafting": {
+      "usable": true,
+      "tags": ["metal", "basic"]
+    }
+  },
+  "po_osso": {
+    "name": "Po de Osso",
+    "description": "Residuo claro de ossos antigos, usado em preparados estranhos.",
+    "rarity": "comun",
+    "category": "material",
+    "sell_price": 5,
+    "stackable": true,
+    "crafting": {
+      "usable": true,
+      "tags": ["bone", "undead", "powder"]
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "Estalagem do Carvalho Torto",
+  "keeper": "Rowan Tallow",
+  "services": {
+    "rest_costs": {
+      "short": 2,
+      "simple": 5,
+      "full": 10
+    },
+    "rumor": {
+      "cost": 1,
+      "limit": 2
+    }
+  },
+  "rumors": [
+    "Boato: Os lobos do bosque atacam em arrancadas curtas. Quem guarda estamina vive mais.",
+    "Boato: Pegadas no barro contam mais que coragem alta. Procure pistas antes de cacar o alfa.",
+    "Boato: A estrada para Phandalin so fica segura quando o chefe do bosque cair."
+  ],
+  "dialogues": [
+    "Rowan encosta os cotovelos no balcao: 'Oakridge e pequena, mas ensina rapido. A estrada nao perdoa pressa.'",
+    "Rowan aponta para a janela: 'Se ouvir uivo perto demais, nao banque estatua. Escolha a luta ou escolha a porta.'",
+    "Rowan sorri cansado: 'Todo aventureiro quer chegar a Phandalin. Poucos lembram de chegar inteiro.'"
+  ]
+}

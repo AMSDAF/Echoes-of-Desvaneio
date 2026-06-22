@@ -1,0 +1,156 @@
+{
+  "ladrao_adaga": {
+    "name": "Ladrão de Adaga",
+    "level": 4,
+    "hp": 65,
+    "attack": 15,
+    "accuracy": 0.07,
+    "defense": 3,
+    "battle_lines": {
+      "intro": [
+        "O Ladrao de Adaga aparece baixo, perto demais, sorrindo sem alegria."
+      ],
+      "hit": ["O ladrao sussurra: 'Nem sentiu entrar, ne?'"],
+      "damaged": ["O ladrao recua, irritado por ter sido visto."],
+      "low_hp": ["O ladrao ja nao sorri; agora calcula se ainda pode fugir."],
+      "victory": ["O ladrao guarda a adaga: 'Nada pessoal. Quase nada.'"]
+    },
+    "on_hit_condition": {
+      "id": "poisoned",
+      "chance": 0.25,
+      "duration": 3,
+      "potency": 2,
+      "save": { "attribute": "constitution", "dc": 13 }
+    },
+    "xp_drop": {
+      "min": 80,
+      "max": 105
+    },
+    "gold_drop": {
+      "min": 18,
+      "max": 26
+    },
+    "loot_table": [
+      { "item_id": "farrapo_tecido", "chance": 0.45 },
+      { "item_id": "veneno_basico", "chance": 0.2 }
+    ]
+  },
+  "gosma_acida": {
+    "name": "Gosma Ácida",
+    "level": 4,
+    "hp": 80,
+    "attack": 13,
+    "accuracy": 0.04,
+    "defense": 5,
+    "battle_lines": {
+      "intro": [
+        "A Gosma Acida desliza para frente, fervendo em bolhas lentas."
+      ],
+      "hit": ["O acido chia contra pele e equipamento."],
+      "damaged": ["A gosma se divide por um instante e volta a se juntar."],
+      "low_hp": ["A gosma perde forma, espalhando cheiro metalico e azedo."],
+      "victory": [
+        "A gosma cobre tudo em silencio, dissolvendo a pressa do mundo."
+      ]
+    },
+    "on_hit_condition": {
+      "id": "corroded",
+      "chance": 0.3,
+      "duration": 2,
+      "potency": 1,
+      "save": { "attribute": "dexterity", "dc": 12 }
+    },
+    "xp_drop": {
+      "min": 85,
+      "max": 115
+    },
+    "gold_drop": {
+      "min": 14,
+      "max": 22
+    },
+    "loot_table": [
+      { "item_id": "geleia_acida", "chance": 0.7 },
+      { "item_id": "nucleo_elementar_fraco", "chance": 0.15 }
+    ]
+  },
+  "crocodilo_de_esgoto": {
+    "name": "Crocodilo de Esgoto (Raro)",
+    "level": 5,
+    "hp": 110,
+    "attack": 19,
+    "accuracy": 0.06,
+    "defense": 5,
+    "battle_lines": {
+      "intro": [
+        "O Crocodilo de Esgoto rompe a agua suja com olhos parados e famintos."
+      ],
+      "hit": [
+        "A mordida fecha com forca brutal e arrasta o ar dos seus pulmoes."
+      ],
+      "damaged": [
+        "O crocodilo sacode a cabeca, irritado pelo gosto de resistencia."
+      ],
+      "low_hp": ["Ferido, o crocodilo fica ainda mais baixo e paciente."],
+      "victory": ["O crocodilo puxa voce para perto, e a agua fecha por cima."]
+    },
+    "on_hit_condition": {
+      "id": "bleeding",
+      "chance": 0.3,
+      "duration": 3,
+      "potency": 3,
+      "save": { "attribute": "constitution", "dc": 14 }
+    },
+    "xp_drop": {
+      "min": 140,
+      "max": 190
+    },
+    "gold_drop": {
+      "min": 30,
+      "max": 45
+    },
+    "loot_table": [
+      { "item_id": "escama_duravel", "chance": 0.75 },
+      { "item_id": "dente_jacare", "chance": 0.5 }
+    ]
+  },
+  "devorador_de_mentes_fraco": {
+    "name": "Devorador de Mentes Fraco (Chefe)",
+    "level": 6,
+    "hp": 240,
+    "attack": 27,
+    "attack_type": "magia",
+    "accuracy": 0.09,
+    "defense": 7,
+    "battle_lines": {
+      "intro": [
+        "O Devorador de Mentes Fraco encara voce como se ja tivesse lido o final."
+      ],
+      "hit": ["Uma pressao fria atravessa seus pensamentos."],
+      "damaged": [
+        "A criatura inclina a cabeca, ofendida por sua mente ainda resistir."
+      ],
+      "low_hp": ["O devorador oscila, mas sua presenca ainda aperta o cranio."],
+      "victory": ["A ultima coisa que voce ouve nao vem de fora: 'Silencio.'"]
+    },
+    "on_hit_condition": {
+      "id": "silenced",
+      "chance": 0.35,
+      "duration": 2,
+      "potency": 1,
+      "save": { "attribute": "wisdom", "dc": 15 }
+    },
+    "xp_drop": {
+      "min": 420,
+      "max": 580
+    },
+    "gold_drop": {
+      "min": 120,
+      "max": 170
+    },
+    "loot_table": [
+      { "item_id": "tentaculo_preservado", "chance": 1.0 },
+      { "item_id": "essencia_magica", "chance": 0.8 },
+      { "item_id": "cristal_psionico", "chance": 0.3 }
+    ]
+  }
+}

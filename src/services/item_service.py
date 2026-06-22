@@ -12,6 +12,7 @@ from src.services.condition_service import (
     remove_condicao,
 )
 from src.services.database import salvar_json
+from src.services.item_catalog_service import normalizar_slot_item
 
 
 PLAYER_PATH = "data/core/player.json"
@@ -278,7 +279,8 @@ def calcular_propriedades_equipadas(player):
         if not item_equipado:
             continue
 
-        if item_equipado.get("slot") == "shield":
+        slot_item = normalizar_slot_item(item_equipado)
+        if slot_item == "shield":
             propriedades["has_shield"] = True
 
         item_properties = item_equipado.get("properties", {})
@@ -298,9 +300,9 @@ def calcular_propriedades_equipadas(player):
 
         grau = obter_grau_item(item_equipado)
         if grau > 0:
-            if item_equipado.get("slot") == "weapon":
+            if slot_item == "weapon":
                 _somar_propriedade_numerica(propriedades, "physical_damage_bonus", grau)
-            elif item_equipado.get("slot") in {"helmet", "breastplate", "pants", "boots", "shield"}:
+            elif slot_item in {"helmet", "breastplate", "pants", "boots", "shield"}:
                 _somar_propriedade_numerica(propriedades, "defense_bonus", grau)
 
     return propriedades
@@ -373,7 +375,7 @@ def equipar_item(player, item):
     if not item:
         return False
 
-    slot = item.get("slot")
+    slot = normalizar_slot_item(item)
     if slot not in EQUIPMENT_SLOTS:
         return False
 
@@ -382,6 +384,7 @@ def equipar_item(player, item):
 
     _garantir_equipados(player)
     _garantir_durabilidade(item)
+    item["slot"] = slot
 
     item_antigo = player["equipped"].get(slot)
     if item in player.get("inventory", []):

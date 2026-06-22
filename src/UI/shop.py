@@ -13,7 +13,8 @@ from src.UI.utils.colors import (
     obter_entrada,
     pensamento_personagem,
 )
-from src.services.database import carregar_json, salvar_json
+from src.services.database import salvar_json
+from src.services.city_data_service import carregar_lojas_cidade
 from src.services.equipment_upgrade_service import (
     aprimorar_grau_item,
     aprimoramento_grau_disponivel,
@@ -33,6 +34,7 @@ from src.services.item_service import (
     formatar_propriedades_item,
     obter_quantidade_item,
 )
+from src.services.item_catalog_service import resolver_inventory_loja
 from src.services.shop_service import (
     calcular_desconto_carisma,
     calcular_preco_final,
@@ -240,15 +242,14 @@ def _perguntar_equipar_item(player, item):
 
 
 def visitar_comercio(player):
-    dados_comercio_geral = carregar_json("data/core/shops.json")
-
     local_atual = player.get("current_location", "phandalin")
-    dados_da_vila = dados_comercio_geral[local_atual]
-    lojas_da_vila = dados_da_vila["lojas"]
+    dados_da_vila = carregar_lojas_cidade(local_atual)
+    lojas_da_vila = dados_da_vila.get("lojas", {})
 
     while True:
         limpar_tela()
-        print(caixa_texto(f"COMERCIO: {dados_da_vila['nome_exibicao']}", cor=YELLOW))
+        nome_exibicao = dados_da_vila.get("nome_exibicao", local_atual.upper())
+        print(caixa_texto(f"COMERCIO: {nome_exibicao}", cor=YELLOW))
         print(f"Seu Ouro: {colorir(str(player['gold']) + 'G', YELLOW)}")
         print(linha_pontilhada())
 
@@ -266,7 +267,10 @@ def visitar_comercio(player):
             break
         elif escolha in lojas_da_vila:
             loja_escolhida = lojas_da_vila[escolha]
-            itens = carregar_json(loja_escolhida["arquivo"])
+            itens, itens_ausentes = resolver_inventory_loja(loja_escolhida.get("inventory", {}))
+            if itens_ausentes:
+                print(colorir("\nAviso: itens ausentes no catalogo global: " + ", ".join(itens_ausentes), RED))
+                aguardar_enter()
             abrir_barraca(player, itens, loja_escolhida, local_atual, _obter_id_loja(loja_escolhida, escolha))
         else:
             print("\n" + pensamento_personagem(player.get("name", "Voce"), "Estou olhando para o lugar errado.", RED))

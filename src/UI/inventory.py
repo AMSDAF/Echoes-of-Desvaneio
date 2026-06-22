@@ -28,8 +28,9 @@ from src.services.item_service import (
     obter_quantidade_item,
     obter_razao_durabilidade,
 )
+from src.services.item_catalog_service import normalizar_slot_item
 from src.services.condition_service import obter_nome_condicao
-from src.services.level_service import calcular_xp_necessario, garantir_estrutura_evolucao, gastar_ponto_atributo
+from src.services.level_service import garantir_estrutura_evolucao, gastar_ponto_atributo, xp_para_proximo_level
 from src.services.skill_service import (
     calcular_custo_treino_habilidade,
     listar_habilidades_conhecidas_detalhadas,
@@ -116,7 +117,7 @@ def _formatar_modificadores(item):
 
 
 def _item_esta_equipado(player, item):
-    slot = item.get("slot")
+    slot = normalizar_slot_item(item)
     item_equipado = player.get("equipped", {}).get(slot)
     return item_equipado is item or item_equipado == item
 
@@ -229,7 +230,7 @@ def _filtrar_itens_categoria(player, categoria):
     categorias_alvo = categoria.get("categories", [])
     return [
         item for item in player.get("inventory", [])
-        if item.get("slot") in slots_alvo or item.get("category") in categorias_alvo or item.get("type") in categorias_alvo
+        if normalizar_slot_item(item) in slots_alvo or item.get("category") in categorias_alvo or item.get("type") in categorias_alvo
     ]
 
 
@@ -433,7 +434,7 @@ def exibir_status_e_inventario(player):
 
         print(caixa_texto(f"FICHA DE PERSONAGEM: {nome_hero.upper()}", cor=CYAN))
         print(f" Classe: {player.get('class', 'Aventureiro')} | Nivel: {player.get('level', 1)}")
-        print(f" Raca: {player.get('race', 'Desconhecida')} | XP: {player.get('xp', 0)}/{calcular_xp_necessario(player.get('level', 1))}")
+        print(f" Raca: {player.get('race', 'Desconhecida')} | XP: {player.get('xp', 0)}/{xp_para_proximo_level(player.get('level', 1))}")
         print(f" Pontos de Atributo: {colorir(player.get('attribute_points', 0), YELLOW)}")
         print(f" Pontos de Habilidade: {colorir(player.get('skill_points', 0), YELLOW)}")
         print(f" Vida: {colorir(str(player.get('current_hp', 100)) + '/' + str(player.get('max_hp', 100)), GREEN)}")
@@ -513,7 +514,7 @@ def gerenciar_mochila(player):
 
         print(caixa_texto("ITENS NA MOCHILA", cor=CYAN))
         for i, item in enumerate(itens_filtrados, 1):
-            slot_do_item = item.get("slot") or item.get("category") or item.get("type") or "desconhecido"
+            slot_do_item = normalizar_slot_item(item) or item.get("category") or item.get("type") or "desconhecido"
             status_equipado = " [EQUIPADO]" if _item_esta_equipado(player, item) else ""
             durabilidade = _formatar_durabilidade(item)
 
@@ -529,7 +530,7 @@ def gerenciar_mochila(player):
             continue
 
         item_chosen = itens_filtrados[op_item]
-        slot_do_item = item_chosen.get("slot")
+        slot_do_item = normalizar_slot_item(item_chosen)
         item_interativo = slot_do_item in {"potion", "consumable"} or slot_do_item in NOMES_SLOTS
 
         if not item_interativo:

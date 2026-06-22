@@ -1,0 +1,22 @@
+{
+  "wooden_shield": {
+    "name": "Escudo de Madeira",
+    "description": "Tábuas presas com couro oferecem proteção simples para iniciantes.",
+    "price": 26,
+    "level_required": 1,
+    "rarity": "common",
+    "slot": "shield",
+    "modifiers": {},
+    "properties": {"physical_damage_reduction": 0.02}
+  },
+  "worn_shield": {
+    "name": "Escudo Gasto",
+    "description": "Um escudo marcado por cortes, mas ainda capaz de aparar golpes.",
+    "price": 16,
+    "level_required": 1,
+    "rarity": "common",
+    "slot": "shield",
+    "modifiers": {},
+    "properties": {"physical_damage_reduction": 0.01}
+  }
+}

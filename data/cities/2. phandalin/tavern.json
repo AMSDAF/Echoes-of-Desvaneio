@@ -1,0 +1,25 @@
+{
+  "name": "Taverna Pedra e Caneca",
+  "keeper": "Toblen Stonehill",
+  "services": {
+    "rest_costs": {
+      "short": 5,
+      "simple": 12,
+      "full": 25
+    },
+    "rumor": {
+      "cost": 3,
+      "limit": 3
+    }
+  },
+  "rumors": [
+    "Boato: Os goblins na fenda atacam rapido, mas sao pessimos contra contra-ataques.",
+    "Boato: Criaturas pequenas costumam errar golpes contra aventureiros ageis, mas chefes aprendem rapido.",
+    "Boato: Magos renegados deixam rastros de mana no ar; Sabedoria ajuda a resistir ao pior do impacto."
+  ],
+  "dialogues": [
+    "Toblen limpa uma caneca com um pano velho: 'Phandalin parece quieta, mas toda estrada daqui cobra pedagio em sangue.'",
+    "Toblen inclina a cabeca: 'Se ouvir risada fina vindo da mata, nao corra em linha reta. Goblin adora alvo previsivel.'",
+    "Toblen baixa a voz: 'Carisma abre portas, amigo. As vezes abre bolsas tambem.'"
+  ]
+}

@@ -1,22 +1,10 @@
 from copy import deepcopy
 
-from src.services.database import carregar_json
-
-
-LOOT_DATABASE_PATHS = (
-    "data/items/loot/materials.json",
-    "data/items/loot/valuables.json",
-    "data/items/loot/quest_items.json",
-    "data/items/loot/special.json",
-)
+from src.services.item_catalog_service import buscar_item_catalogo, carregar_catalogo_itens
 
 
 def carregar_loot_database():
-    loot_database = {}
-    for caminho in LOOT_DATABASE_PATHS:
-        dados = carregar_json(caminho) or {}
-        loot_database.update(dados)
-    return loot_database
+    return carregar_catalogo_itens()
 
 
 def criar_loot_fallback(item_id):
@@ -37,8 +25,7 @@ def criar_loot_fallback(item_id):
 
 
 def buscar_loot_por_id(item_id):
-    loot_database = carregar_loot_database()
-    item = loot_database.get(item_id)
+    item = buscar_item_catalogo(item_id)
     if not item:
         return criar_loot_fallback(item_id)
 
